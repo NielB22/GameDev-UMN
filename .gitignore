@@ -104,3 +104,12 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Local build output (never commit builds)
+/[Bb]uild[Oo]utput/
+
+# OS / editor junk
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
