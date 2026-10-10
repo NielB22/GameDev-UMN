@@ -3,7 +3,17 @@ guid: 57044e5f3e5344310bcc461c23436941
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dispenser
+    second: {fileID: 2100000, guid: cbd7ad9e82bf2464a8d9ffe88791df55, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jug.001
+    second: {fileID: 2100000, guid: 7fde12144b639e449b432c9e65a62b29, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
