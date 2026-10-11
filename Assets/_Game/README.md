@@ -13,8 +13,9 @@ _Game/
     ├── Core/                GameManager (flow + shift state), SceneLoader, SceneNames
     ├── Environment/         CctvCamera — idle sweep / tracking driven by ThreatLevelSystem
     ├── Messages/            MessageData ScriptableObject + enums
-    ├── Session/             ShiftSession — decisions, accuracy, mistakes for the report
-    └── Threat/              ThreatLevelSystem — value, stages, events
+    ├── Session/             ShiftSession (decisions, accuracy), ShiftClock, ShiftController (win/lose)
+    ├── Threat/              ThreatLevelSystem — value, stages, events
+    └── UI/                  Reusable views: ShiftClockView, ThreatMeterView
 ```
 
 ## Rules
