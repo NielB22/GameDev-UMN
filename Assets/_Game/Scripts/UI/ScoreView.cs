@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace CyberWatch.UI
 {
-    /// <summary>Score: correct decisions out of decided messages ("BENAR 3 / 4").</summary>
+    /// <summary>
+    /// Score: correct decisions out of decided messages ("BENAR 3 / 4").
+    /// </summary>
     public class ScoreView : MonoBehaviour
     {
         [Tooltip("Found automatically in the scene when empty.")]

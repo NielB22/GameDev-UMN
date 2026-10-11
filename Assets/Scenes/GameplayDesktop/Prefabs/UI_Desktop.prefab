@@ -1908,6 +1908,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.93, g: 0.93, b: 0.88, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400

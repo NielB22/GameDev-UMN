@@ -284,6 +284,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.78, g: 0.78, b: 0.72, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
@@ -406,6 +407,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.35, g: 0.85, b: 0.45, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
@@ -679,6 +681,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.92, g: 0.9, b: 0.82, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
@@ -893,6 +896,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.78, g: 0.78, b: 0.72, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 16
   m_fontSizeBase: 16
   m_fontWeight: 400
@@ -1015,6 +1019,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.95, g: 0.86, b: 0.55, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 64
   m_fontSizeBase: 64
   m_fontWeight: 400
@@ -1229,6 +1234,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.78, g: 0.78, b: 0.72, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 18
   m_fontSizeBase: 18
   m_fontWeight: 400
@@ -1351,6 +1357,7 @@ MonoBehaviour:
   m_fontColor: {r: 0.92, g: 0.9, b: 0.82, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
+  m_TextStyleHashCode: -1183493901
   m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
