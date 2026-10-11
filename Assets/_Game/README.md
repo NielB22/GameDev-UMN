@@ -9,10 +9,12 @@ _Game/
 ├── Materials/Environment/   Room materials (floor, wall, glass, ceiling lights)
 ├── Materials/Props/         M_CCTV_LED
 ├── Prefabs/Environment/     Office_Environment.prefab — the full office room (incl. Security/ CCTVs)
+│                            Office_Exterior.prefab — street outside the window (Pandazole pack), nested in the room
+│                            Lighting_Night.prefab — moon + DEV_Sun + SceneLighting; put ONE in every scene
 ├── Prefabs/Props/           CCTV_Camera.prefab — wall CCTV that follows the player at high threat
 └── Scripts/                 Assembly: CyberWatch.Runtime (namespace CyberWatch.*)
     ├── Core/                GameManager (flow + shift state), SceneLoader, SceneNames
-    ├── Environment/         CctvCamera — idle sweep / tracking driven by ThreatLevelSystem
+    ├── Environment/         CctvCamera (sweep/track by threat), SceneLighting (night look + Dev Mode)
     ├── Messages/            MessageData ScriptableObject + enums, InboxController (delivery + judging)
     ├── Session/             ShiftSession (decisions, accuracy), ShiftClock, ShiftController (win/lose)
     ├── Threat/              ThreatLevelSystem — value, stages, events
@@ -21,12 +23,13 @@ _Game/
 
 ## Rules
 - **Third-party assets live in `Assets/Asset_3D/` (models) and `Assets/Asset_2D/` (fonts)
-  and are read-only** (Retro Office_V2, Security Camera, VT323, IBM Plex Mono). Place their *prefabs*
+  and are read-only** (Retro Office_V2, Security Camera, Pandazole City Town, VT323, IBM Plex Mono). Place their *prefabs*
   (never the raw `.fbx`) and change things through prefab overrides in the scene.
 - Do not use Retro Office prefabs whose FBX is empty (0 bytes): `RetroPC_pack`, `Paper`,
   `Box_Filled_Grey`, `Mug&Pencil_Black`. Use `Doc_Tray_Array` for document trays.
 - The office room is edited **only** in `Office_Environment.prefab`; scenes use instances of it.
-  Fog/ambient/skybox are per-scene (Lighting window) — copy them from `DemoScene`.
+  Night lighting (moon, fog, ambient, sky color) comes from `Lighting_Night.prefab`; do not add other
+  directional lights. Tick **Dev Mode** on it for bright work lighting (editor only, never saved/built).
 - New scene changes go through `SceneLoader` / `GameManager`, not `SceneManager` directly.
 - Environment effects (lights, CCTV, silhouette, audio) subscribe to `ThreatLevelSystem`
   events instead of being called by it.
