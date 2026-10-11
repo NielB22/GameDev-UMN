@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_02_PayPal_Blokir
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "PayPal Security"
+  senderAddress: "security@paypaI.com"
+  subject: "PERINGATAN: Akun Anda akan diblokir!"
+  body: "Kami mendeteksi aktivitas mencurigakan. Akun Anda akan DIBLOKIR DALAM 5 MENIT jika tidak segera diverifikasi.\n\nKlik tautan di bawah untuk memverifikasi sekarang."
+  links:
+  - displayText: "https://www.paypal.com/verify"
+    actualUrl: "http://paypai-secure-login.xyz/verify"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 25
+  threatRecovery: 5
+  explanation: "Phishing: domain pengirim 'paypaI.com' memakai huruf I besar (bukan l kecil), nadanya mengancam (diblokir dalam 5 menit), dan tautannya sebenarnya menuju paypai-secure-login.xyz."

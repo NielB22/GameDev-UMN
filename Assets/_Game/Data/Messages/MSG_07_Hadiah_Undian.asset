@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_07_Hadiah_Undian
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Promo Hadiah"
+  senderAddress: "pemenang@hadiah-gratis.biz"
+  subject: "SELAMAT! Anda memenangkan smartphone baru"
+  body: "Anda terpilih sebagai pemenang undian! Untuk mengklaim hadiah, login dengan email dan password kantor Anda di halaman berikut dalam 24 jam."
+  links:
+  - displayText: "klaim-hadiah.cyberwatch.co.id"
+    actualUrl: "http://hadiah-gratis.biz/login-kantor"
+  isScam: 1
+  indicators: 15
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Phishing: hadiah undian yang tidak pernah kamu ikuti, meminta password kantor, dan tautannya menyamar sebagai domain kantor padahal menuju hadiah-gratis.biz."

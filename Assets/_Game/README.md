@@ -5,6 +5,7 @@ Everything used by **more than one scene** lives here. Scene-only content stays 
 
 ```
 _Game/
+├── Data/Messages/           MessageData assets (emails/SMS: real or scam + report explanation)
 ├── Materials/Environment/   Room materials (floor, wall, glass, ceiling lights)
 ├── Materials/Props/         M_CCTV_LED
 ├── Prefabs/Environment/     Office_Environment.prefab — the full office room (incl. Security/ CCTVs)
@@ -12,10 +13,10 @@ _Game/
 └── Scripts/                 Assembly: CyberWatch.Runtime (namespace CyberWatch.*)
     ├── Core/                GameManager (flow + shift state), SceneLoader, SceneNames
     ├── Environment/         CctvCamera — idle sweep / tracking driven by ThreatLevelSystem
-    ├── Messages/            MessageData ScriptableObject + enums
+    ├── Messages/            MessageData ScriptableObject + enums, InboxController (delivery + judging)
     ├── Session/             ShiftSession (decisions, accuracy), ShiftClock, ShiftController (win/lose)
     ├── Threat/              ThreatLevelSystem — value, stages, events
-    └── UI/                  Reusable views: ShiftClockView, ThreatMeterView
+    └── UI/                  Views: ShiftClockView, ThreatMeterView, ScoreView, InboxView, EnsureEventSystem
 ```
 
 ## Rules

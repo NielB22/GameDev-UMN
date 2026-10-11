@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 1300000003}
   - component: {fileID: 1300000004}
   - component: {fileID: 1300000005}
+  - component: {fileID: 1300000006}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -509,6 +510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Session.ShiftController
   clock: {fileID: 1300000004}
   threat: {fileID: 1300000003}
+  inbox: {fileID: 1300000006}
   endDelaySeconds: 2
 --- !u!1001 &1987660001
 PrefabInstance:
@@ -584,6 +586,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 814960954f2d48f7a0356f6ea8223dd5, type: 3}
+--- !u!114 &1300000006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78a357378204ad2b0e5f95afc99474e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.InboxController
+  messages:
+  - {fileID: 11400000, guid: 2dc4f3eec1a246ae9e92dbf8198c1c9a, type: 2}
+  - {fileID: 11400000, guid: 3a75121b26d6496da48b0c9f92582c8e, type: 2}
+  - {fileID: 11400000, guid: 26727b88188e42e59480bb73314fafe7, type: 2}
+  - {fileID: 11400000, guid: a8cd7b753bb9426cb057638f98028e8d, type: 2}
+  - {fileID: 11400000, guid: f2a695ca34a6462fa3b642daa90d0787, type: 2}
+  - {fileID: 11400000, guid: 843da32e55bd4a87a00c40bb90a5c0ef, type: 2}
+  - {fileID: 11400000, guid: 50b07336de114bce84095d0f36c38c0c, type: 2}
+  - {fileID: 11400000, guid: ffa32f07144b4f039d7dcda0c4a26fd4, type: 2}
+  - {fileID: 11400000, guid: 91eb6bfbc67e4c02a86c08cf349ea36b, type: 2}
+  - {fileID: 11400000, guid: a4ea577991a2495a8d9fe20f19944172, type: 2}
+  shuffle: 0
+  threat: {fileID: 1300000003}
+  firstMessageDelay: 3
+  nextMessageDelay: {x: 4, y: 8}
+--- !u!1001 &1500099001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1500000001, guid: 4367e714acda4252b5be1432f3f74639, type: 3}
+      propertyPath: m_Name
+      value: UI_Desktop
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4367e714acda4252b5be1432f3f74639, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -594,3 +640,4 @@ SceneRoots:
   - {fileID: 1987660001}
   - {fileID: 1300000002}
   - {fileID: 1400099001}
+  - {fileID: 1500099001}

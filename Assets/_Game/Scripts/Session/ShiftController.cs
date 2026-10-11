@@ -1,5 +1,6 @@
 using System.Collections;
 using CyberWatch.Core;
+using CyberWatch.Messages;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace CyberWatch.Session
     {
         [SerializeField] private ShiftClock clock;
         [SerializeField] private ThreatLevelSystem threat;
+        [Tooltip("Closed when the shift ends so no more decisions are recorded.")]
+        [SerializeField] private InboxController inbox;
         [SerializeField, Min(0f)] private float endDelaySeconds = 2f;
 
         public bool HasEnded { get; private set; }
@@ -51,6 +54,8 @@ namespace CyberWatch.Session
             HasEnded = true;
             if (clock != null)
                 clock.StopClock();
+            if (inbox != null)
+                inbox.Close();
 
             Debug.Log($"[ShiftController] Shift ended: {outcome}");
             StartCoroutine(EndAfterDelay(outcome));

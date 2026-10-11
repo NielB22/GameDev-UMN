@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_05_Paket_Tertahan
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Kurir Express"
+  senderAddress: "notifikasi@kurir-express-id.com"
+  subject: "Paket Anda TERTAHAN di gudang"
+  body: "Paket atas nama Anda tertahan karena biaya pengiriman kurang Rp 15.000. Bayar dalam 1 jam atau paket dikembalikan ke pengirim."
+  links:
+  - displayText: "cek-resi.kurirexpress.co.id"
+    actualUrl: "http://kurir-resi-bayar.top/pay"
+  isScam: 1
+  indicators: 10
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Phishing: kamu tidak sedang menunggu paket, ada batas waktu yang mendesak, dan tautan 'cek-resi' sebenarnya menuju situs pembayaran palsu kurir-resi-bayar.top."

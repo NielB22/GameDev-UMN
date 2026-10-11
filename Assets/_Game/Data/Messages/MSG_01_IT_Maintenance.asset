@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_01_IT_Maintenance
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "IT Helpdesk"
+  senderAddress: "helpdesk@cyberwatch.co.id"
+  subject: "Jadwal maintenance server malam ini"
+  body: "Halo tim shift malam,\n\nServer email akan menjalani maintenance pukul 03:00 - 03:15. Tidak ada tindakan yang perlu kamu lakukan.\n\nTerima kasih,\nIT Helpdesk"
+  links: []
+  isScam: 0
+  indicators: 0
+  threatPenalty: 10
+  threatRecovery: 0
+  explanation: "Pesan ini asli: dikirim dari domain resmi kantor (cyberwatch.co.id), tidak meminta data apa pun, dan tidak ada tautan mencurigakan."
