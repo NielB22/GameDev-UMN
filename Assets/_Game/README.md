@@ -1,36 +1,19 @@
-# _Game — shared project content
+# _Game — konten bersama
 
-Everything used by **more than one scene** lives here. Scene-only content stays in
-`Assets/Scenes/<Scene>/` (Scripts, Prefabs, Audio, UI, ...).
+Folder ini berisi semua yang **dipakai lebih dari satu scene**: script, prefab, material, data.
+Isi khusus satu scene ada di `Assets/Scenes/<Scene>/`.
+
+Dokumentasi lengkap ada di folder `docs/` (root repo, di luar `Assets`):
+- `docs/01-struktur-folder.md` — arti setiap folder, aturan aset, konvensi nama
+- `docs/02-membuat-scene-baru.md` — checklist membuat scene (lighting, UI, pindah scene)
+
+Ringkas:
 
 ```
 _Game/
-├── Data/Messages/           MessageData assets (emails/SMS: real or scam + report explanation)
-├── Materials/Environment/   Room materials (floor, wall, glass, ceiling lights)
-├── Materials/Props/         M_CCTV_LED
-├── Prefabs/Environment/     Office_Environment.prefab — the full office room (incl. Security/ CCTVs)
-│                            Office_Exterior.prefab — street outside the window (Pandazole pack), nested in the room
-│                            Lighting_Night.prefab — moon + DEV_Sun + SceneLighting; put ONE in every scene
-├── Prefabs/Props/           CCTV_Camera.prefab — wall CCTV that follows the player at high threat
-└── Scripts/                 Assembly: CyberWatch.Runtime (namespace CyberWatch.*)
-    ├── Core/                GameManager (flow + shift state), SceneLoader, SceneNames
-    ├── Environment/         CctvCamera (sweep/track by threat), SceneLighting (night look + Dev Mode)
-    ├── Messages/            MessageData ScriptableObject + enums, InboxController (delivery + judging)
-    ├── Session/             ShiftSession (decisions, accuracy), ShiftClock, ShiftController (win/lose)
-    ├── Threat/              ThreatLevelSystem — value, stages, events
-    └── UI/                  Views: ShiftClockView, ThreatMeterView, ScoreView, InboxView, LinkTooltip, EnsureEventSystem
+├── Data/Messages/        MessageData (pesan email/SMS)
+├── Materials/            Environment/, Props/
+├── Prefabs/Environment/  Office_Environment (+ Office_Exterior, CCTV), Lighting_Night
+├── Prefabs/Props/        CCTV_Camera
+└── Scripts/              CyberWatch.Runtime: Core, Environment, Messages, Session, Threat, UI
 ```
-
-## Rules
-- **Third-party assets live in `Assets/Asset_3D/` (models) and `Assets/Asset_2D/` (fonts)
-  and are read-only** (Retro Office_V2, Security Camera, Pandazole City Town, VT323, IBM Plex Mono). Place their *prefabs*
-  (never the raw `.fbx`) and change things through prefab overrides in the scene.
-- Do not use Retro Office prefabs whose FBX is empty (0 bytes): `RetroPC_pack`, `Paper`,
-  `Box_Filled_Grey`, `Mug&Pencil_Black`. Use `Doc_Tray_Array` for document trays.
-- The office room is edited **only** in `Office_Environment.prefab`; scenes use instances of it.
-  Night lighting (moon, fog, ambient, sky color) comes from `Lighting_Night.prefab`; do not add other
-  directional lights. Tick **Dev Mode** on it for bright work lighting (editor only, never saved/built).
-- New scene changes go through `SceneLoader` / `GameManager`, not `SceneManager` directly.
-- Environment effects (lights, CCTV, silhouette, audio) subscribe to `ThreatLevelSystem`
-  events instead of being called by it.
-- Messages are content: create them with *Assets > Create > Cyber Watch > Message*.
