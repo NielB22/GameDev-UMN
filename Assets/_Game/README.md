@@ -16,7 +16,7 @@ _Game/
     ├── Messages/            MessageData ScriptableObject + enums, InboxController (delivery + judging)
     ├── Session/             ShiftSession (decisions, accuracy), ShiftClock, ShiftController (win/lose)
     ├── Threat/              ThreatLevelSystem — value, stages, events
-    └── UI/                  Views: ShiftClockView, ThreatMeterView, ScoreView, InboxView, EnsureEventSystem
+    └── UI/                  Views: ShiftClockView, ThreatMeterView, ScoreView, InboxView, LinkTooltip, EnsureEventSystem
 ```
 
 ## Rules

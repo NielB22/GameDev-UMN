@@ -97,8 +97,9 @@ namespace CyberWatch.UI
             {
                 string hex = ColorUtility.ToHtmlStringRGB(linkColor);
                 sb.Append("\n");
-                foreach (MessageLink link in message.links)
-                    sb.Append($"\n<color=#{hex}><u>{link.displayText}</u></color>");
+                // <link="index"> lets LinkTooltip find which link is hovered.
+                for (int i = 0; i < message.links.Length; i++)
+                    sb.Append($"\n<link=\"{i}\"><color=#{hex}><u>{message.links[i].displayText}</u></color></link>");
             }
             return sb.ToString();
         }
