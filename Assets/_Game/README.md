@@ -18,7 +18,8 @@ _Game/
 ```
 
 ## Rules
-- **Third-party assets (`Assets/Retro Office_V2`) are read-only.** Place their *prefabs*
+- **Third-party assets live in `Assets/Asset_3D/` and are read-only** (Retro Office_V2,
+  Security Camera). Place their *prefabs*
   (never the raw `.fbx`) and change things through prefab overrides in the scene.
 - Do not use Retro Office prefabs whose FBX is empty (0 bytes): `RetroPC_pack`, `Paper`,
   `Box_Filled_Grey`, `Mug&Pencil_Black`. Use `Doc_Tray_Array` for document trays.
