@@ -70,6 +70,13 @@ namespace CyberWatch.Threat
                 Compromised?.Invoke();
         }
 
+        // Testing helpers: right-click the component header in Play Mode.
+        [ContextMenu("Debug/Threat +25")]
+        private void DebugIncrease() => Increase(25f);
+
+        [ContextMenu("Debug/Threat -25")]
+        private void DebugDecrease() => Decrease(25f);
+
         public static ThreatStage StageFor(float value)
         {
             if (value >= Max) return ThreatStage.Compromised;

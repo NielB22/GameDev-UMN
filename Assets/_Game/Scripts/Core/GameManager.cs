@@ -50,9 +50,12 @@ namespace CyberWatch.Core
         /// <summary>Starts a fresh shift from the office exploration phase.</summary>
         public void StartNewShift()
         {
-            CurrentShift = new ShiftSession();
+            ResetShift();
             SceneLoader.Load(SceneNames.OfficeTPP);
         }
+
+        /// <summary>Discards the previous shift's decisions and outcome.</summary>
+        public void ResetShift() => CurrentShift = new ShiftSession();
 
         /// <summary>Called when the player sits down at the IT desk.</summary>
         public void StartDesktopPhase() => SceneLoader.Load(SceneNames.GameplayDesktop);
