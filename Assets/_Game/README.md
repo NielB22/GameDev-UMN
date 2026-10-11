@@ -6,9 +6,12 @@ Everything used by **more than one scene** lives here. Scene-only content stays 
 ```
 _Game/
 ├── Materials/Environment/   Room materials (floor, wall, glass, ceiling lights)
-├── Prefabs/Environment/     Office_Environment.prefab — the full office room
+├── Materials/Props/         M_CCTV_LED
+├── Prefabs/Environment/     Office_Environment.prefab — the full office room (incl. Security/ CCTVs)
+├── Prefabs/Props/           CCTV_Camera.prefab — wall CCTV that follows the player at high threat
 └── Scripts/                 Assembly: CyberWatch.Runtime (namespace CyberWatch.*)
     ├── Core/                GameManager (flow + shift state), SceneLoader, SceneNames
+    ├── Environment/         CctvCamera — idle sweep / tracking driven by ThreatLevelSystem
     ├── Messages/            MessageData ScriptableObject + enums
     ├── Session/             ShiftSession — decisions, accuracy, mistakes for the report
     └── Threat/              ThreatLevelSystem — value, stages, events
