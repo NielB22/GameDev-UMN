@@ -68,7 +68,7 @@ namespace CyberWatch.Environment
         private void Start()
         {
             if (threatSource == null)
-                threatSource = FindFirstObjectByType<ThreatLevelSystem>();
+                threatSource = FindAnyObjectByType<ThreatLevelSystem>();
 
             if (threatSource != null)
             {
