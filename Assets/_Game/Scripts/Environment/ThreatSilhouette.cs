@@ -1,3 +1,4 @@
+using System.Collections;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -5,11 +6,16 @@ namespace CyberWatch.Environment
 {
     /// <summary>
     /// Sosok di luar jendela (Threat Silhouette) yang bereaksi pada Threat Level.
-    /// - Di bawah 51%: tidak terlihat.
-    /// - Bahaya (51-75%): berdiri diam jauh di area parkir.
-    /// - Kritis (76-99%): berjalan pelan makin dekat ke kaca setiap Threat naik.
-    /// - Threat turun: sosok mundur lagi, lalu menghilang kalau sudah di bawah 51%.
-    /// Tidak pernah melompat atau mengagetkan: geraknya pelan dan tanpa suara.
+    /// - Waspada (26-50%): sesekali terlihat sekilas di kejauhan lalu hilang (opsional).
+    /// - Bahaya (51-75%): berdiri jauh di area parkir.
+    /// - Kritis (76-99%): makin dekat.
+    /// - Threat turun: sosok mundur, lalu hilang di bawah 51%.
+    ///
+    /// Supaya tegang terus (bukan hanya saat Threat berubah), sosok juga "merayap":
+    /// tiap beberapa detik ia maju sedikit walau pemain tidak salah. Mundur separuh
+    /// kalau pemain berhasil memblokir penipuan.
+    ///
+    /// Tanpa jumpscare: tidak ada suara keras dan tidak ada gerakan cepat ke arah kamera.
     /// </summary>
     public class ThreatSilhouette : MonoBehaviour
     {
@@ -20,23 +26,68 @@ namespace CyberWatch.Environment
         [SerializeField] private Transform figure;
         [Tooltip("Titik jauh (area parkir).")]
         [SerializeField] private Transform farPoint;
-        [Tooltip("Titik terdekat (tepat di luar kaca).")]
+        [Tooltip("Titik terdekat (di luar kaca).")]
         [SerializeField] private Transform nearPoint;
         [Tooltip("Sosok selalu menghadap ke sini. Kosong = Main Camera.")]
         [SerializeField] private Transform lookTarget;
 
         [Header("Ambang (sesuai dokumen desain)")]
+        [SerializeField, Range(0f, 100f)] private float alertThreshold = 26f;
         [SerializeField, Range(0f, 100f)] private float dangerThreshold = 51f;
         [SerializeField, Range(0f, 100f)] private float criticalThreshold = 76f;
 
         [Header("Gerak")]
-        [Tooltip("Kecepatan jalan sosok (meter per detik). Makin kecil makin pelan dan serem.")]
+        [Tooltip("Menghilang sebentar lalu muncul di posisi baru (tidak terlihat berjalan).")]
+        [SerializeField] private bool blinkMove = true;
+        [SerializeField] private Vector2 blinkSeconds = new Vector2(0.3f, 0.8f);
+        [Tooltip("Hanya dipakai kalau Blink Move mati (meter per detik).")]
         [SerializeField, Min(0.05f)] private float moveSpeed = 0.8f;
         [Tooltip("Putar kalau model terlihat membelakangi kamera (coba 180).")]
         [SerializeField] private float yawOffset;
 
+        [Header("Merayap (tegang terus walau Threat tidak berubah)")]
+        [SerializeField] private bool creep = true;
+        [Tooltip("Jeda antar langkah merayap (detik, acak).")]
+        [SerializeField] private Vector2 creepIntervalSeconds = new Vector2(10f, 22f);
+        [Tooltip("Seberapa jauh maju per langkah (0-1 dari jarak jauh ke dekat).")]
+        [SerializeField, Range(0f, 0.5f)] private float creepStep = 0.06f;
+        [Tooltip("Batas total tambahan dari merayap.")]
+        [SerializeField, Range(0f, 0.6f)] private float creepMax = 0.3f;
+
+        [Header("Sekilas di Waspada (opsional)")]
+        [SerializeField] private bool glimpseInAlert = true;
+        [SerializeField] private Vector2 glimpseIntervalSeconds = new Vector2(15f, 30f);
+        [SerializeField] private Vector2 glimpseDuration = new Vector2(1.2f, 2.4f);
+
+        [Header("Tampilan seram")]
+        [Tooltip("Kecepatan animasi Idle. Lebih pelan = terasa tidak wajar. 1 = normal.")]
+        [SerializeField, Min(0.05f)] private float animatorSpeed = 0.4f;
+        [Tooltip("Kepala/badan miring ke samping, makin besar saat makin dekat.")]
+        [SerializeField, Range(0f, 15f)] private float leanDegrees = 6f;
+        [Tooltip("Kedutan singkat (putar mendadak lalu kembali).")]
+        [SerializeField, Range(0f, 25f)] private float twitchDegrees = 10f;
+        [SerializeField] private Vector2 twitchIntervalSeconds = new Vector2(3f, 8f);
+
+        [Header("Animasi jalan (hanya kalau Blink Move mati)")]
+        [Tooltip("Nama parameter Bool di Animator Controller yang memutar animasi Walk.")]
+        [SerializeField] private string walkingBoolName = "Walking";
+        [Tooltip("Kecepatan animasi saat berjalan. Samakan dengan Move Speed supaya kaki tidak meluncur.")]
+        [SerializeField, Min(0.05f)] private float walkAnimatorSpeed = 0.7f;
+
+        private Animator animator;
+        private bool hasWalkingParam;
+        private bool isWalking;
         private Vector3 targetPosition;
         private bool wantVisible;
+        private float currentValue;
+        private float creepProgress;
+        private float nextCreepAt;
+        private float nextGlimpseAt;
+        private float nextTwitchAt;
+        private float twitchUntil;
+        private float twitchYaw;
+        private Coroutine blinkRoutine;
+        private Coroutine glimpseRoutine;
 
         private void Awake()
         {
@@ -44,6 +95,31 @@ namespace CyberWatch.Environment
                 threat = FindAnyObjectByType<ThreatLevelSystem>();
             if (lookTarget == null && Camera.main != null)
                 lookTarget = Camera.main.transform;
+
+            if (figure != null)
+            {
+                animator = figure.GetComponentInChildren<Animator>(true);
+                if (animator != null)
+                {
+                    animator.speed = animatorSpeed;
+                    foreach (AnimatorControllerParameter p in animator.parameters)
+                    {
+                        if (p.name == walkingBoolName && p.type == AnimatorControllerParameterType.Bool)
+                            hasWalkingParam = true;
+                    }
+                }
+            }
+        }
+
+        private void SetWalking(bool walking)
+        {
+            if (animator == null || walking == isWalking)
+                return;
+
+            isWalking = walking;
+            animator.speed = walking ? walkAnimatorSpeed : animatorSpeed;
+            if (hasWalkingParam)
+                animator.SetBool(walkingBoolName, walking);
         }
 
         private void OnEnable()
@@ -56,20 +132,38 @@ namespace CyberWatch.Environment
             }
 
             threat.ThreatChanged += OnThreatChanged;
-            Evaluate(threat.Value, snap: true);
+            currentValue = threat.Value;
+            creepProgress = 0f;
+            ScheduleCreep();
+            ScheduleGlimpse();
+            ScheduleTwitch();
+            Refresh(snap: true);
         }
 
         private void OnDisable()
         {
             if (threat != null)
                 threat.ThreatChanged -= OnThreatChanged;
+            blinkRoutine = null;
+            glimpseRoutine = null;
         }
 
-        private void OnThreatChanged(float value) => Evaluate(value, snap: false);
+        private void OnThreatChanged(float value)
+        {
+            // Berhasil memblokir penipuan: sosok mundur, merayapnya ikut berkurang.
+            if (value < currentValue)
+                creepProgress *= 0.5f;
+
+            currentValue = value;
+            Refresh(snap: false);
+        }
 
         // Uji cepat: saat Play, klik kanan header komponen ini > Debug > ...
         [ContextMenu("Debug/Set Threat 10 (Aman)")]
         private void DebugSafe() => threat.SetValue(10f);
+
+        [ContextMenu("Debug/Set Threat 35 (Waspada)")]
+        private void DebugAlert() => threat.SetValue(35f);
 
         [ContextMenu("Debug/Set Threat 55 (Bahaya)")]
         private void DebugDanger() => threat.SetValue(55f);
@@ -80,51 +174,162 @@ namespace CyberWatch.Environment
         [ContextMenu("Debug/Set Threat 95 (Kritis, hampir)")]
         private void DebugAlmostLost() => threat.SetValue(95f);
 
-        private void Evaluate(float value, bool snap)
+        // 0 = di titik jauh, 1 = di titik dekat.
+        private float Progress()
         {
-            wantVisible = value >= dangerThreshold;
-
-            if (value < criticalThreshold)
-            {
-                targetPosition = farPoint.position;
-            }
+            float p;
+            if (currentValue < dangerThreshold)
+                p = 0f;
+            else if (currentValue < criticalThreshold)
+                p = Mathf.Lerp(0f, 0.3f, Mathf.InverseLerp(dangerThreshold, criticalThreshold, currentValue));
             else
+                p = Mathf.Lerp(0.3f, 1f, Mathf.InverseLerp(criticalThreshold, 100f, currentValue));
+
+            return Mathf.Clamp01(p + creepProgress);
+        }
+
+        private void Refresh(bool snap)
+        {
+            wantVisible = currentValue >= dangerThreshold;
+            if (!wantVisible)
+                creepProgress = 0f;
+
+            targetPosition = Vector3.Lerp(farPoint.position, nearPoint.position, Progress());
+
+            if (wantVisible && glimpseRoutine != null)
             {
-                // 76% = sudah agak maju, 99% = hampir menempel kaca.
-                float t = Mathf.Lerp(0.2f, 1f, Mathf.InverseLerp(criticalThreshold, 100f, value));
-                targetPosition = Vector3.Lerp(farPoint.position, nearPoint.position, t);
+                StopCoroutine(glimpseRoutine);
+                glimpseRoutine = null;
             }
 
-            if (wantVisible && !figure.gameObject.activeSelf)
+            if (snap)
             {
-                figure.position = snap ? targetPosition : farPoint.position;
-                figure.gameObject.SetActive(true);
+                figure.position = wantVisible ? targetPosition : farPoint.position;
+                figure.gameObject.SetActive(wantVisible);
+                return;
             }
-            else if (snap && !wantVisible)
+
+            bool active = figure.gameObject.activeSelf;
+
+            if (wantVisible && !active)
             {
-                figure.position = farPoint.position;
-                figure.gameObject.SetActive(false);
+                if (blinkRoutine == null)
+                {
+                    figure.position = blinkMove ? targetPosition : farPoint.position;
+                    figure.gameObject.SetActive(true);
+                }
+                else
+                {
+                    StartBlink(true);
+                }
+                return;
             }
+
+            if (!blinkMove)
+                return; // mode jalan: dikerjakan Update()
+
+            bool needsMove = (figure.position - targetPosition).sqrMagnitude > 0.04f;
+            if (active && (needsMove || !wantVisible))
+                StartBlink(wantVisible);
         }
+
+        private void StartBlink(bool visibleAfter)
+        {
+            if (blinkRoutine != null)
+                StopCoroutine(blinkRoutine);
+            blinkRoutine = StartCoroutine(BlinkTo(visibleAfter));
+        }
+
+        private IEnumerator BlinkTo(bool visibleAfter)
+        {
+            figure.gameObject.SetActive(false);
+            yield return new WaitForSeconds(Random.Range(blinkSeconds.x, blinkSeconds.y));
+
+            // Posisi dibaca setelah menunggu, supaya selalu memakai target terbaru.
+            figure.position = visibleAfter ? targetPosition : farPoint.position;
+            figure.gameObject.SetActive(visibleAfter);
+            blinkRoutine = null;
+        }
+
+        private IEnumerator Glimpse()
+        {
+            figure.position = farPoint.position;
+            figure.gameObject.SetActive(true);
+            yield return new WaitForSeconds(Random.Range(glimpseDuration.x, glimpseDuration.y));
+
+            if (!wantVisible)
+                figure.gameObject.SetActive(false);
+            glimpseRoutine = null;
+            ScheduleGlimpse();
+        }
+
+        private void ScheduleCreep() =>
+            nextCreepAt = Time.time + Random.Range(creepIntervalSeconds.x, creepIntervalSeconds.y);
+
+        private void ScheduleGlimpse() =>
+            nextGlimpseAt = Time.time + Random.Range(glimpseIntervalSeconds.x, glimpseIntervalSeconds.y);
+
+        private void ScheduleTwitch() =>
+            nextTwitchAt = Time.time + Random.Range(twitchIntervalSeconds.x, twitchIntervalSeconds.y);
 
         private void Update()
         {
-            if (!figure.gameObject.activeSelf)
-                return;
+            float now = Time.time;
 
-            figure.position = Vector3.MoveTowards(figure.position, targetPosition, moveSpeed * Time.deltaTime);
+            // Merayap: maju sedikit tiap beberapa detik selama Bahaya/Kritis.
+            if (wantVisible && creep && now >= nextCreepAt)
+            {
+                creepProgress = Mathf.Min(creepMax, creepProgress + creepStep);
+                ScheduleCreep();
+                Refresh(snap: false);
+            }
+
+            // Sekilas di Waspada.
+            if (!wantVisible && glimpseInAlert && currentValue >= alertThreshold
+                && glimpseRoutine == null && blinkRoutine == null && now >= nextGlimpseAt)
+            {
+                glimpseRoutine = StartCoroutine(Glimpse());
+            }
+
+            if (!figure.gameObject.activeSelf)
+            {
+                isWalking = false; // Animator ter-reset saat objek dimatikan
+                return;
+            }
+
+            if (!blinkMove)
+            {
+                figure.position = Vector3.MoveTowards(figure.position, targetPosition, moveSpeed * Time.deltaTime);
+                SetWalking((figure.position - targetPosition).sqrMagnitude > 0.0004f);
+
+                if (!wantVisible && glimpseRoutine == null
+                    && (figure.position - farPoint.position).sqrMagnitude < 0.01f)
+                {
+                    figure.gameObject.SetActive(false);
+                    return;
+                }
+            }
+
+            if (now >= nextTwitchAt)
+            {
+                twitchUntil = now + 0.12f;
+                twitchYaw = Random.Range(-1f, 1f) * twitchDegrees;
+                ScheduleTwitch();
+            }
 
             if (lookTarget != null)
             {
                 Vector3 dir = lookTarget.position - figure.position;
                 dir.y = 0f;
                 if (dir.sqrMagnitude > 0.001f)
-                    figure.rotation = Quaternion.Euler(0f, yawOffset, 0f) * Quaternion.LookRotation(dir);
+                {
+                    float yaw = yawOffset + (now < twitchUntil ? twitchYaw : 0f);
+                    float lean = leanDegrees * Progress();
+                    figure.rotation = Quaternion.Euler(0f, yaw, 0f)
+                                      * Quaternion.LookRotation(dir)
+                                      * Quaternion.Euler(0f, 0f, lean);
+                }
             }
-
-            // Threat sudah turun di bawah ambang: setelah sosok mundur sampai titik jauh, baru hilang.
-            if (!wantVisible && (figure.position - farPoint.position).sqrMagnitude < 0.01f)
-                figure.gameObject.SetActive(false);
         }
     }
 }
