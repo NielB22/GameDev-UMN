@@ -293,7 +293,6 @@ MonoBehaviour:
   mistakesText: {fileID: 503956726}
   retryButton: {fileID: 622847896}
   mainMenuButton: {fileID: 436480687}
-  retryGoesToOffice: 0
   fadeGroup: {fileID: 1860054044}
   fadeInSeconds: 2
   winColor: {r: 0.35, g: 0.85, b: 0.45, a: 1}

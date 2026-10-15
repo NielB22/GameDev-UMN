@@ -28,8 +28,6 @@ namespace CyberWatch.UI
         [Header("Tombol")]
         [SerializeField] private Button retryButton;
         [SerializeField] private Button mainMenuButton;
-        [Tooltip("Aktifkan nanti setelah Office_TPP_Scene jadi. Sekarang Retry langsung ke Gameplay_Desktop.")]
-        [SerializeField] private bool retryGoesToOffice;
 
         [Header("Efek")]
         [Tooltip("CanvasGroup di ReportRoot. Rapor muncul pelan dari layar hitam.")]
@@ -165,18 +163,8 @@ namespace CyberWatch.UI
 
         // ---------- tombol ----------
 
-        private void OnRetry()
-        {
-            if (retryGoesToOffice)
-            {
-                GameManager.Instance.StartNewShift();
-            }
-            else
-            {
-                GameManager.Instance.ResetShift();
-                GameManager.Instance.StartDesktopPhase();
-            }
-        }
+        // Shift baru: kembali ke Gameplay_Desktop_Scene (mulai dalam mode Jalan).
+        private void OnRetry() => GameManager.Instance.StartNewShift();
 
         private void OnMainMenu() => GameManager.Instance.GoToMainMenu();
 
