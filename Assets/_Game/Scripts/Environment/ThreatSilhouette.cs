@@ -109,6 +109,12 @@ namespace CyberWatch.Environment
         [Tooltip("Kecepatan animasi saat berjalan. Samakan dengan Move Speed supaya kaki tidak meluncur.")]
         [SerializeField, Min(0.05f)] private float walkAnimatorSpeed = 0.7f;
 
+        /// <summary>The figure model (for effects that react to the player looking at it).</summary>
+        public Transform Figure => figure;
+
+        /// <summary>True while the figure is shown in the world.</summary>
+        public bool FigureVisible => figure != null && figure.gameObject.activeInHierarchy;
+
         private Animator animator;
         private bool hasWalkingParam;
         private bool isWalking;

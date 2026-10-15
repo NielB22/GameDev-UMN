@@ -56,6 +56,10 @@ namespace CyberWatch.Environment
         [SerializeField, Range(0f, 1f)] private float glitchChromatic = 0.8f;
         [SerializeField, Range(0f, 0.5f)] private float glitchDistortion = 0.2f;
 
+        [Header("Ditatap sosok (GazeReaction)")]
+        [Tooltip("Tambahan vignette saat pemain menatap sosok (mulai Threat 80%).")]
+        [SerializeField, Range(0f, 0.3f)] private float gazeVignette = 0.08f;
+
         [Header("Halus")]
         [Tooltip("Persen per detik efek mengejar nilai Threat sebenarnya.")]
         [SerializeField, Min(1f)] private float followSpeed = 10f;
@@ -130,7 +134,9 @@ namespace CyberWatch.Environment
             float tintT = Mathf.InverseLerp(tintStart, ThreatLevelSystem.Max, shown);
             float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseAmount * tintT;
 
-            vignette.intensity.Override(Mathf.Clamp01(Mathf.Lerp(vignetteSafe, vignetteCritical, t) + pulse));
+            // Staring at the figure (GazeReaction) darkens the edges a touch more.
+            vignette.intensity.Override(Mathf.Clamp01(Mathf.Lerp(vignetteSafe, vignetteCritical, t) + pulse
+                                                      + GazeReaction.Amount * gazeVignette));
             vignette.color.Override(Color.black);
 
             colorAdjustments.colorFilter.Override(baseColorFilter); // warna tetap seperti profile

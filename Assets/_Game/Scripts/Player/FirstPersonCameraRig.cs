@@ -1,3 +1,4 @@
+using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -50,6 +51,8 @@ namespace CyberWatch.Player
         [SerializeField, Min(0.05f)] private float breathRateCritical = 0.5f;
         [Tooltip("Breath size multiplier at 100% Threat.")]
         [SerializeField, Min(1f)] private float breathAmountCritical = 1.8f;
+        [Tooltip("Extra breathing speed while staring at the figure (0.4 = 40% faster at full reaction).")]
+        [SerializeField, Range(0f, 1f)] private float gazeBreathBoost = 0.4f;
 
         private InputAction look;
         private float yaw;
@@ -128,7 +131,9 @@ namespace CyberWatch.Player
             bobWeight = Mathf.MoveTowards(bobWeight, targetWeight, bobBlend * dt);
 
             float danger = threat != null ? threat.Value / ThreatLevelSystem.Max : 0f;
-            breathPhase += Mathf.Lerp(breathRate, breathRateCritical, danger) * Mathf.PI * 2f * dt;
+            // Being stared at by the figure (GazeReaction) quickens the breathing a little more.
+            float rate = Mathf.Lerp(breathRate, breathRateCritical, danger) * (1f + GazeReaction.Amount * gazeBreathBoost);
+            breathPhase += rate * Mathf.PI * 2f * dt;
         }
 
         private void UpdatePose()
