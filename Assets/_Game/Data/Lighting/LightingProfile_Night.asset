@@ -21,7 +21,7 @@ MonoBehaviour:
   ambientEquator: {r: 0.008, g: 0.008, b: 0.009, a: 1}
   ambientGround: {r: 0, g: 0, b: 0, a: 1}
   ambientMultiplier: 1
-  fog: 1
+  fog: 0
   fogColor: {r: 0.10943389, g: 0.10943389, b: 0.10943389, a: 1}
   fogDensity: 0.035
   skyColor: {r: 0.006, g: 0.007, b: 0.011, a: 1}

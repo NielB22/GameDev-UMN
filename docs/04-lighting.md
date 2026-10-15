@@ -35,7 +35,7 @@ Perubahan **langsung terlihat**, juga saat Play.
 | **Moon Shadow Strength** | 1 | **Biarkan 1.** Di bawah 1, cahaya bulan bocor menembus dinding ke dalam ruangan. |
 | **Ambient Sky / Equator / Ground** | hampir hitam | Cahaya rata di **semua** permukaan, termasuk dalam ruangan tertutup. Dinaikkan = area gelap jadi abu-abu. |
 | Ambient Multiplier | 1 | Pengali cepat ambient (mis. 2 untuk sedikit lebih terang). |
-| **Fog Color / Density** | hampir hitam / 0.035 | Objek jauh tenggelam ke gelap. Warna fog **harus mirip warna langit**. |
+| **Fog** | **mati** | Dimatikan agar pemandangan luar jendela jelas (sosok di bawah lampu jalan). Kalau dinyalakan lagi, warna fog **harus mirip warna langit** (hampir hitam). |
 | Sky Color | hampir hitam | Latar kamera (langit malam). |
 | Reflection Intensity | 0 | Pantulan langit di permukaan mengkilap. Tidak ada langit terang di malam hari → 0. |
 
