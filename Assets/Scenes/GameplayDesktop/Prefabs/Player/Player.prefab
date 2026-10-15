@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1970000002}
   - component: {fileID: 1970000003}
   - component: {fileID: 1970000004}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
