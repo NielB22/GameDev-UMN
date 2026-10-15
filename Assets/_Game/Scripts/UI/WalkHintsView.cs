@@ -9,6 +9,7 @@ namespace CyberWatch.UI
     /// HUD hints for walk/desk mode:
     /// - "[E] DUDUK" when the player stands at the IT desk, "[E] / [ESC] BERDIRI" while sitting.
     /// - "PESAN BARU" notice (gently pulsing) while walking and a message is waiting in the inbox.
+    /// - "[V] KAMERA: FPP/TPP" in the corner while walking.
     /// </summary>
     public class WalkHintsView : MonoBehaviour
     {
@@ -28,6 +29,11 @@ namespace CyberWatch.UI
         [SerializeField, Min(0.1f)] private float pulseSpeed = 2.2f;
         [SerializeField, Range(0f, 1f)] private float pulseMinAlpha = 0.45f;
 
+        [Header("Camera view hint (walk mode)")]
+        [SerializeField] private TMP_Text viewHintText;
+        [SerializeField] private string firstPersonHint = "[V]  KAMERA: FPP";
+        [SerializeField] private string thirdPersonHint = "[V]  KAMERA: TPP";
+
         private void Awake()
         {
             if (modes == null) modes = FindAnyObjectByType<PlayerModeController>();
@@ -45,6 +51,16 @@ namespace CyberWatch.UI
                 promptRoot.SetActive(prompt != null);
             if (prompt != null && promptText != null && promptText.text != prompt)
                 promptText.text = prompt;
+
+            if (viewHintText != null)
+            {
+                bool showView = walking && modes != null;
+                if (viewHintText.gameObject.activeSelf != showView)
+                    viewHintText.gameObject.SetActive(showView);
+                string hint = modes != null && modes.View == CameraView.FirstPerson ? firstPersonHint : thirdPersonHint;
+                if (showView && viewHintText.text != hint)
+                    viewHintText.text = hint;
+            }
 
             if (noticeGroup != null)
             {

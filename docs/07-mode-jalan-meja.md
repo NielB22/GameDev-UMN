@@ -84,11 +84,12 @@ mengikuti pemain saat berjalan; HUD sudah terpisah dari inbox.
 Mainkan dari **MainMenu_Scene** (bukan langsung Gameplay) dan centang:
 
 **Menu → Gameplay**
-- [ ] MULAI SHIFT → Gameplay dimuat, mulai di **mode Jalan**, inbox tidak terlihat, HUD terlihat, kursor terkunci.
+- [ ] MULAI SHIFT → Gameplay dimuat, mulai di **mode Jalan, kamera FPP**, inbox tidak terlihat, HUD terlihat, kursor terkunci.
 
 **Mode Jalan**
 - [ ] WASD/Shift/mouse responsif; karakter tidak menembus dinding, meja, loker, dispenser.
 - [ ] Kamera tidak menembus dinding di keempat pojok ruangan.
+- [ ] **[V]** ganti FPP ⇄ TPP (blend singkat, arah pandang tetap). Di FPP badan tak terlihat tapi bayangannya ada. Pojok kanan bawah menampilkan "[V] KAMERA: FPP/TPP". V tidak berfungsi saat duduk; berdiri kembali ke view terakhir.
 - [ ] Notifikasi "PESAN BARU" muncul saat ada pesan menunggu.
 - [ ] Jam tetap berjalan saat berkeliling.
 
