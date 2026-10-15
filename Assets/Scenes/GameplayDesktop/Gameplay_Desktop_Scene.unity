@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 1300000004}
   - component: {fileID: 1300000005}
   - component: {fileID: 1300000006}
+  - component: {fileID: 1300000007}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1024,6 +1025,34 @@ MonoBehaviour:
   collisionRadius: 0.2
   minDistance: 0.4
   returnSpeed: 3
+--- !u!114 &1300000007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da50f32864f4d0686b46ea017057ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Player.PlayerModeController
+  player: {fileID: 0}
+  cameraRig: {fileID: 0}
+  playerCamera: {fileID: 1980000023}
+  deskCamera: {fileID: 1980000013}
+  activePriority: 20
+  inactivePriority: 10
+  desktopCanvas: {fileID: 106170}
+  deskZoneCenter: {x: 0, y: 0, z: 1.5}
+  deskZoneRadius: 1.1
+  startMode: 0
+  interactAction: Player/Interact
+--- !u!223 &106170 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1500000003, guid: 4367e714acda4252b5be1432f3f74639, type: 3}
+  m_PrefabInstance: {fileID: 1500099001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
