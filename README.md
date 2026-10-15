@@ -38,20 +38,25 @@ Proyek UTS **IF581 Game Development (Lab)** — Universitas Multimedia Nusantara
 | 04 – Lighting | *(menyusul)* |
 | 05 – Sistem gameplay | *(menyusul)* |
 | 06 – Alur kerja Git | *(menyusul)* |
+| [07 – Mode Jalan ↔ Meja](docs/07-mode-jalan-meja.md) | Rencana fitur berkeliling kantor saat shift |
 
 ## Alur game & status scene
 
 ```
-MainMenu_Scene → Office_TPP_Scene → Gameplay_Desktop_Scene → GameOver_Report_Scene
-   (menu)         (jalan di kantor)    (inbox, threat, jam)      (rapor + Retry/Menu)
+MainMenu_Scene ──► Gameplay_Desktop_Scene ──────────────────► GameOver_Report_Scene
+   (menu)          mode Jalan ⇄ mode Meja                       (rapor + Retry/Menu)
+                   (keliling kantor)  (inbox, threat, jam)
 ```
+
+Tidak ada scene TPP terpisah: pemain bisa berdiri dari meja dan berkeliling kantor di dalam
+`Gameplay_Desktop_Scene`, sementara jam, Threat, dan inbox tetap berjalan
+(lihat [07 – Mode Jalan ↔ Meja](docs/07-mode-jalan-meja.md)).
 
 | Scene | Status |
 |---|---|
-| `Gameplay_Desktop_Scene` | ✅ Inbox, hover link, HUD, menang/kalah, sosok Slender, lampu berkedip, efek layar |
+| `Gameplay_Desktop_Scene` | ✅ Mode Meja: inbox, hover link, HUD, menang/kalah, sosok Slender, lampu berkedip, efek layar · ⏳ Mode Jalan (rencana siap) |
 | `GameOver_Report_Scene` | ✅ Rapor: akurasi, peringkat, daftar kesalahan, Retry / Main Menu |
 | `MainMenu_Scene` | ⏳ Berikutnya |
-| `Office_TPP_Scene` | ⏳ |
 | `DemoScene` | Scene uji ruangan (tidak ikut build) |
 
 ## 5 aturan utama

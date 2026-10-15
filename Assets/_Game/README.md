@@ -15,5 +15,5 @@ _Game/
 ├── Materials/            Environment/, Props/
 ├── Prefabs/Environment/  Office_Environment (+ Office_Exterior, CCTV), Lighting_Night
 ├── Prefabs/Props/        CCTV_Camera
-└── Scripts/              CyberWatch.Runtime: Core, Environment, Messages, Session, Threat, UI
+└── Scripts/              CyberWatch.Runtime: Core, Environment, Messages, Player, Session, Threat, UI
 ```

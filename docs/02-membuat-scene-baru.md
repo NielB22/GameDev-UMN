@@ -59,8 +59,7 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
   using CyberWatch.Core;
 
   GameManager.Instance.GoToMainMenu();      // ke menu
-  GameManager.Instance.StartNewShift();     // mulai shift baru (ke Office_TPP_Scene)
-  GameManager.Instance.StartDesktopPhase(); // ke Gameplay_Desktop_Scene
+  GameManager.Instance.StartNewShift();     // mulai shift baru (ke Gameplay_Desktop_Scene, mode Jalan)
   ```
 
   Data shift (keputusan, akurasi, menang/kalah) ada di `GameManager.Instance.CurrentShift`.
@@ -72,7 +71,7 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
 
 - [ ] Scene **baru** harus didaftarkan: *File → Build Profiles → Scene List → Add Open Scenes*,
       lalu tambahkan namanya ke `_Game/Scripts/Core/SceneNames.cs`.
-- [ ] Urutan scene game: `MainMenu` → `Office_TPP` → `Gameplay_Desktop` → `GameOver_Report`.
+- [ ] Urutan scene game: `MainMenu` → `Gameplay_Desktop` → `GameOver_Report`.
       `DemoScene` dibiarkan **tidak dicentang**.
 
 ## 6. Cek sebelum commit

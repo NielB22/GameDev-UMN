@@ -43,6 +43,7 @@ _Game/
 │   ├── Core/              GameManager (alur game + data shift), SceneLoader, SceneNames
 │   ├── Environment/       CctvCamera, SceneLighting, ThreatSilhouette (sosok Slender), ThreatLightFlicker
 │   ├── Messages/          MessageData, InboxController
+│   ├── Player/            (rencana) PlayerMovement, PlayerModeController, DeskInteraction
 │   ├── Session/           ShiftSession, ShiftClock, ShiftController (menang/kalah)
 │   ├── Threat/            ThreatLevelSystem
 │   └── UI/                View UI (ThreatMeter, Score, Inbox, LinkTooltip, ReportView, ...)
@@ -70,8 +71,7 @@ Scenes/GameplayDesktop/
 |---|---|---|
 | `DemoScene/` | Scene uji ruangan | Tidak ikut build |
 | `MainMenu/` | Menu utama | ⏳ |
-| `OfficeTPP/` | Jalan-jalan di kantor (third person) | ⏳ |
-| `GameplayDesktop/` | Inti game (inbox, threat, jam, sosok, lampu kedip). `Scripts/ThreatPostProcess` = efek layar per Threat | ✅ |
+| `GameplayDesktop/` | Inti game: mode Meja (inbox, threat, jam, sosok, lampu kedip) + mode Jalan (rencana, `Prefabs/Player/`). `Scripts/ThreatPostProcess` = efek layar per Threat | ✅ |
 | `GameOverReport/` | Rapor menang/kalah (UI langsung di scene, `ReportView`) | ✅ |
 
 Folder yang masih kosong boleh dibiarkan; isi saat dibutuhkan.
@@ -86,7 +86,7 @@ Folder yang masih kosong boleh dibiarkan; isi saat dibutuhkan.
 | `Asset_3D/Security Camera by J-Toastie…` | Model CCTV | Di dalam `CCTV_Camera.prefab` |
 | `Asset_3D/Pandazole_Ultimate_Pack` | Jalan, gedung, pohon, properti kota | Dunia luar (`Office_Exterior`) |
 | `Asset_3D/#NVJOB Slender` | Model + animasi sosok Slender (folder `Example` sudah dihapus) | Sosok di luar jendela (`ThreatSilhouette`) |
-| `Asset_3D/DavidJalbert/LowPolyPeople` | Karakter low-poly + animasi | Karakter pemain di `Office_TPP_Scene` (rencana) |
+| `Asset_3D/DavidJalbert/LowPolyPeople` | Karakter low-poly + animasi idle/walk/run | Karakter pemain mode Jalan di `Gameplay_Desktop_Scene` (rencana) |
 
 **Jangan** mengedit, memindah, atau mengganti nama file di dalam folder ini.
 Kalau butuh versi berbeda, buat **prefab baru di `_Game/Prefabs/`** yang memakai prefab pack
