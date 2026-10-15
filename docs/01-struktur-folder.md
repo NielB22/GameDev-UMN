@@ -30,6 +30,7 @@ Assets/
 ```
 _Game/
 ├── Data/
+│   ├── Lighting/          LightingProfile_Night — pengaturan lighting global (lihat docs/04)
 │   └── Messages/          Pesan email/SMS (MessageData) — asli atau penipuan + penjelasan rapor
 ├── Materials/
 │   ├── Environment/       Material ruangan & luar (lantai, dinding, kaca, lampu, garis parkir, ...)
@@ -41,7 +42,7 @@ _Game/
 │   └── Props/             CCTV_Camera
 ├── Scripts/               Assembly "CyberWatch.Runtime", namespace CyberWatch.*
 │   ├── Core/              GameManager (alur game + data shift), SceneLoader, SceneNames
-│   ├── Environment/       CctvCamera, SceneLighting, ThreatSilhouette (sosok Slender), ThreatLightFlicker
+│   ├── Environment/       CctvCamera, SceneLighting + LightingProfile, ThreatSilhouette (sosok Slender), ThreatLightFlicker
 │   ├── Messages/          MessageData, InboxController
 │   ├── Player/            (rencana) PlayerMovement, PlayerModeController, DeskInteraction
 │   ├── Session/           ShiftSession, ShiftClock, ShiftController (menang/kalah)

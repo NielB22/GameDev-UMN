@@ -8,10 +8,11 @@ using UnityEditor.SceneManagement;
 namespace CyberWatch.Environment
 {
     /// <summary>
-    /// One place for the night lighting of every scene (lives on the Lighting_Night prefab):
-    /// fog, ambient and camera background for the GAME look, plus a DEV mode for working in the editor.
-    /// Dev mode turns on a bright sun, flat bright ambient and no fog. It is editor-only:
-    /// builds always use the game lighting, and the scene file always stores the game settings.
+    /// Applies the night lighting of a scene (lives on the Lighting_Night prefab).
+    /// All GAME values come from a shared <see cref="LightingProfile"/> asset — edit that asset to
+    /// change moon, ambient, fog, sky and reflections for every scene at once.
+    /// Dev mode (editor only) switches to bright work lighting; builds always use the profile,
+    /// and the scene file always stores the game settings even when saved in dev mode.
     /// </summary>
     [ExecuteAlways]
     public class SceneLighting : MonoBehaviour
@@ -20,21 +21,17 @@ namespace CyberWatch.Environment
         [Tooltip("Bright work lighting (editor only). Turn off to see the real game lighting.")]
         [SerializeField] private bool devMode;
 
-        [Header("Game lighting (night)")]
+        [Header("Game lighting")]
+        [Tooltip("Global night settings (Assets/_Game/Data/Lighting/LightingProfile_Night).")]
+        [SerializeField] private LightingProfile profile;
         [SerializeField] private Light moon;
-        [SerializeField] private Color ambientSky = new Color(0.11f, 0.12f, 0.17f);
-        [SerializeField] private Color ambientEquator = new Color(0.07f, 0.075f, 0.09f);
-        [SerializeField] private Color ambientGround = new Color(0.035f, 0.035f, 0.04f);
-        [SerializeField] private bool fog = true;
-        [SerializeField] private Color fogColor = new Color(0.045f, 0.05f, 0.065f);
-        [SerializeField, Range(0f, 0.2f)] private float fogDensity = 0.03f;
-        [Tooltip("Night sky behind everything (Main Camera solid color).")]
-        [SerializeField] private Color cameraBackground = new Color(0.015f, 0.02f, 0.035f);
 
         [Header("Dev lighting")]
         [Tooltip("Bright sun used only in dev mode (tag EditorOnly so it is stripped from builds).")]
         [SerializeField] private GameObject devSun;
         [SerializeField] private Color devAmbient = new Color(0.55f, 0.55f, 0.55f);
+
+        public LightingProfile Profile => profile;
 
         private bool IsDev
         {
@@ -50,6 +47,7 @@ namespace CyberWatch.Environment
 
         private void OnEnable()
         {
+            LightingProfile.Changed += OnProfileChanged;
             Apply(IsDev);
 #if UNITY_EDITOR
             EditorSceneManager.sceneSaving += OnSceneSaving;
@@ -59,6 +57,7 @@ namespace CyberWatch.Environment
 
         private void OnDisable()
         {
+            LightingProfile.Changed -= OnProfileChanged;
 #if UNITY_EDITOR
             EditorSceneManager.sceneSaving -= OnSceneSaving;
             EditorSceneManager.sceneSaved -= OnSceneSaved;
@@ -67,34 +66,61 @@ namespace CyberWatch.Environment
                 Apply(false);
         }
 
+        private void OnProfileChanged(LightingProfile changed)
+        {
+            if (changed == profile && isActiveAndEnabled)
+                Apply(IsDev);
+        }
+
         private void Apply(bool dev)
         {
-            RenderSettings.ambientMode = dev ? AmbientMode.Flat : AmbientMode.Trilight;
+            if (profile == null)
+            {
+                Debug.LogWarning("[SceneLighting] No LightingProfile assigned.", this);
+                return;
+            }
+
+            ApplyMoon();
+
             if (dev)
             {
+                RenderSettings.ambientMode = AmbientMode.Flat;
                 RenderSettings.ambientLight = devAmbient;
             }
             else
             {
-                RenderSettings.ambientSkyColor = ambientSky;
-                RenderSettings.ambientEquatorColor = ambientEquator;
-                RenderSettings.ambientGroundColor = ambientGround;
+                RenderSettings.ambientMode = AmbientMode.Trilight;
+                RenderSettings.ambientSkyColor = profile.ambientSky * profile.ambientMultiplier;
+                RenderSettings.ambientEquatorColor = profile.ambientEquator * profile.ambientMultiplier;
+                RenderSettings.ambientGroundColor = profile.ambientGround * profile.ambientMultiplier;
             }
 
-            RenderSettings.fog = fog && !dev;
+            RenderSettings.reflectionIntensity = dev ? 1f : profile.reflectionIntensity;
+
+            RenderSettings.fog = profile.fog && !dev;
             RenderSettings.fogMode = FogMode.ExponentialSquared;
-            RenderSettings.fogColor = fogColor;
-            RenderSettings.fogDensity = fogDensity;
+            RenderSettings.fogColor = profile.fogColor;
+            RenderSettings.fogDensity = profile.fogDensity;
 
             Camera cam = Camera.main;
             if (cam != null)
             {
                 cam.clearFlags = CameraClearFlags.SolidColor;
-                cam.backgroundColor = cameraBackground;
+                cam.backgroundColor = profile.skyColor;
             }
 
             if (devSun != null && devSun.activeSelf != dev)
                 devSun.SetActive(dev);
+        }
+
+        private void ApplyMoon()
+        {
+            if (moon == null)
+                return;
+            moon.color = profile.moonColor;
+            moon.intensity = profile.moonIntensity;
+            moon.shadowStrength = profile.moonShadowStrength;
+            moon.transform.rotation = Quaternion.Euler(profile.moonElevation, profile.moonDirection, 0f);
         }
 
 #if UNITY_EDITOR
@@ -108,7 +134,6 @@ namespace CyberWatch.Environment
             };
         }
 
-        // The scene file always stores the GAME lighting, even when saved in dev mode.
         private void OnSceneSaving(UnityEngine.SceneManagement.Scene scene, string path)
         {
             if (scene == gameObject.scene && IsDev)

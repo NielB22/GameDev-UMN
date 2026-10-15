@@ -12,6 +12,7 @@ Ringkas:
 ```
 _Game/
 ├── Data/Messages/        MessageData (pesan email/SMS)
+├── Data/Lighting/        LightingProfile_Night — pengaturan lighting global (bulan, ambient, fog, langit)
 ├── Materials/            Environment/, Props/
 ├── Prefabs/Environment/  Office_Environment (+ Office_Exterior, CCTV), Lighting_Night
 ├── Prefabs/Props/        CCTV_Camera

@@ -35,7 +35,7 @@ Proyek UTS **IF581 Game Development (Lab)** — Universitas Multimedia Nusantara
 | [01 – Struktur folder](docs/01-struktur-folder.md) | Arti setiap folder dan di mana menaruh file baru |
 | [02 – Membuat scene baru](docs/02-membuat-scene-baru.md) | Checklist langkah demi langkah |
 | 03 – Aturan aset | *(menyusul)* |
-| 04 – Lighting | *(menyusul)* |
+| [04 – Lighting](docs/04-lighting.md) | Prinsip "hanya yang terkena cahaya terlihat", Lighting Profile global, Dev Mode |
 | 05 – Sistem gameplay | *(menyusul)* |
 | 06 – Alur kerja Git | *(menyusul)* |
 | [07 – Mode Jalan ↔ Meja](docs/07-mode-jalan-meja.md) | Rencana fitur berkeliling kantor saat shift |
