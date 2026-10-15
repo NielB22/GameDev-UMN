@@ -1,0 +1,61 @@
+==============================================================
+ CYBER WATCH - BRIEF PERUBAHAN (sejak commit terakhir Nabil, 14 Okt)
+==============================================================
+
+1. ALUR GAME BARU
+   - Office_TPP_Scene DIHAPUS. Jalan-jalan sekarang ada di dalam
+     Gameplay_Desktop_Scene.
+   - Alur: Main Menu -> Gameplay (Jalan <-> Meja) -> Rapor -> Retry / Menu
+   - Game mulai di mode Jalan. Jam tetap berjalan saat pemain
+     berkeliling.
+
+2. KONTROL
+   WASD jalan / Shift lari
+   Mouse/TP      menoleh
+   E             duduk di meja IT (E / Esc untuk berdiri)
+   V             ganti kamera FPP <-> TPP (mulai di FPP)
+   F             senter nyala/mati
+   Goyang mouse  menyalakan lagi senter yang baterainya habis
+
+3. FITUR BARU
+   - Main Menu: latar kantor, kamera bergoyang pelan, lampu berkedip.
+   - Pemain: karakter "stout man a". Saat duduk, kamera meluncur ke
+     monitor dan inbox muncul.
+   - Senter: baterai 90 detik. Saat habis senter berkedip lalu mati,
+     goyangkan mouse/tp untuk menyalakannya lagi.
+   - HUD: petunjuk [E], [V], [F] + baterai, dan notifikasi
+     "PESAN BARU" saat berjalan.
+
+4. SUASANA DAN THREAT
+   - Malam gelap: hanya yang terkena cahaya yang terlihat.
+     Diatur dari satu aset: _Game/Data/Lighting/LightingProfile_Night.
+   - Kaca jendela bening, fog mati, lampu jalan lebih terang.
+   - Per tahap Threat:
+     Waspada (26-50%)  lampu plafon meredup, CCTV mengikuti pemain,
+                       hantu sesekali lewat di bawah lampu jalan.
+     Bahaya  (51-75%)  lampu plafon mati, monitor memerah, hantu datang
+                       dan diam di bawah lampu jalan menatap pemain,
+                       lampu jalan mulai berkedip.
+     Kritis  (76-99%)  lampu meja mati, hantu ke lampu parkir lalu
+                       mendekati kaca, lampu jalan kadang padam sebentar.
+
+5. PERBAIKAN
+   - Rapor sekarang responsif di semua ukuran layar.
+   - Furnitur punya collider, jadi pemain tidak menembus meja.
+   - File sampah dihapus (_Recovery, contoh Slender, Office_TPP).
+
+6. YANG PERLU DIINGAT TIM
+   - Setelah pull, hapus folder kosong Assets/Retro Office_V2 kalau
+     masih ada.
+   - Pakai PREFAB, jangan ubah file aset pihak ketiga (Asset_3D).
+   - Uji Threat cepat: komponen Threat Level System (objek GameSystems),
+     klik kanan header saat Play, lalu Set 35/55/80/95.
+   - Detail lengkap: docs/07-mode-jalan-meja.md dan docs/04-lighting.md.
+
+7. SISA PEKERJAAN (deadline 17 Okt)
+   - Panel Pengaturan di Main Menu (opsional)
+   - Bug testing akhir
+   - Build .exe Windows
+   - Jumpscare
+   - Tambahan tim jika ada
+==============================================================
