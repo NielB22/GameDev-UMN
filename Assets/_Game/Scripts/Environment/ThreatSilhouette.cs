@@ -31,10 +31,8 @@ namespace CyberWatch.Environment
         [Tooltip("Sosok selalu menghadap ke sini. Kosong = Main Camera.")]
         [SerializeField] private Transform lookTarget;
 
-        [Header("Ambang (sesuai dokumen desain)")]
-        [SerializeField, Range(0f, 100f)] private float alertThreshold = 26f;
-        [SerializeField, Range(0f, 100f)] private float dangerThreshold = 51f;
-        [SerializeField, Range(0f, 100f)] private float criticalThreshold = 76f;
+        // Ambang stage TIDAK disimpan di sini: memakai ThreatLevelSystem (StageFor + konstanta),
+        // supaya sosok, lampu, CCTV, dan bar Threat selalu berganti stage di nilai yang sama.
 
         [Header("Gerak")]
         [Tooltip("Menghilang sebentar lalu muncul di posisi baru (tidak terlihat berjalan).")]
@@ -158,39 +156,28 @@ namespace CyberWatch.Environment
             Refresh(snap: false);
         }
 
-        // Uji cepat: saat Play, klik kanan header komponen ini > Debug > ...
-        [ContextMenu("Debug/Set Threat 10 (Aman)")]
-        private void DebugSafe() => threat.SetValue(10f);
+        // Uji cepat: menu debug ada di komponen Threat Level System (klik kanan header > Debug).
 
-        [ContextMenu("Debug/Set Threat 35 (Waspada)")]
-        private void DebugAlert() => threat.SetValue(35f);
-
-        [ContextMenu("Debug/Set Threat 55 (Bahaya)")]
-        private void DebugDanger() => threat.SetValue(55f);
-
-        [ContextMenu("Debug/Set Threat 80 (Kritis)")]
-        private void DebugCritical() => threat.SetValue(80f);
-
-        [ContextMenu("Debug/Set Threat 95 (Kritis, hampir)")]
-        private void DebugAlmostLost() => threat.SetValue(95f);
+        private ThreatStage CurrentStage => ThreatLevelSystem.StageFor(currentValue);
 
         // 0 = di titik jauh, 1 = di titik dekat.
         private float Progress()
         {
             float p;
-            if (currentValue < dangerThreshold)
+            ThreatStage stage = CurrentStage;
+            if (stage < ThreatStage.Danger)
                 p = 0f;
-            else if (currentValue < criticalThreshold)
-                p = Mathf.Lerp(0f, 0.3f, Mathf.InverseLerp(dangerThreshold, criticalThreshold, currentValue));
+            else if (stage == ThreatStage.Danger)
+                p = Mathf.Lerp(0f, 0.3f, Mathf.InverseLerp(ThreatLevelSystem.DangerAbove, ThreatLevelSystem.CriticalAbove, currentValue));
             else
-                p = Mathf.Lerp(0.3f, 1f, Mathf.InverseLerp(criticalThreshold, 100f, currentValue));
+                p = Mathf.Lerp(0.3f, 1f, Mathf.InverseLerp(ThreatLevelSystem.CriticalAbove, ThreatLevelSystem.Max, currentValue));
 
             return Mathf.Clamp01(p + creepProgress);
         }
 
         private void Refresh(bool snap)
         {
-            wantVisible = currentValue >= dangerThreshold;
+            wantVisible = CurrentStage >= ThreatStage.Danger;
             if (!wantVisible)
                 creepProgress = 0f;
 
@@ -285,7 +272,7 @@ namespace CyberWatch.Environment
             }
 
             // Sekilas di Waspada.
-            if (!wantVisible && glimpseInAlert && currentValue >= alertThreshold
+            if (!wantVisible && glimpseInAlert && CurrentStage == ThreatStage.Alert
                 && glimpseRoutine == null && blinkRoutine == null && now >= nextGlimpseAt)
             {
                 glimpseRoutine = StartCoroutine(Glimpse());

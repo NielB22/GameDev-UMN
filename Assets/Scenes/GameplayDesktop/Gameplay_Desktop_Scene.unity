@@ -698,9 +698,6 @@ MonoBehaviour:
   farPoint: {fileID: 1914237165}
   nearPoint: {fileID: 828926066}
   lookTarget: {fileID: 0}
-  alertThreshold: 26
-  dangerThreshold: 51
-  criticalThreshold: 76
   blinkMove: 0
   blinkSeconds: {x: 0.3, y: 0.8}
   moveSpeed: 0.5
