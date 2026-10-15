@@ -7,6 +7,8 @@ namespace CyberWatch.Effects
     /// <summary>
     /// Short TV-static flash over the whole screen (0.1-0.4 s), used when "something changes":
     /// the figure blinks to a new spot, a light dies, or the Threat stage goes up.
+    /// Flashes are only shown shortly after the Threat value went UP; when it drops or stays
+    /// the same (e.g. the figure creeping, a random street lamp outage) the screen stays clean.
     /// Call ScreenGlitch.Trigger(strength) from anywhere; without a ScreenGlitch in the scene
     /// (e.g. main menu) the call does nothing.
     /// Builds its own overlay canvas at runtime. ThreatPostProcess reads Strength to add a
@@ -28,6 +30,11 @@ namespace CyberWatch.Effects
         [Tooltip("Static flickers (on/off) this many times per second while it lasts.")]
         [SerializeField, Min(1f)] private float flickerRate = 30f;
 
+        [Header("Only when Threat rises")]
+        [Tooltip("A flash is only shown within this many seconds after the Threat went UP " +
+                 "(not when it drops or stays the same).")]
+        [SerializeField, Min(0.1f)] private float riseWindowSeconds = 2.5f;
+
         [Header("Automatic triggers")]
         [Tooltip("Flash when the Threat stage goes up.")]
         [SerializeField] private bool onStageUp = true;
@@ -42,6 +49,8 @@ namespace CyberWatch.Effects
         private float duration;
         private float strength;
         private float nextFrameAt;
+        private float lastThreat;
+        private float lastRiseAt = -100f;
 
         /// <summary>0..1 while a flash is running (fades out), else 0.</summary>
         public static float Strength => instance != null ? instance.CurrentStrength : 0f;
@@ -71,13 +80,31 @@ namespace CyberWatch.Effects
 
         private void OnEnable()
         {
-            if (threat != null) threat.StageChanged += OnStageChanged;
+            if (threat == null)
+                return;
+            lastThreat = threat.Value;
+            threat.ThreatChanged += OnThreatChanged;
+            threat.StageChanged += OnStageChanged;
         }
 
         private void OnDisable()
         {
-            if (threat != null) threat.StageChanged -= OnStageChanged;
+            if (threat == null)
+                return;
+            threat.ThreatChanged -= OnThreatChanged;
+            threat.StageChanged -= OnStageChanged;
         }
+
+        private void OnThreatChanged(float value)
+        {
+            if (value > lastThreat)
+                lastRiseAt = Time.time;
+            lastThreat = value;
+        }
+
+        // Also true when the rise is happening right now but our ThreatChanged handler has not run yet.
+        private bool RecentlyRose =>
+            threat == null || Time.time - lastRiseAt <= riseWindowSeconds || threat.Value > lastThreat;
 
         private void OnStageChanged(ThreatStage previous, ThreatStage current)
         {
@@ -88,7 +115,7 @@ namespace CyberWatch.Effects
         private void Flash(float s)
         {
             s = Mathf.Clamp01(s);
-            if (s <= 0f)
+            if (s <= 0f || !RecentlyRose)
                 return;
             // A new flash never cuts a stronger one short.
             if (CurrentStrength > s)
