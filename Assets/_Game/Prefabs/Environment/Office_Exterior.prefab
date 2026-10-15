@@ -2081,6 +2081,7 @@ GameObject:
   - component: {fileID: 1600098002}
   - component: {fileID: 1600098003}
   - component: {fileID: 1600098004}
+  - component: {fileID: 48230195766125002}
   m_Layer: 0
   m_Name: StreetLamp_FarLeft_Light
   m_TagString: Untagged
@@ -2208,6 +2209,7 @@ GameObject:
   - component: {fileID: 1987650002}
   - component: {fileID: 1987650003}
   - component: {fileID: 1992660005}
+  - component: {fileID: 48230195766125001}
   m_Layer: 0
   m_Name: Parking_SodiumLight
   m_TagString: Untagged
@@ -4071,6 +4073,7 @@ GameObject:
   - component: {fileID: 48230195766123002}
   - component: {fileID: 48230195766123003}
   - component: {fileID: 48230195766123004}
+  - component: {fileID: 48230195766125003}
   m_Layer: 0
   m_Name: StreetLamp_FarRight_Light
   m_TagString: Untagged
@@ -4214,3 +4217,60 @@ MonoBehaviour:
   criticalOutageChance: 0.3
   outageSeconds: {x: 0.4, y: 1.2}
   dipLevel: 0.1
+--- !u!114 &48230195766125001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987650001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de60b9078a1481781ab0840fff1648f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.LightCone
+  material: {fileID: 2100000, guid: 8a4359f1061b4d59bf12a10982f8f037, type: 2}
+  length: 5.6
+  angle: 45
+  topRadius: 0.18
+  segments: 24
+  strength: 0.07
+  falloff: 1.2
+--- !u!114 &48230195766125002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600098001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de60b9078a1481781ab0840fff1648f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.LightCone
+  material: {fileID: 2100000, guid: 8a4359f1061b4d59bf12a10982f8f037, type: 2}
+  length: 5.6
+  angle: 45
+  topRadius: 0.18
+  segments: 24
+  strength: 0.07
+  falloff: 1.2
+--- !u!114 &48230195766125003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48230195766123001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de60b9078a1481781ab0840fff1648f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.LightCone
+  material: {fileID: 2100000, guid: 8a4359f1061b4d59bf12a10982f8f037, type: 2}
+  length: 5.6
+  angle: 45
+  topRadius: 0.18
+  segments: 24
+  strength: 0.07
+  falloff: 1.2
