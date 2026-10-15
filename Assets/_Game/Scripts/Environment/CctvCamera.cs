@@ -28,7 +28,8 @@ namespace CyberWatch.Environment
 
         [Header("Tracking")]
         [SerializeField] private bool canTrack = true;
-        [SerializeField] private ThreatStage trackFromStage = ThreatStage.Danger;
+        [Tooltip("Stage where tracking starts. Alert = while the ceiling light is still on, so the player can see it turn.")]
+        [SerializeField] private ThreatStage trackFromStage = ThreatStage.Alert;
         [Tooltip("Leave empty to follow the main camera (the player's view).")]
         [SerializeField] private Transform target;
         [Tooltip("Optional. Found automatically in the scene when empty; without one the camera only sweeps.")]

@@ -52,7 +52,7 @@ MonoBehaviour:
   sweepAngle: 30
   sweepPeriod: 14
   canTrack: 1
-  trackFromStage: 2
+  trackFromStage: 1
   target: {fileID: 0}
   threatSource: {fileID: 0}
   turnSpeed: 35
