@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ namespace CyberWatch.Environment
         [SerializeField] private Vector2 dangerDipInterval = new Vector2(5f, 12f);
         [Tooltip("Seberapa redup saat berkedip (0 = gelap total, 1 = tidak berubah).")]
         [SerializeField, Range(0f, 1f)] private float dipLevel = 0.15f;
+        [Tooltip("Kekuatan statik layar saat lampu padam (0 = tanpa).")]
+        [SerializeField, Range(0f, 1f)] private float lightOffGlitch = 0.7f;
 
         private float[] ceilingBase;
         private float deskBase;
@@ -156,6 +159,7 @@ namespace CyberWatch.Environment
             }
 
             SetChannel(isCeiling, on ? 1f : 0f);
+            if (!on) ScreenGlitch.Trigger(lightOffGlitch);
             if (isCeiling) ceilingRoutine = null; else deskRoutine = null;
         }
 

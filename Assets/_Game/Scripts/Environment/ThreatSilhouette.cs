@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -86,6 +87,12 @@ namespace CyberWatch.Environment
         [SerializeField, Min(0.1f)] private float passSpeed = 1.3f;
         [Tooltip("Kecepatan animasi jalan saat lewat.")]
         [SerializeField, Min(0.05f)] private float passAnimatorSpeed = 1f;
+
+        [Header("Glitch layar (ScreenGlitch)")]
+        [Tooltip("Kekuatan statik saat sosok menghilang / muncul di tempat baru (0 = tanpa).")]
+        [SerializeField, Range(0f, 1f)] private float blinkGlitch = 0.6f;
+        [Tooltip("Kekuatan statik saat sosok mulai datang ke lampu di Bahaya.")]
+        [SerializeField, Range(0f, 1f)] private float arriveGlitch = 0.45f;
 
         [Header("Tampilan seram")]
         [Tooltip("Kecepatan animasi Idle. Lebih pelan = terasa tidak wajar. 1 = normal.")]
@@ -281,6 +288,7 @@ namespace CyberWatch.Environment
                     blinkRoutine = null;
                 }
                 arriveRoutine = StartCoroutine(Arrive());
+                ScreenGlitch.Trigger(arriveGlitch);
                 return;
             }
 
@@ -322,6 +330,7 @@ namespace CyberWatch.Environment
             // Posisi dibaca setelah menunggu, supaya selalu memakai target terbaru.
             figure.position = visibleAfter ? targetPosition : HiddenPosition;
             figure.gameObject.SetActive(visibleAfter);
+            ScreenGlitch.Trigger(blinkGlitch); // menutupi "teleport" sosok
             blinkRoutine = null;
         }
 

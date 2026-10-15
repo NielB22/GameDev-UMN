@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -34,6 +35,8 @@ namespace CyberWatch.Environment
         [SerializeField] private Vector2 outageSeconds = new Vector2(0.4f, 1.2f);
         [Tooltip("Seberapa redup saat berkedip (0 = gelap, 1 = tidak berubah).")]
         [SerializeField, Range(0f, 1f)] private float dipLevel = 0.1f;
+        [Tooltip("Kekuatan statik layar saat lampu jalan padam sebentar (0 = tanpa).")]
+        [SerializeField, Range(0f, 1f)] private float outageGlitch = 0.35f;
 
         private float[] baseIntensity;
         private Material[] bulbOnMaterial;
@@ -115,6 +118,7 @@ namespace CyberWatch.Environment
             if (outage)
             {
                 Set(i, 0f);
+                ScreenGlitch.Trigger(outageGlitch);
                 yield return new WaitForSeconds(Random.Range(outageSeconds.x, outageSeconds.y));
                 Set(i, dipLevel);
                 yield return new WaitForSeconds(0.08f);
