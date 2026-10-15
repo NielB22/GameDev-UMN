@@ -103,7 +103,7 @@ Mainkan dari **MainMenu_Scene** (bukan langsung Gameplay) dan centang:
 **Threat (Debug di *Threat Level System*) saat mode Jalan & Meja**
 - [ ] Set 35: CCTV mulai menoleh ke pemain, lampu plafon sesekali meredup, sosok sesekali lewat menyeberangi cahaya lampu jalan jauh.
 - [ ] Set 55: lampu plafon mati, sosok berdiri diam di bawah lampu jalan jauh (kiri/kanan), lampu jalan sesekali berkedip.
-- [ ] Set 80/95: lampu meja mati, sosok pindah ke lampu parkir lalu mendekati kaca, lampu jalan lebih sering berkedip & kadang padam sebentar, monitor memerah, efek layar merah berdenyut.
+- [ ] Set 80/95: lampu meja mati, sosok pindah ke lampu parkir lalu mendekati kaca, lampu jalan lebih sering berkedip & kadang padam sebentar, cahaya monitor berdenyut redup-terang, grain/chromatic/distorsi halus naik, vignette berdenyut.
 
 **Akhir shift**
 - [ ] Kalah (Threat 100%) **saat mode Jalan** → Rapor tampil, kursor terlihat & bisa klik.

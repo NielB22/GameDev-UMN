@@ -2524,12 +2524,14 @@ MonoBehaviour:
   screenLight: {fileID: 1950000013}
   threat: {fileID: 0}
   normalEmission: {r: 0.25, g: 0.45, b: 0.6, a: 1}
-  dangerEmission: {r: 0.75, g: 0.05, b: 0.03, a: 1}
   normalLight: {r: 0.55, g: 0.75, b: 1, a: 1}
-  dangerLight: {r: 1, g: 0.15, b: 0.1, a: 1}
-  redFrom: 50
   shimmer: 0.06
   shimmerSpeed: 7
+  unstableFrom: 50
+  maxDim: 0.6
+  pulseSpeed: 1.6
+  dipInterval: {x: 1.5, y: 4}
+  dipSeconds: 0.35
 --- !u!1 &1950000011
 GameObject:
   m_ObjectHideFlags: 0

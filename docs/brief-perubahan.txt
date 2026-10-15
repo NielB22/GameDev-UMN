@@ -33,7 +33,7 @@
    - Per tahap Threat:
      Waspada (26-50%)  lampu plafon meredup, CCTV mengikuti pemain,
                        hantu sesekali lewat di bawah lampu jalan.
-     Bahaya  (51-75%)  lampu plafon mati, monitor memerah, hantu datang
+     Bahaya  (51-75%)  lampu plafon mati, monitor berdenyut redup-terang, hantu datang
                        dan diam di bawah lampu jalan menatap pemain,
                        lampu jalan mulai berkedip.
      Kritis  (76-99%)  lampu meja mati, hantu ke lampu parkir lalu

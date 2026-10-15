@@ -17,7 +17,7 @@ Itulah yang membuat suasana malam terasa nyata, bukan "seperti game".
 | Lampu luar (parkir, jalan) | `Office_Exterior.prefab` → grup `Lighting` | Semua scene yang memakai kantor |
 | Reaksi lampu terhadap Threat | `ThreatLightFlicker` (Gameplay) | Gameplay |
 | Lampu berkedip di menu | `MenuEffects` → `MenuLightFlicker` (MainMenu) | MainMenu |
-| Efek layar (vignette, tint merah) | Global Volume + `ThreatPostProcess` | Gameplay |
+| Efek layar (bloom, grain, vignette, chromatic, distorsi, glitch) — profile `_Game/Settings/PP_Night` | Global Volume + `ThreatPostProcess` | Gameplay |
 
 Setiap scene 3D punya **satu** prefab `Lighting_Night` (berisi `SceneLighting`, `Moonlight`, `DEV_Sun`).
 Jangan menambah Directional Light lain.

@@ -54,7 +54,7 @@ Tidak ada scene TPP terpisah: pemain bisa berdiri dari meja dan berkeliling kant
 
 | Scene | Status |
 |---|---|
-| `Gameplay_Desktop_Scene` | ✅ Mode Jalan (TPP, WASD, [E] duduk) ⇄ mode Meja (inbox, hover link), HUD, menang/kalah, sosok Slender, lampu berkedip, monitor memerah, efek layar |
+| `Gameplay_Desktop_Scene` | ✅ Mode Jalan (TPP, WASD, [E] duduk) ⇄ mode Meja (inbox, hover link), HUD, menang/kalah, sosok Slender, lampu berkedip, monitor berdenyut, efek layar |
 | `GameOver_Report_Scene` | ✅ Rapor: akurasi, peringkat, daftar kesalahan, Retry / Main Menu |
 | `MainMenu_Scene` | ✅ Latar kantor, kamera dan lampu horor, Mulai/Keluar · ⏳ panel Pengaturan |
 | `DemoScene` | Scene uji ruangan (tidak ikut build) |
