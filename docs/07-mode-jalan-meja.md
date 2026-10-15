@@ -48,7 +48,7 @@ Perpindahan kamera memakai **Cinemachine blend** (halus, bukan potong mendadak).
 | Bagian | Lokasi | Keterangan |
 |---|---|---|
 | Script gerak & mode | `Assets/_Game/Scripts/Player/` | `PlayerMovement` (CharacterController + Input System), `PlayerModeController` (Jalan/Meja), `DeskInteraction` (zona "[E] Duduk") — namespace `CyberWatch.Player` |
-| Prefab pemain & rig kamera | `Assets/Scenes/GameplayDesktop/Prefabs/Player/` | Karakter LowPolyPeople + CharacterController + Animator, kamera TPP & kamera Meja (Cinemachine) |
+| Prefab pemain | Prefab pemain & rig kamera | `Assets/Scenes/GameplayDesktop/Prefabs/Player/` | Karakter LowPolyPeople + CharacterController + Animator, kamera TPP & kamera Meja (Cinemachine) | rig kamera | `Assets/Scenes/GameplayDesktop/Prefabs/Player/` | Karakter **`stout man a`** (LowPolyPeople, dipilih tim) + CharacterController + Animator, kamera TPP | Prefab pemain & rig kamera | `Assets/Scenes/GameplayDesktop/Prefabs/Player/` | Karakter LowPolyPeople + CharacterController + Animator, kamera TPP & kamera Meja (Cinemachine) | kamera Meja (Cinemachine). Tidak ada animasi duduk: di mode Meja karakter disembunyikan karena kamera FPV |
 | Animator pemain | `Assets/Scenes/GameplayDesktop/Animation/` | Idle / Walk / Run dari pack LowPolyPeople |
 | Collider furnitur | Grup `Colliders` di `Office_Environment.prefab` | Prefab Retro Office **tidak punya collider** → kotak collider tak terlihat agar pemain tidak menembus meja/loker. Pack tidak diubah. |
 | Petunjuk & notifikasi | `UI_HUD` | "[E] Duduk" / "[E] Berdiri" dan "Pesan baru" saat di mode Jalan |
