@@ -1,3 +1,4 @@
+using CyberWatch.Threat;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ namespace CyberWatch.Player
     /// Sits at the player's eyes; mouse / right stick looks around. The body follows the
     /// camera's yaw (PlayerMovement.FaceCameraYaw) and is drawn as shadow only, so the
     /// camera never shows the inside of the head.
+    /// Head bob while walking (bigger when running) and slow breathing when standing still,
+    /// breathing faster as the Threat rises.
     /// </summary>
     public class FirstPersonCameraRig : MonoBehaviour
     {
@@ -25,9 +28,37 @@ namespace CyberWatch.Player
         [SerializeField, Min(1f)] private float stickSensitivity = 160f;
         [SerializeField] private string lookAction = "Player/Look";
 
+        [Header("Head bob (walking)")]
+        [Tooltip("Up/down movement per step (meters).")]
+        [SerializeField, Range(0f, 0.1f)] private float bobVertical = 0.03f;
+        [Tooltip("Side-to-side sway per stride (meters).")]
+        [SerializeField, Range(0f, 0.1f)] private float bobLateral = 0.018f;
+        [Tooltip("Slight head roll with the sway (degrees).")]
+        [SerializeField, Range(0f, 3f)] private float bobRoll = 0.6f;
+        [Tooltip("Distance covered per step (meters). Shorter = faster bobbing.")]
+        [SerializeField, Min(0.1f)] private float stepLength = 0.7f;
+        [Tooltip("Bob size multiplier while running.")]
+        [SerializeField, Min(1f)] private float runMultiplier = 1.6f;
+        [Tooltip("How fast the bob fades in/out when starting/stopping.")]
+        [SerializeField, Min(0.1f)] private float bobBlend = 6f;
+
+        [Header("Breathing (standing still)")]
+        [SerializeField, Range(0f, 0.03f)] private float breathAmount = 0.006f;
+        [Tooltip("Breaths per second when calm.")]
+        [SerializeField, Min(0.05f)] private float breathRate = 0.22f;
+        [Tooltip("Breaths per second at 100% Threat (faster, more nervous).")]
+        [SerializeField, Min(0.05f)] private float breathRateCritical = 0.5f;
+        [Tooltip("Breath size multiplier at 100% Threat.")]
+        [SerializeField, Min(1f)] private float breathAmountCritical = 1.8f;
+
         private InputAction look;
         private float yaw;
         private float pitch;
+        private PlayerMovement movement;
+        private ThreatLevelSystem threat;
+        private float stepPhase;
+        private float breathPhase;
+        private float bobWeight;
 
         /// <summary>When false the rig ignores look input (other view active, or sitting).</summary>
         public bool InputEnabled { get; set; } = true;
@@ -60,6 +91,8 @@ namespace CyberWatch.Player
                 if (player != null) target = player.transform;
             }
             look = InputSystem.actions != null ? InputSystem.actions.FindAction(lookAction) : null;
+            if (target != null) movement = target.GetComponent<PlayerMovement>();
+            threat = FindAnyObjectByType<ThreatLevelSystem>();
             AlignWithTarget();
         }
 
@@ -79,7 +112,23 @@ namespace CyberWatch.Player
                 pitch = Mathf.Clamp(pitch - step.y, pitchLimits.x, pitchLimits.y);
             }
 
+            AdvanceBob();
             UpdatePose();
+        }
+
+        // Step phase follows the distance walked (so faster = quicker steps); breathing always runs.
+        private void AdvanceBob()
+        {
+            float dt = Time.deltaTime;
+            float speed = movement != null && movement.ControlEnabled ? movement.HorizontalSpeed : 0f;
+            bool walking = speed > 0.1f;
+
+            stepPhase += speed / stepLength * Mathf.PI * dt;
+            float targetWeight = !walking ? 0f : movement.IsRunning ? runMultiplier : 1f;
+            bobWeight = Mathf.MoveTowards(bobWeight, targetWeight, bobBlend * dt);
+
+            float danger = threat != null ? threat.Value / ThreatLevelSystem.Max : 0f;
+            breathPhase += Mathf.Lerp(breathRate, breathRateCritical, danger) * Mathf.PI * 2f * dt;
         }
 
         private void UpdatePose()
@@ -88,7 +137,17 @@ namespace CyberWatch.Player
                 return;
             Quaternion flat = Quaternion.Euler(0f, yaw, 0f);
             Vector3 eyes = target.position + Vector3.up * eyeHeight + flat * Vector3.forward * forwardOffset;
-            transform.SetPositionAndRotation(eyes, Quaternion.Euler(pitch, yaw, 0f));
+
+            // Head bob: up/down twice per stride, side sway once per stride; breathing when still.
+            float danger = threat != null ? threat.Value / ThreatLevelSystem.Max : 0f;
+            float breath = Mathf.Sin(breathPhase) * breathAmount * Mathf.Lerp(1f, breathAmountCritical, danger)
+                           * Mathf.Clamp01(1f - bobWeight);
+            float up = Mathf.Sin(stepPhase * 2f) * bobVertical * bobWeight + breath;
+            float side = Mathf.Sin(stepPhase) * bobLateral * bobWeight;
+            float roll = -Mathf.Sin(stepPhase) * bobRoll * bobWeight;
+
+            eyes += flat * new Vector3(side, up, 0f);
+            transform.SetPositionAndRotation(eyes, Quaternion.Euler(pitch, yaw, roll));
         }
     }
 }

@@ -43,6 +43,14 @@ namespace CyberWatch.Player
         /// <summary>First-person view: the body always faces where the camera looks.</summary>
         public bool FaceCameraYaw { get; set; }
 
+        /// <summary>Current walking speed over the ground (m/s).</summary>
+        public float HorizontalSpeed { get; private set; }
+
+        /// <summary>True while sprinting and actually moving.</summary>
+        public bool IsRunning { get; private set; }
+
+        public float WalkSpeed => walkSpeed;
+
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -93,6 +101,12 @@ namespace CyberWatch.Player
             velocity.y = verticalSpeed;
 
             controller.Move(velocity * Time.deltaTime);
+
+            // Actual ground speed (walls stop it), used by the first-person head bob.
+            Vector3 actual = controller.velocity;
+            actual.y = 0f;
+            HorizontalSpeed = actual.magnitude;
+            IsRunning = running && HorizontalSpeed > 0.1f;
 
             Transform cam = CameraTransform;
             if (FaceCameraYaw && controlEnabled && cam != null)
