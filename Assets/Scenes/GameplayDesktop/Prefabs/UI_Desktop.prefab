@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1500000004}
   - component: {fileID: 1500000005}
   - component: {fileID: 1500000006}
+  - component: {fileID: 1500000201}
   m_Layer: 5
   m_Name: UI_Desktop
   m_TagString: Untagged
@@ -1976,3 +1977,21 @@ MonoBehaviour:
   highlightMismatch: 1
   normalColor: {r: 0.08, g: 0.09, b: 0.11, a: 0.96}
   mismatchColor: {r: 0.45, g: 0.08, b: 0.07, a: 0.96}
+--- !u!114 &1500000201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 862378a3155642e8ae364d9943f54dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.UI.CrtScreenEffect
+  window: {fileID: 1500000008}
+  scanlineAlpha: 0.12
+  scanlinePixels: 3
+  edgeDarkness: 0.45
+  edgeStart: 0.55
+  glitchPixels: 6
