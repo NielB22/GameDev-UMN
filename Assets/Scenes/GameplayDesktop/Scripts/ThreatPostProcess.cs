@@ -43,6 +43,8 @@ namespace CyberWatch.Environment
         private Vignette vignette;
         private ColorAdjustments colorAdjustments;
         private float shown;
+        private float baseSaturation;
+        private Color baseColorFilter = Color.white;
 
         private void Awake()
         {
@@ -73,6 +75,10 @@ namespace CyberWatch.Environment
             colorAdjustments.active = true;
             vignette.smoothness.Override(0.45f);
 
+            // Warna dasar dari profile (look malam); tint Threat berangkat dari sini.
+            baseSaturation = colorAdjustments.saturation.overrideState ? colorAdjustments.saturation.value : 0f;
+            baseColorFilter = colorAdjustments.colorFilter.overrideState ? colorAdjustments.colorFilter.value : Color.white;
+
             shown = threat.Value;
             Apply();
         }
@@ -92,8 +98,9 @@ namespace CyberWatch.Environment
             vignette.intensity.Override(Mathf.Clamp01(Mathf.Lerp(vignetteSafe, vignetteCritical, t) + pulse));
             vignette.color.Override(Color.Lerp(Color.black, new Color(0.22f, 0f, 0f), tintT));
 
-            colorAdjustments.colorFilter.Override(Color.Lerp(Color.white, criticalTint, tintT));
-            colorAdjustments.saturation.Override(Mathf.Lerp(0f, criticalSaturation, tintT));
+            // Tint dikalikan warna dasar, supaya profile yang digelapkan tidak jadi lebih terang saat Kritis.
+            colorAdjustments.colorFilter.Override(Color.Lerp(baseColorFilter, baseColorFilter * criticalTint, tintT));
+            colorAdjustments.saturation.Override(Mathf.Lerp(baseSaturation, Mathf.Min(baseSaturation, criticalSaturation), tintT));
         }
     }
 }
