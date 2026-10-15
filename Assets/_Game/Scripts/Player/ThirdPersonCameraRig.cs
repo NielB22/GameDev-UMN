@@ -40,6 +40,16 @@ namespace CyberWatch.Player
         /// <summary>When false the rig ignores look input (e.g. while sitting at the desk).</summary>
         public bool InputEnabled { get; set; } = true;
 
+        public float Yaw => yaw;
+        public float Pitch => pitch;
+
+        /// <summary>Used when switching views so the camera keeps looking the same way.</summary>
+        public void SetOrientation(float newYaw, float newPitch)
+        {
+            yaw = newYaw;
+            pitch = Mathf.Clamp(newPitch, pitchLimits.x, pitchLimits.y);
+        }
+
         /// <summary>Turns the orbit to look the same way as the player (used when standing up).</summary>
         public void AlignBehindTarget()
         {

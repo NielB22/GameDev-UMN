@@ -40,6 +40,9 @@ namespace CyberWatch.Player
         /// <summary>False while sitting at the desk: the character stops and idles.</summary>
         public bool ControlEnabled => controlEnabled;
 
+        /// <summary>First-person view: the body always faces where the camera looks.</summary>
+        public bool FaceCameraYaw { get; set; }
+
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -91,7 +94,15 @@ namespace CyberWatch.Player
 
             controller.Move(velocity * Time.deltaTime);
 
-            if (moving)
+            Transform cam = CameraTransform;
+            if (FaceCameraYaw && controlEnabled && cam != null)
+            {
+                Vector3 forward = cam.forward;
+                forward.y = 0f;
+                if (forward.sqrMagnitude > 0.001f)
+                    transform.rotation = Quaternion.LookRotation(forward);
+            }
+            else if (moving)
             {
                 Quaternion look = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, look, turnSpeed * Time.deltaTime);
@@ -100,9 +111,12 @@ namespace CyberWatch.Player
             SetGait(!moving ? Gait.Idle : running ? Gait.Run : Gait.Walk);
         }
 
+        private Transform CameraTransform =>
+            cameraTransform != null ? cameraTransform : (Camera.main != null ? Camera.main.transform : null);
+
         private Vector3 CameraRelative(Vector2 input)
         {
-            Transform cam = cameraTransform != null ? cameraTransform : (Camera.main != null ? Camera.main.transform : null);
+            Transform cam = CameraTransform;
             Vector3 forward = cam != null ? cam.forward : Vector3.forward;
             Vector3 right = cam != null ? cam.right : Vector3.right;
             forward.y = 0f;
