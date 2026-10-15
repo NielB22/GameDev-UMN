@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1600000014}
+  - component: {fileID: 48230195766124001}
   m_Layer: 0
   m_Name: Lighting
   m_TagString: Untagged
@@ -2045,7 +2046,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 194bb4eb900b4d61815f93ef1d787030, type: 2}
+  - {fileID: 2100000, guid: 4b29c841bc3d40a9a7e532b25b640e1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4186,3 +4187,30 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &48230195766124001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600000013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1da2f3c0d3047f78eada6c5b5c92c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Environment.StreetLampFlicker
+  threat: {fileID: 0}
+  lights:
+  - {fileID: 1987650003}
+  - {fileID: 1600098003}
+  - {fileID: 48230195766123003}
+  bulbs:
+  - {fileID: 1600000113}
+  - {fileID: 1600000127}
+  - {fileID: 1600000141}
+  bulbOffMaterial: {fileID: 2100000, guid: 194bb4eb900b4d61815f93ef1d787030, type: 2}
+  dangerInterval: {x: 8, y: 16}
+  criticalInterval: {x: 3, y: 8}
+  criticalOutageChance: 0.3
+  outageSeconds: {x: 0.4, y: 1.2}
+  dipLevel: 0.1
