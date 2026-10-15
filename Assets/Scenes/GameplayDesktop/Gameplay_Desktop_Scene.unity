@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 1300000006}
   - component: {fileID: 1300000007}
   - component: {fileID: 1300000008}
+  - component: {fileID: 1300000009}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1481,6 +1482,36 @@ MonoBehaviour:
   flickerRate: 30
   onStageUp: 1
   stageUpStrength: 0.8
+--- !u!114 &1300000009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856701f0abdd4aa7981c7cb6a648196e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Environment.UnseenChanges
+  threat: {fileID: 1300000003}
+  changes:
+  - objectName: Chair_A
+    fromStage: 2
+    worldEuler: {x: 0, y: 180, z: 0}
+    localEuler: {x: 0, y: 0, z: 0}
+    worldOffset: {x: 0, y: 0, z: 0.5}
+    restOnFloor: 0
+    colliderName: Col_Chair_A
+  - objectName: TrashBin_A
+    fromStage: 3
+    worldEuler: {x: 90, y: 30, z: 0}
+    localEuler: {x: 0, y: 0, z: 0}
+    worldOffset: {x: 0, y: 0, z: 0}
+    restOnFloor: 1
+    colliderName: Col_TrashBin_A
+  checkInterval: 0.25
+  minDistance: 1.2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
