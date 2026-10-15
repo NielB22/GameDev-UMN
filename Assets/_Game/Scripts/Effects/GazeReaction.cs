@@ -10,6 +10,7 @@ namespace CyberWatch.Effects
     /// tightens slightly (a few degrees of field of view), breathing quickens and the screen
     /// edges darken a touch. Look away and it eases back.
     /// Only from 80% Threat, growing step by step up to 100%. Kept subtle on purpose.
+    /// Also a slight tunnel vision in the Critical stage (75-100%), even without looking at it.
     /// Other scripts read GazeReaction.Amount (0..1).
     /// </summary>
     public class GazeReaction : MonoBehaviour
@@ -35,10 +36,15 @@ namespace CyberWatch.Effects
         [Tooltip("Field of view reduction (degrees). Small = subtle zoom.")]
         [SerializeField, Range(0f, 15f)] private float fovNarrowing = 5f;
 
+        [Header("Tunnel vision (Critical, without looking at the figure)")]
+        [Tooltip("Field of view reduction at 100% Threat (degrees), growing smoothly from the Critical stage.")]
+        [SerializeField, Range(0f, 10f)] private float criticalNarrowing = 3f;
+
         private static GazeReaction instance;
         private float stare;      // 0..1 how long we have been looking
         private float amount;     // stare x Threat level
         private float[] baseFov;
+        private float tunnel;     // 0..1 Critical tunnel vision, eased
 
         /// <summary>0..1: how strongly the player is reacting to the figure's gaze right now.</summary>
         public static float Amount => instance != null ? instance.amount : 0f;
@@ -62,7 +68,7 @@ namespace CyberWatch.Effects
 
         private void OnDisable()
         {
-            stare = amount = 0f;
+            stare = amount = tunnel = 0f;
             ApplyFov();
         }
 
@@ -78,6 +84,11 @@ namespace CyberWatch.Effects
 
             // Eased so it creeps in rather than snapping.
             amount = Mathf.SmoothStep(0f, 1f, stare) * level;
+
+            float tunnelTarget = threat != null
+                ? Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(ThreatLevelSystem.CriticalAbove, ThreatLevelSystem.Max, threat.Value))
+                : 0f;
+            tunnel = Mathf.MoveTowards(tunnel, tunnelTarget, 0.15f * Time.deltaTime); // very slow
             ApplyFov();
         }
 
@@ -103,7 +114,7 @@ namespace CyberWatch.Effects
             {
                 if (cameras[i] == null) continue;
                 var lens = cameras[i].Lens;
-                lens.FieldOfView = baseFov[i] - fovNarrowing * amount;
+                lens.FieldOfView = baseFov[i] - fovNarrowing * amount - criticalNarrowing * tunnel;
                 cameras[i].Lens = lens;
             }
         }
