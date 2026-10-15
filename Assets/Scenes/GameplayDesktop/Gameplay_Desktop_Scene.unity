@@ -302,11 +302,10 @@ MonoBehaviour:
   vignetteSafe: 0.2
   vignetteCritical: 0.55
   tintStart: 50
-  criticalTint: {r: 1, g: 0.55, b: 0.5, a: 1}
   criticalSaturation: -25
   pulseAmount: 0.06
   pulseSpeed: 2.4
-  followSpeed: 30
+  followSpeed: 10
 --- !u!114 &524574122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +524,7 @@ GameObject:
   - component: {fileID: 1300000005}
   - component: {fileID: 1300000006}
   - component: {fileID: 1300000007}
+  - component: {fileID: 1300000008}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1461,6 +1461,26 @@ MonoBehaviour:
   shakeMinDelta: 10
   shakeReversals: 6
   shakeWindowSeconds: 1.2
+--- !u!114 &1300000008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec70d24a0bc41d581259a61d66e34dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.ScreenGlitch
+  threat: {fileID: 1300000003}
+  noiseSize: {x: 160, y: 90}
+  maxAlpha: 0.35
+  tearChance: 0.06
+  durationSeconds: {x: 0.12, y: 0.35}
+  flickerRate: 30
+  onStageUp: 1
+  stageUpStrength: 0.8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
