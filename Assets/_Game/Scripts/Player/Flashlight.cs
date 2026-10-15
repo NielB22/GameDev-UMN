@@ -13,7 +13,7 @@ namespace CyberWatch.Player
     ///   Empty: flickers, then dies.
     /// - Dead: shake the mouse / touchpad quickly (left-right or up-down) to bring it back;
     ///   it flickers back on with a full battery.
-    /// - Sitting at the desk switches it off; standing up restores it.
+    /// - Sitting down or standing up always switches it off (default: no flashlight); press [F] again.
     /// </summary>
     [RequireComponent(typeof(Light))]
     public class Flashlight : MonoBehaviour
@@ -107,10 +107,22 @@ namespace CyberWatch.Player
             if (modes != null) modes.ModeChanged -= OnModeChanged;
         }
 
+        // Sitting down or standing up always switches the flashlight off: the player turns it on again
+        // with [F] when needed. A dead battery stays dead (still needs shaking).
         private void OnModeChanged(PlayerMode mode)
         {
             suspended = mode == PlayerMode.Desk;
-            Apply(multiplier);
+
+            if (Current == State.Reviving && transition != null)
+            {
+                StopCoroutine(transition);
+                transition = null;
+                SetState(State.Off); // battery was already refilled
+            }
+            if (Current == State.On)
+                SetState(State.Off);
+
+            Apply(Current == State.Off ? 0f : multiplier);
         }
 
         private void Update()

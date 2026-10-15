@@ -90,7 +90,7 @@ Mainkan dari **MainMenu_Scene** (bukan langsung Gameplay) dan centang:
 - [ ] WASD/Shift/mouse responsif; karakter tidak menembus dinding, meja, loker, dispenser.
 - [ ] Kamera tidak menembus dinding di keempat pojok ruangan.
 - [ ] **[V]** ganti FPP ⇄ TPP (blend singkat, arah pandang tetap). Di FPP badan tak terlihat tapi bayangannya ada. Pojok kanan bawah menampilkan "[V] KAMERA: FPP/TPP". V tidak berfungsi saat duduk; berdiri kembali ke view terakhir.
-- [ ] **[F]** senter putih kekuningan (FPP dari dekat mata, TPP dari dada). Pojok kanan bawah: "[F] SENTER" + bar baterai (oranye saat lemah). Baterai habis → berkedip lalu mati, HUD merah "SENTER MATI - GOYANGKAN MOUSE!" dan bar = progres goyangan; goyang mouse cepat → berkedip lalu nyala, baterai penuh. Duduk = senter padam, berdiri = kembali.
+- [ ] **[F]** senter putih kekuningan (FPP dari dekat mata, TPP dari dada). Pojok kanan bawah: "[F] SENTER" + bar baterai (oranye saat lemah). Baterai habis → berkedip lalu mati, HUD merah "SENTER MATI - GOYANGKAN MOUSE!" dan bar = progres goyangan; goyang mouse cepat → berkedip lalu nyala, baterai penuh. Duduk atau berdiri = senter otomatis mati (default tanpa senter), nyalakan lagi dengan [F].
 - [ ] Notifikasi "PESAN BARU" muncul saat ada pesan menunggu.
 - [ ] Jam tetap berjalan saat berkeliling.
 
