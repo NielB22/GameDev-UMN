@@ -44,7 +44,7 @@ _Game/
 │   ├── Core/              GameManager (alur game + data shift), SceneLoader, SceneNames
 │   ├── Environment/       CctvCamera, SceneLighting + LightingProfile, ThreatSilhouette (sosok Slender), ThreatLightFlicker
 │   ├── Messages/          MessageData, InboxController
-│   ├── Player/            (rencana) PlayerMovement, PlayerModeController, DeskInteraction
+│   ├── Player/            PlayerMovement, ThirdPersonCameraRig, PlayerModeController
 │   ├── Session/           ShiftSession, ShiftClock, ShiftController (menang/kalah)
 │   ├── Threat/            ThreatLevelSystem
 │   └── UI/                View UI (ThreatMeter, Score, Inbox, LinkTooltip, ReportView, ...)
@@ -72,7 +72,7 @@ Scenes/GameplayDesktop/
 |---|---|---|
 | `DemoScene/` | Scene uji ruangan | Tidak ikut build |
 | `MainMenu/` | Menu utama | ⏳ |
-| `GameplayDesktop/` | Inti game: mode Meja (inbox, threat, jam, sosok, lampu kedip) + mode Jalan (rencana, `Prefabs/Player/`). `Scripts/ThreatPostProcess` = efek layar per Threat | ✅ |
+| `GameplayDesktop/` | Inti game: mode Jalan (`Prefabs/Player/`) dan mode Meja (inbox, threat, jam, sosok, lampu kedip). `Scripts/ThreatPostProcess` = efek layar per Threat | ✅ |
 | `GameOverReport/` | Rapor menang/kalah (UI langsung di scene, `ReportView`) | ✅ |
 
 Folder yang masih kosong boleh dibiarkan; isi saat dibutuhkan.

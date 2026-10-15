@@ -38,7 +38,7 @@ Proyek UTS **IF581 Game Development (Lab)** — Universitas Multimedia Nusantara
 | [04 – Lighting](docs/04-lighting.md) | Prinsip "hanya yang terkena cahaya terlihat", Lighting Profile global, Dev Mode |
 | 05 – Sistem gameplay | *(menyusul)* |
 | 06 – Alur kerja Git | *(menyusul)* |
-| [07 – Mode Jalan ↔ Meja](docs/07-mode-jalan-meja.md) | Rencana fitur berkeliling kantor saat shift |
+| [07 – Mode Jalan ↔ Meja](docs/07-mode-jalan-meja.md) | Fitur berkeliling kantor saat shift + checklist uji |
 
 ## Alur game & status scene
 
@@ -54,9 +54,9 @@ Tidak ada scene TPP terpisah: pemain bisa berdiri dari meja dan berkeliling kant
 
 | Scene | Status |
 |---|---|
-| `Gameplay_Desktop_Scene` | ✅ Mode Meja: inbox, hover link, HUD, menang/kalah, sosok Slender, lampu berkedip, efek layar · ⏳ Mode Jalan (rencana siap) |
+| `Gameplay_Desktop_Scene` | ✅ Mode Jalan (TPP, WASD, [E] duduk) ⇄ mode Meja (inbox, hover link), HUD, menang/kalah, sosok Slender, lampu berkedip, monitor memerah, efek layar |
 | `GameOver_Report_Scene` | ✅ Rapor: akurasi, peringkat, daftar kesalahan, Retry / Main Menu |
-| `MainMenu_Scene` | ⏳ Berikutnya |
+| `MainMenu_Scene` | ✅ Latar kantor, kamera dan lampu horor, Mulai/Keluar · ⏳ panel Pengaturan |
 | `DemoScene` | Scene uji ruangan (tidak ikut build) |
 
 ## 5 aturan utama

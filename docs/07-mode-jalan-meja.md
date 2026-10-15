@@ -4,7 +4,7 @@ Pemain bisa **kapan saja berdiri dari meja IT dan berkeliling kantor** (third pe
 kembali duduk untuk bekerja. Tujuannya: pemain **merasakan langsung** perubahan lingkungan
 akibat Threat Level (lampu berkedip/mati, CCTV mengikuti, sosok di luar jendela).
 
-Status: **persiapan selesai** (folder, alur, dokumentasi). Implementasi menyusul per step.
+Status: **step 1–5 selesai**, step 6 (uji alur penuh) memakai checklist di bawah.
 
 [← Kembali ke README](../README.md)
 
@@ -59,16 +59,61 @@ mengikuti pemain saat berjalan; HUD sudah terpisah dari inbox.
 
 ## Urutan implementasi (1 step = 1 commit, dicek di Unity)
 
-1. Collider furnitur di `Office_Environment`.
-2. Prefab pemain: karakter + gerak + animasi idle/walk.
-3. Rig kamera Cinemachine (TPP + Meja) + blend.
-4. `PlayerModeController` + zona duduk di meja (sembunyikan inbox, kunci kursor).
-5. Petunjuk "[E]" dan notifikasi pesan baru di HUD.
-6. Uji alur penuh: Menu → Jalan → Duduk → Berdiri → … → Rapor → Retry.
+| # | Step | Commit | Hasil |
+|---|---|---|---|
+| 1 | Collider furnitur | `433857f` | Grup `Office_Environment/Colliders`: 14 BoxCollider tak terlihat |
+| 2 | Prefab pemain | `6e6c9c4` | `Player` (stout man a, skala 0.85) + `PlayerMovement` (WASD, Shift lari, animasi idle/walk/run) |
+| 3 | Kamera | `6c7f970` | `CinemachineBrain` + `CM_DeskCam` + `CM_PlayerCam` (`ThirdPersonCameraRig`: orbit mouse, tidak menembus dinding) |
+| 4 | Duduk / berdiri | `36ca17c` | `PlayerModeController` di `GameSystems`: [E] duduk di zona kursi, [E]/[Esc] berdiri; inbox & kursor diatur; karakter hilang setelah kamera tiba di meja |
+| 5 | Petunjuk HUD | `70c75e3` | `WalkHintsView`: "[E] DUDUK DI MEJA" / "[E]/[ESC] BERDIRI" + "PESAN BARU – KEMBALI KE MEJA" |
+| 6 | Uji alur penuh | — | Checklist di bawah |
+
+### Pengaturan yang bisa disesuaikan (Inspector)
+
+| Yang diatur | Di mana |
+|---|---|
+| Kecepatan jalan/lari, kecepatan berputar | `Player` → *Player Movement* |
+| Ukuran karakter | `Player.prefab` → `Model` → Scale (sekarang 0.85) |
+| Jarak kamera, sensitivitas mouse, batas atas-bawah | `CM_PlayerCam` → *Third Person Camera Rig* |
+| Lama blend kamera Jalan ↔ Meja | `Main Camera` → *Cinemachine Brain* → Default Blend |
+| Zona duduk (posisi & radius) | `GameSystems` → *Player Mode Controller* (terlihat sebagai lingkaran hijau saat dipilih) |
+| Teks petunjuk | `UI_HUD/WalkHints` → *Walk Hints View* |
+
+## Step 6 – Checklist uji alur penuh
+
+Mainkan dari **MainMenu_Scene** (bukan langsung Gameplay) dan centang:
+
+**Menu → Gameplay**
+- [ ] MULAI SHIFT → Gameplay dimuat, mulai di **mode Jalan**, inbox tidak terlihat, HUD terlihat, kursor terkunci.
+
+**Mode Jalan**
+- [ ] WASD/Shift/mouse responsif; karakter tidak menembus dinding, meja, loker, dispenser.
+- [ ] Kamera tidak menembus dinding di keempat pojok ruangan.
+- [ ] Notifikasi "PESAN BARU" muncul saat ada pesan menunggu.
+- [ ] Jam tetap berjalan saat berkeliling.
+
+**Duduk ↔ Berdiri**
+- [ ] "[E] DUDUK DI MEJA" hanya muncul di dekat kursi IT; E di tempat lain tidak berpengaruh.
+- [ ] Duduk: kamera meluncur ke monitor, karakter hilang di akhir transisi, inbox & kursor muncul, TERIMA/BLOKIR berfungsi, hover link berfungsi.
+- [ ] Berdiri ([E] dan [Esc]): kembali ke belakang karakter, inbox hilang, kursor terkunci.
+- [ ] Ulangi duduk/berdiri berkali-kali dengan cepat — tidak ada yang tersangkut.
+
+**Threat (Debug di *Threat Level System*) saat mode Jalan & Meja**
+- [ ] Set 35: CCTV mulai menoleh ke pemain, lampu plafon sesekali meredup, sosok sekilas.
+- [ ] Set 55: lampu plafon mati, sosok muncul di bawah lampu parkir lalu mendekat.
+- [ ] Set 80/95: lampu meja mati, monitor memerah, efek layar merah berdenyut.
+
+**Akhir shift**
+- [ ] Kalah (Threat 100%) **saat mode Jalan** → Rapor tampil, kursor terlihat & bisa klik.
+- [ ] Menang (Real Duration Seconds = 20 untuk tes) → Rapor "SHIFT SELESAI".
+- [ ] Retry → Gameplay baru di mode Jalan, skor & Threat ter-reset.
+- [ ] Main Menu → kembali ke menu, kursor terlihat.
+- [ ] Console bersih dari error merah sepanjang alur.
 
 ## Risiko yang perlu diuji (rubrik Q4)
 
 - Kamera TPP menembus dinding di ruangan sempit (8 × 6 m).
-- Kursor tetap terkunci/terlepas di saat yang salah (setelah Rapor sudah di-reset oleh `ReportView`).
+- Kursor tetap terkunci/terlepas di saat yang salah (Rapor & Menu me-reset kursor).
 - Pemain tersangkut di antara furnitur.
 - Tombol **E** bentrok dengan input lain.
+- Di **editor**, Esc juga melepas kursor dari jendela Game — klik tab Game lagi. Di build tidak terjadi.
