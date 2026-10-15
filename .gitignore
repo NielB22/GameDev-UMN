@@ -113,3 +113,11 @@ InitTestScene*.unity*
 .DS_Store?
 ._*
 Thumbs.db
+
+# Unity crash-recovery scenes (created automatically after an editor crash)
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
+
+# Old path of Retro Office (moved to Assets/Asset_3D); stale empty folders recreate these metas
+/[Aa]ssets/Retro Office_V2/
+/[Aa]ssets/Retro Office_V2.meta
