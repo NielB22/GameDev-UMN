@@ -52,7 +52,7 @@ namespace CyberWatch.UI
                 return; // ignore double clicks while the scene loads
             starting = true;
             SetButtonsInteractable(false);
-            GameManager.Instance.StartNewShift();
+            GameManager.Instance.StartIntro();
         }
 
         private void OnSettings()

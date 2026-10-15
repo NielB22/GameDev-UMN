@@ -46,6 +46,7 @@ namespace CyberWatch.Core
         // ---------- flow ----------
 
         public void GoToMainMenu() => SceneLoader.Load(SceneNames.MainMenu);
+        public void StartIntro() { ResetShift(); SceneLoader.Load(SceneNames.CinematicIntro); }
 
         /// <summary>
         /// Starts a fresh shift. The player begins walking in the office (walk mode)
@@ -69,6 +70,8 @@ namespace CyberWatch.Core
             CurrentShift.Outcome = outcome;
             SceneLoader.Load(SceneNames.GameOverReport);
         }
+   
+     
 
         public void QuitGame()
         {
@@ -79,4 +82,6 @@ namespace CyberWatch.Core
 #endif
         }
     }
+
+
 }
