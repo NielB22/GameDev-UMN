@@ -28,7 +28,7 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
 
 | Objek | Dari | Wajib? | Catatan |
 |---|---|---|---|
-| **`Lighting_Night`** | `_Game/Prefabs/Environment/` | ✅ Selalu | Mengatur bulan, fog, ambient, warna langit. **Hapus "Directional Light" bawaan scene.** |
+| **`Lighting_Night`** | `_Game/Prefabs/Environment/` | ✅ Scene 3D | Mengatur bulan, fog, ambient, warna langit. **Hapus "Directional Light" bawaan scene.** Scene yang hanya UI (mis. Report) tidak perlu. |
 | **Main Camera** | (bawaan scene) | ✅ Selalu | Tag harus `MainCamera`. Warna latar diatur otomatis oleh `Lighting_Night`. |
 | **Global Volume** | Salin dari `Gameplay_Desktop_Scene` | Disarankan | Post-processing yang sama dengan scene lain. |
 | **`Office_Environment`** | `_Game/Prefabs/Environment/` | Jika scene di dalam kantor | Sudah termasuk dunia luar & CCTV. Jangan diedit di scene — edit prefab-nya. |

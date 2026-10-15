@@ -48,9 +48,9 @@ MainMenu_Scene → Office_TPP_Scene → Gameplay_Desktop_Scene → GameOver_Repo
 
 | Scene | Status |
 |---|---|
-| `Gameplay_Desktop_Scene` | ✅ Bisa dimainkan: inbox, hover link, HUD, menang/kalah |
-| `GameOver_Report_Scene` | ⏳ Berikutnya |
-| `MainMenu_Scene` | ⏳ |
+| `Gameplay_Desktop_Scene` | ✅ Inbox, hover link, HUD, menang/kalah, sosok Slender, lampu berkedip, efek layar |
+| `GameOver_Report_Scene` | ✅ Rapor: akurasi, peringkat, daftar kesalahan, Retry / Main Menu |
+| `MainMenu_Scene` | ⏳ Berikutnya |
 | `Office_TPP_Scene` | ⏳ |
 | `DemoScene` | Scene uji ruangan (tidak ikut build) |
 
@@ -58,6 +58,6 @@ MainMenu_Scene → Office_TPP_Scene → Gameplay_Desktop_Scene → GameOver_Repo
 
 1. **Aset pihak ketiga (`Asset_2D`, `Asset_3D`) read-only.** Pakai **prefab**-nya, bukan `.fbx`.
 2. **Ruangan kantor hanya diedit di `Office_Environment.prefab`**, bukan di scene.
-3. **Satu `Lighting_Night` di setiap scene** — jangan menambah directional light lain.
+3. **Satu `Lighting_Night` di setiap scene 3D** — jangan menambah directional light lain.
 4. **Save di Unity (Ctrl+S) sebelum commit** — perubahan yang belum di-save tidak ikut.
 5. Pindah scene **lewat `GameManager` / `SceneLoader`**, bukan `SceneManager` langsung.
