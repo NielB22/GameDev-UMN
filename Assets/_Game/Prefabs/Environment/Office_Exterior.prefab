@@ -4212,9 +4212,9 @@ MonoBehaviour:
   - {fileID: 1600000127}
   - {fileID: 1600000141}
   bulbOffMaterial: {fileID: 2100000, guid: 194bb4eb900b4d61815f93ef1d787030, type: 2}
-  dangerInterval: {x: 8, y: 16}
-  criticalInterval: {x: 3, y: 8}
-  criticalOutageChance: 0.3
+  dangerInterval: {x: 18, y: 32}
+  criticalInterval: {x: 9, y: 18}
+  criticalOutageChance: 0.2
   outageSeconds: {x: 0.4, y: 1.2}
   dipLevel: 0.1
 --- !u!114 &48230195766125001

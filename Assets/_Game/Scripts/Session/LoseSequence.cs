@@ -119,8 +119,9 @@ namespace CyberWatch.Session
             }
 
             yield return new WaitForSeconds(startDelay);
-            StartBlackoutRiser();
-            yield return LightsOut();
+            float riserLength = StartBlackoutRiser();
+            if (riserLength > 0.5f) yield return LightsOutTimed(riserLength);
+            else yield return LightsOut();
             EndBlackoutAudio(); // riser cut, power-down, then silence
 
             // The moment the monitor dies: HUD gone, player up, flashlight usable right away.
@@ -224,29 +225,15 @@ namespace CyberWatch.Session
             yield return new WaitForSeconds(blackSeconds);
         }
 
-        // Rising tension while the lights die; its speed is fitted so it peaks when the monitor dies.
-        private void StartBlackoutRiser()
+        // Rising tension while the lights die. Returns its length: the lights are timed to it, so the
+        // riser ends exactly when the monitor (and the HUD) dies. 0 = no riser clip.
+        private float StartBlackoutRiser()
         {
             AudioClip clip = GameAudio.Clips?.blackoutRiser;
             if (clip == null)
-                return;
-            float pitch = Mathf.Clamp(clip.length / Mathf.Max(0.5f, EstimateLightsOutSeconds()), 0.7f, 1.3f);
-            GameAudio.Play2D(clip, AudioChannel.Jumpscare, blackoutRiserLevel, pitch);
-        }
-
-        // Rough length of LightsOut(): each dying light sputters ~0.75 s, then the pause.
-        private float EstimateLightsOutSeconds()
-        {
-            const float sputter = 0.75f;
-            float t = 0f;
-            if (streetLamps != null) t += streetLamps.LampCount * (sputter + betweenLights);
-            if (officeLights != null)
-            {
-                if (officeLights.CeilingOn) t += sputter + betweenLights;
-                if (officeLights.DeskOn) t += sputter + betweenLights;
-            }
-            if (monitor != null) t += sputter;
-            return t;
+                return 0f;
+            GameAudio.Play2D(clip, AudioChannel.Jumpscare, blackoutRiserLevel);
+            return clip.length;
         }
 
         private void EndBlackoutAudio()
@@ -359,7 +346,52 @@ namespace CyberWatch.Session
             return new Vector3(b.center.x, b.max.y - faceBelowTop, b.center.z);
         }
 
-        // Lights die one at a time: far street lamps first, the monitor last.
+        // Lights die one at a time over the riser's length: far street lamps first, the monitor
+        // last, its screen going black exactly when the riser ends.
+        private IEnumerator LightsOutTimed(float duration)
+        {
+            var steps = new List<Func<IEnumerator>>();
+            bool ceilingStep = false, deskStep = false;
+            if (streetLamps != null)
+                for (int i = streetLamps.LampCount - 1; i >= 0; i--)
+                {
+                    int lamp = i;
+                    steps.Add(() => streetLamps.DieOut(lamp));
+                }
+            if (officeLights != null)
+            {
+                ceilingStep = officeLights.CeilingOn;
+                deskStep = officeLights.DeskOn;
+                if (ceilingStep) steps.Add(() => officeLights.DieOutCeiling());
+                if (deskStep) steps.Add(() => officeLights.DieOutDesk());
+            }
+
+            // The monitor starts sputtering this long before the end and is cut on the last beat.
+            float monitorLead = Mathf.Min(1f, duration * 0.3f);
+            float spread = Mathf.Max(0f, duration - monitorLead);
+            float start = Time.time;
+
+            for (int i = 0; i < steps.Count; i++)
+            {
+                float at = steps.Count > 1 ? spread * i / steps.Count : 0f;
+                while (Time.time - start < at) yield return null;
+                StartCoroutine(steps[i]());
+            }
+            if (officeLights != null)
+            {
+                // Lights that were already dark still have to be locked off (no sputter for them).
+                if (!ceilingStep) StartCoroutine(officeLights.DieOutCeiling());
+                if (!deskStep) StartCoroutine(officeLights.DieOutDesk());
+            }
+
+            while (Time.time - start < spread) yield return null;
+            Coroutine screen = monitor != null ? StartCoroutine(monitor.DieOut()) : null;
+            while (Time.time - start < duration) yield return null;
+            if (screen != null) StopCoroutine(screen);
+            if (monitor != null) monitor.ForceOff();
+        }
+
+        // Lights die one at a time: far street lamps first, the monitor last (used without a riser clip).
         private IEnumerator LightsOut()
         {
             if (streetLamps != null)

@@ -28,11 +28,11 @@ namespace CyberWatch.Environment
 
         [Header("Kedip")]
         [Tooltip("Jeda antar kedip per lampu saat Bahaya (detik, acak).")]
-        [SerializeField] private Vector2 dangerInterval = new Vector2(8f, 16f);
+        [SerializeField] private Vector2 dangerInterval = new Vector2(18f, 32f);
         [Tooltip("Jeda antar kedip per lampu saat Kritis (detik, acak).")]
-        [SerializeField] private Vector2 criticalInterval = new Vector2(3f, 8f);
+        [SerializeField] private Vector2 criticalInterval = new Vector2(9f, 18f);
         [Tooltip("Peluang kedip di Kritis berupa padam sebentar (bukan hanya redup).")]
-        [SerializeField, Range(0f, 1f)] private float criticalOutageChance = 0.3f;
+        [SerializeField, Range(0f, 1f)] private float criticalOutageChance = 0.2f;
         [SerializeField] private Vector2 outageSeconds = new Vector2(0.4f, 1.2f);
         [Tooltip("Seberapa redup saat berkedip (0 = gelap, 1 = tidak berubah).")]
         [SerializeField, Range(0f, 1f)] private float dipLevel = 0.1f;
@@ -109,7 +109,7 @@ namespace CyberWatch.Environment
         // Kedip cepat beberapa kali; kalau "outage", padam sebentar lalu menyala lagi.
         private IEnumerator Flicker(int i, bool outage)
         {
-            PlayLampSound(i, outage ? 0.8f : 0.5f);
+            PlayLampSound(i, outage ? 0.6f : 0.35f);
             int flickers = Random.Range(2, 5);
             for (int f = 0; f < flickers; f++)
             {

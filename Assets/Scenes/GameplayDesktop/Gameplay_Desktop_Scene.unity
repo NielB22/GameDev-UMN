@@ -707,6 +707,11 @@ MonoBehaviour:
     worldOffset: {x: 0, y: 0, z: 0.5}
     restOnFloor: 0
     colliderName: Col_Chair_A
+    sounds:
+    - {fileID: 8300000, guid: 86869e155a995174eb0e2b697eabf721, type: 3}
+    - {fileID: 8300000, guid: 6018a36d7949b0247a82732e9b517c2a, type: 3}
+    soundVolume: 1
+    layerDelay: {x: 0.05, y: 0.25}
   - objectName: TrashBin_A
     fromStage: 3
     worldEuler: {x: 90, y: 30, z: 0}
@@ -714,8 +719,13 @@ MonoBehaviour:
     worldOffset: {x: 0, y: 0, z: 0}
     restOnFloor: 1
     colliderName: Col_TrashBin_A
+    sounds:
+    - {fileID: 8300000, guid: eb0e576cce4da954fbbb64da00aecb48, type: 3}
+    soundVolume: 1
+    layerDelay: {x: 0.05, y: 0.25}
   checkInterval: 0.25
   minDistance: 1.2
+  delayAfterStage: 3
 --- !u!114 &1300000010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,9 +810,9 @@ MonoBehaviour:
   silenceThreshold: 0.01
   minDistance: 1.5
   maxDistance: 30
-  outdoorVolume: 0.35
-  outdoorCutoff: 900
-  outdoorReverb: 0.35
+  outdoorVolume: 0.07
+  outdoorCutoff: 450
+  outdoorReverb: 0.55
 --- !u!114 &1300000013
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -59,6 +59,13 @@ namespace CyberWatch.Environment
         }
 
         /// <summary>Lose sequence: the screen sputters and goes black for good.</summary>
+        /// <summary>Lose sequence: screen black immediately (ends a running DieOut on cue).</summary>
+        public void ForceOff()
+        {
+            dead = true;
+            SetLevel(0f);
+        }
+
         public IEnumerator DieOut()
         {
             if (dead)

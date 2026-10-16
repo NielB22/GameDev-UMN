@@ -31,6 +31,10 @@ namespace CyberWatch.Effects
         [Tooltip("Static flickers (on/off) this many times per second while it lasts.")]
         [SerializeField, Min(1f)] private float flickerRate = 30f;
 
+        [Header("Sound")]
+        [Tooltip("Volume of the static sound (0..1). Kept low so it does not cover other sounds.")]
+        [SerializeField, Range(0f, 1f)] private float soundLevel = 0.4f;
+
         [Header("Only when Threat rises")]
         [Tooltip("A flash is only shown within this many seconds after the Threat went UP " +
                  "(not when it drops or stays the same).")]
@@ -132,7 +136,7 @@ namespace CyberWatch.Effects
             duration = Mathf.Lerp(durationSeconds.x, durationSeconds.y, s);
             endTime = Time.time + duration;
             if (GameAudio.Clips != null)
-                GameAudio.Play2D(GameAudio.Clips.staticShort, AudioChannel.Sfx, Mathf.Lerp(0.3f, 0.8f, s), Random.Range(0.9f, 1.1f));
+                GameAudio.Play2D(GameAudio.Clips.staticShort, AudioChannel.Sfx, Mathf.Lerp(0.3f, 0.8f, s) * soundLevel, Random.Range(0.9f, 1.1f));
         }
 
         private void BuildOverlay()

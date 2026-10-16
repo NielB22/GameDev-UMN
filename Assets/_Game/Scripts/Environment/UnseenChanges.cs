@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using CyberWatch.Audio;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -32,6 +34,11 @@ namespace CyberWatch.Environment
             public bool restOnFloor;
             [Tooltip("Collider object that must move with it (e.g. Col_Chair_A). Empty = none.")]
             public string colliderName;
+            [Tooltip("Played together (layered) from the object when it changes. Empty = silent.")]
+            public AudioClip[] sounds;
+            [Range(0f, 1f)] public float soundVolume = 0.8f;
+            [Tooltip("Each next layer starts this much later (seconds, random in range) for a natural mix.")]
+            public Vector2 layerDelay = new Vector2(0.05f, 0.25f);
 
             [NonSerialized] public Transform target;
             [NonSerialized] public Transform collider;
@@ -41,6 +48,7 @@ namespace CyberWatch.Environment
             [NonSerialized] public Vector3 colliderHomePosition;
             [NonSerialized] public Quaternion colliderHomeRotation;
             [NonSerialized] public bool changed;
+            [NonSerialized] public float stageReachedAt = -1f;
         }
 
         [Tooltip("Found automatically in the scene when empty.")]
@@ -50,6 +58,9 @@ namespace CyberWatch.Environment
         [SerializeField, Min(0.05f)] private float checkInterval = 0.25f;
         [Tooltip("Never change something closer than this to the camera, even when out of view.")]
         [SerializeField, Min(0f)] private float minDistance = 1.2f;
+        [Tooltip("Wait this long after the stage is reached before changing (seconds), so the change and its " +
+                 "sound do not get lost in the stage-change glitch and light sounds.")]
+        [SerializeField, Min(0f)] private float delayAfterStage = 3f;
 
         private readonly Plane[] planes = new Plane[6];
         private float nextCheck;
@@ -105,6 +116,11 @@ namespace CyberWatch.Environment
                 if (c.target == null)
                     continue;
                 bool want = stage >= c.fromStage && stage < ThreatStage.Compromised;
+                if (!want) c.stageReachedAt = -1f;
+                else if (c.stageReachedAt < 0f) c.stageReachedAt = Time.time;
+                if (want && !c.changed && Time.time - c.stageReachedAt < delayAfterStage)
+                    continue; // let the stage change settle first
+
                 if (want == c.changed || IsSeen(c, cam))
                     continue;
 
@@ -116,6 +132,9 @@ namespace CyberWatch.Environment
 
         private void Apply(Change c)
         {
+            if (c.sounds != null && c.sounds.Length > 0)
+                StartCoroutine(PlaySounds(c));
+
             float floorY = c.restOnFloor ? LowestPoint(c) : 0f;
 
             Quaternion rotation = Quaternion.Euler(c.worldEuler) * c.homeRotation * Quaternion.Euler(c.localEuler);
@@ -132,6 +151,18 @@ namespace CyberWatch.Environment
                 c.collider.SetPositionAndRotation(
                     c.target.position + delta * (c.colliderHomePosition - c.homePosition),
                     delta * c.colliderHomeRotation);
+            }
+        }
+
+        // All layers come from the object (3D), each with its own small delay and pitch.
+        private IEnumerator PlaySounds(Change c)
+        {
+            Vector3 at = c.target.position;
+            for (int i = 0; i < c.sounds.Length; i++)
+            {
+                if (i > 0)
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(c.layerDelay.x, c.layerDelay.y));
+                GameAudio.PlayAt(c.sounds[i], at, AudioChannel.Sfx, c.soundVolume, UnityEngine.Random.Range(0.92f, 1.06f));
             }
         }
 

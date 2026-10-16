@@ -44,11 +44,11 @@ namespace CyberWatch.Audio
 
         [Header("Sounds from outside (through glass and walls)")]
         [Tooltip("Extra volume factor for outdoor sounds.")]
-        [SerializeField, Range(0f, 1f)] private float outdoorVolume = 0.35f;
+        [SerializeField, Range(0f, 1f)] private float outdoorVolume = 0.07f;
         [Tooltip("Low-pass cutoff (Hz): lower = more muffled.")]
-        [SerializeField, Range(200f, 5000f)] private float outdoorCutoff = 900f;
+        [SerializeField, Range(200f, 5000f)] private float outdoorCutoff = 450f;
         [Tooltip("Amount of open-air reverb (0 = none).")]
-        [SerializeField, Range(0f, 1f)] private float outdoorReverb = 0.35f;
+        [SerializeField, Range(0f, 1f)] private float outdoorReverb = 0.55f;
 
         private static GameAudio instance;
         private readonly List<AudioSource> oneShots = new List<AudioSource>();
@@ -135,6 +135,13 @@ namespace CyberWatch.Audio
         }
 
         private void SetOutdoor(AudioSource s, bool outdoor)
+        {
+            // Outdoor sounds are spread out a little so they feel distant rather than pinpoint.
+            s.spread = outdoor ? 90f : 0f;
+            SetOutdoorFilters(s, outdoor);
+        }
+
+        private void SetOutdoorFilters(AudioSource s, bool outdoor)
         {
             var lowPass = s.GetComponent<AudioLowPassFilter>();
             var reverb = s.GetComponent<AudioReverbFilter>();
