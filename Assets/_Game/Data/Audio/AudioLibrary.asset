@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1a36c3719844d49657fd25ac324b83, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.AudioLibrary
+  officeRoomTone: {fileID: 8300000, guid: 28a56c2ac59787341a7f6a3805581ba4, type: 3}
+  fluorescentBuzz: {fileID: 8300000, guid: 7459374f1ada3ee449941093a6181424, type: 3}
+  horrorDrone: {fileID: 8300000, guid: 1305ed1faf1dbc54f80fafa4d8225a5a, type: 3}
+  heartbeatLoop: {fileID: 8300000, guid: cae8607d63e9e2848badb0b26e7f4611, type: 3}
+  lightFlicker: {fileID: 8300000, guid: 6430a1dfa55c1e845a72e855b16b5144, type: 3}
+  staticShort: {fileID: 8300000, guid: 0de98770101955148821a849e7117ac8, type: 3}
+  crtOff: {fileID: 8300000, guid: 0e0250e04d06acb489995e7c2f7bf0d7, type: 3}
+  powerDown: {fileID: 8300000, guid: c5e00014ec6650240b22a112d1633a52, type: 3}
+  blackoutRiser: {fileID: 8300000, guid: d14a7d207a7e5b147b1e20d0e0a6e2d7, type: 3}
+  flashlightClick: {fileID: 8300000, guid: e87e446d8cb85db4e8275b6163fa2963, type: 3}
+  flashlightShake: {fileID: 8300000, guid: ef1ccabf262380648aa0339724ed3b4e, type: 3}
+  mailNotify: {fileID: 8300000, guid: 31bf5dcd4dfe6b64eb4d949a5bed0189, type: 3}
+  uiClick: {fileID: 8300000, guid: 01947c7d15036b04190b59ee62287bd2, type: 3}
+  footstepWalk: {fileID: 8300000, guid: b2b7821a2fd96b541a39d195996c4426, type: 3}
+  footstepRun: {fileID: 8300000, guid: 4aeb810cac399c94a953d1412a59e8ad, type: 3}
+  jumpscareRiser: {fileID: 8300000, guid: 9765f165e1aa2a54ab653b3649fd35c6, type: 3}
+  slenderVoice: {fileID: 8300000, guid: 0d3e58bb90924afba39e665277b5f80a, type: 3}
+  jumpscareScream: {fileID: 8300000, guid: a4d47a70ac4ac5c469e32e9763e72b20, type: 3}
+  jumpscareStatic: {fileID: 8300000, guid: 2f73eec3a1fca944e96565f22526129f, type: 3}
+  jumpscareImpact: {fileID: 8300000, guid: beece680bffcbab42ac605ddb7c7d0cf, type: 3}
