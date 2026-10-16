@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 10
   threatRecovery: 0
   explanation: "Pesan ini asli: domain resmi, tautan rapat yang ditampilkan sama dengan tujuan sebenarnya, tanpa desakan atau permintaan data."
+  difficulty: 1

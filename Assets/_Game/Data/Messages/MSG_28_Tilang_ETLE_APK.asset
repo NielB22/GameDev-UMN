@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 25
   threatRecovery: 5
   explanation: "Penipuan APK: surat tilang resmi dikirim lewat pos ke alamat kendaraan, bukan lewat nomor pribadi. 'Bukti foto' ini adalah file .apk berbahaya."
+  difficulty: 1

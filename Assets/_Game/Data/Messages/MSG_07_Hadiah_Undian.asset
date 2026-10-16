@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 20
   threatRecovery: 5
   explanation: "Phishing: hadiah undian yang tidak pernah kamu ikuti, meminta password kantor, dan tautannya menyamar sebagai domain kantor padahal menuju hadiah-gratis.biz."
+  difficulty: 0

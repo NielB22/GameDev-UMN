@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 25
   threatRecovery: 5
   explanation: "Phishing: domain pengirim 'paypaI.com' memakai huruf I besar (bukan l kecil), nadanya mengancam (diblokir dalam 5 menit), dan tautannya sebenarnya menuju paypai-secure-login.xyz."
+  difficulty: 2

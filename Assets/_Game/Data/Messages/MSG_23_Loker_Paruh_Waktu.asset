@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 15
   threatRecovery: 5
   explanation: "Penipuan lowongan: dikirim dari Gmail pribadi, gaji tidak masuk akal untuk pekerjaan sepele, mendesak (kuota terbatas), dan tautannya menuju situs pendaftaran palsu."
+  difficulty: 0

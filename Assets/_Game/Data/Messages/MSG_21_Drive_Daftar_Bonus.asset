@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 20
   threatRecovery: 5
   explanation: "Phishing: pengirim bukan dari google.com, judul dokumen dibuat memancing rasa penasaran, dan tautannya menuju g00gle-drive-login.top untuk mencuri akun."
+  difficulty: 1

@@ -23,3 +23,4 @@ MonoBehaviour:
   threatPenalty: 10
   threatRecovery: 0
   explanation: "Pesan ini asli: dikirim dari domain resmi kantor (cyberwatch.co.id), tidak meminta data apa pun, dan tidak ada tautan mencurigakan."
+  difficulty: 0

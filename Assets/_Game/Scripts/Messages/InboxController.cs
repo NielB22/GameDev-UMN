@@ -24,6 +24,16 @@ namespace CyberWatch.Messages
         [SerializeField, Min(0f)] private float firstMessageDelay = 3f;
         [SerializeField] private Vector2 nextMessageDelay = new Vector2(4f, 8f);
 
+        [Header("Lembur Terakhir (hard mode)")]
+        [Tooltip("Delay between messages in Lembur Terakhir (seconds).")]
+        [SerializeField] private Vector2 hardNextMessageDelay = new Vector2(2f, 4f);
+        [Tooltip("Threat added for a wrong answer is multiplied by this.")]
+        [SerializeField, Min(1f)] private float hardPenaltyMultiplier = 1.5f;
+        [Tooltip("Threat removed for a blocked scam is multiplied by this.")]
+        [SerializeField, Range(0f, 1f)] private float hardRecoveryMultiplier = 0.5f;
+
+        private static bool Hard => GameManager.Instance.Difficulty == GameDifficulty.LemburTerakhir;
+
         private readonly Queue<MessageData> pending = new Queue<MessageData>();
         private bool closed;
 
@@ -46,7 +56,15 @@ namespace CyberWatch.Messages
 
             var order = new List<MessageData>(messages);
             order.RemoveAll(m => m == null);
-            if (shuffle)
+            if (!Hard)
+            {
+                // Normal: Easy -> Medium -> Hard, keeping the list order inside each group.
+                var sorted = new List<MessageData>(order.Count);
+                foreach (MessageDifficulty d in new[] { MessageDifficulty.Easy, MessageDifficulty.Medium, MessageDifficulty.Hard })
+                    sorted.AddRange(order.FindAll(m => m.difficulty == d));
+                order = sorted;
+            }
+            if (shuffle || Hard)
             {
                 for (int i = order.Count - 1; i > 0; i--)
                 {
@@ -81,15 +99,16 @@ namespace CyberWatch.Messages
             if (threat != null)
             {
                 if (!record.IsCorrect)
-                    threat.Increase(message.threatPenalty);
+                    threat.Increase(message.threatPenalty * (Hard ? hardPenaltyMultiplier : 1f));
                 else if (message.isScam)
-                    threat.Decrease(message.threatRecovery);
+                    threat.Decrease(message.threatRecovery * (Hard ? hardRecoveryMultiplier : 1f));
             }
 
             MessageResolved?.Invoke(record);
             if (closed) // the decision itself may have ended the shift (threat 100%)
                 return;
-            StartCoroutine(DeliverAfter(UnityEngine.Random.Range(nextMessageDelay.x, nextMessageDelay.y)));
+            Vector2 delay = Hard ? hardNextMessageDelay : nextMessageDelay;
+            StartCoroutine(DeliverAfter(UnityEngine.Random.Range(delay.x, delay.y)));
         }
 
         private IEnumerator DeliverAfter(float delay)

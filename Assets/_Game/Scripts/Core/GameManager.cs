@@ -26,6 +26,9 @@ namespace CyberWatch.Core
 
         public ShiftSession CurrentShift { get; private set; } = new ShiftSession();
 
+        /// <summary>Picked in the main menu; stays the same for Retry.</summary>
+        public GameDifficulty Difficulty { get; set; } = GameDifficulty.Normal;
+
         private void Awake()
         {
             if (instance != null && instance != this)

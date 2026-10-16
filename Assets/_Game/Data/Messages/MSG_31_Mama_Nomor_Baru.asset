@@ -23,3 +23,4 @@ MonoBehaviour:
   threatPenalty: 20
   threatRecovery: 5
   explanation: "Penipuan: modus 'nomor baru' meminta transfer mendesak. Selalu hubungi nomor lama atau telepon langsung untuk memastikan."
+  difficulty: 1

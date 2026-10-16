@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 25
   threatRecovery: 5
   explanation: "Penipuan APK: 'undangan' ini sebenarnya file .apk yang bisa membaca SMS (termasuk kode OTP) dan menguras rekening. Undangan asli tidak berupa aplikasi."
+  difficulty: 1

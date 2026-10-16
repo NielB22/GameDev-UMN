@@ -23,3 +23,4 @@ MonoBehaviour:
   threatPenalty: 25
   threatRecovery: 5
   explanation: "Penipuan: kurir tidak pernah membutuhkan kode OTP. Kode itu dipakai untuk mengambil alih akun (WhatsApp, e-wallet, atau bank) Anda."
+  difficulty: 0

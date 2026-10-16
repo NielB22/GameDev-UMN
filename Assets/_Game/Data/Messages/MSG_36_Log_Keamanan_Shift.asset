@@ -23,3 +23,4 @@ MonoBehaviour:
   threatPenalty: 10
   threatRecovery: 0
   explanation: "Pesan ini asli: pengingat internal dari domain resmi, tanpa tautan dan tanpa permintaan data."
+  difficulty: 0

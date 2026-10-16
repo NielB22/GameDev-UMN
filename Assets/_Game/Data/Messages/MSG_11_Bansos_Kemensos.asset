@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 20
   threatRecovery: 5
   explanation: "Penipuan: bantuan resmi tidak dikirim lewat nomor pribadi, ada desakan \"hangus hari ini\", dan tautannya sebenarnya menuju bansos-kemensos-cair.top, bukan situs pemerintah (.go.id)."
+  difficulty: 0

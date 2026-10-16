@@ -9,6 +9,14 @@ namespace CyberWatch.Messages
         Sms
     }
 
+    /// <summary>How hard a message is to judge (used for ordering only, never displayed).</summary>
+    public enum MessageDifficulty
+    {
+        Easy,
+        Medium,
+        Hard
+    }
+
     public enum PlayerDecision
     {
         Accept,
@@ -57,6 +65,10 @@ namespace CyberWatch.Messages
         [Header("Answer")]
         public bool isScam;
         public ScamIndicator indicators;
+
+        [Header("Pacing (never shown to the player)")]
+        [Tooltip("How hard this message is to judge. Normal mode serves Easy -> Medium -> Hard.")]
+        public MessageDifficulty difficulty = MessageDifficulty.Medium;
 
         [Tooltip("Threat Level added when the player gets this message wrong.")]
         [Range(0f, 100f)] public float threatPenalty = 15f;

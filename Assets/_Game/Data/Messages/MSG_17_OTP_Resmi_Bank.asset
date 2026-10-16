@@ -23,3 +23,4 @@ MonoBehaviour:
   threatPenalty: 10
   threatRecovery: 0
   explanation: "Pesan ini asli: SMS OTP dari bank yang justru mengingatkan agar kode tidak dibagikan. Yang berbahaya adalah pihak yang MEMINTA kode ini."
+  difficulty: 2

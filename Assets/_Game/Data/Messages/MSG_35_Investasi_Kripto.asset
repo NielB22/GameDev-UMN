@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 15
   threatRecovery: 5
   explanation: "Penipuan investasi: tidak ada investasi yang menjamin profit tetap setinggi itu. Ada desakan (50 orang pertama) dan tautan ke situs tidak resmi."
+  difficulty: 0

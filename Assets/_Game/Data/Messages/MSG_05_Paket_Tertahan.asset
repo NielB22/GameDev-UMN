@@ -25,3 +25,4 @@ MonoBehaviour:
   threatPenalty: 20
   threatRecovery: 5
   explanation: "Phishing: kamu tidak sedang menunggu paket, ada batas waktu yang mendesak, dan tautan 'cek-resi' sebenarnya menuju situs pembayaran palsu kurir-resi-bayar.top."
+  difficulty: 1
