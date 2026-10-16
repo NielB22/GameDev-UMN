@@ -166,6 +166,19 @@ namespace CyberWatch.Player
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, t);
         }
 
+        /// <summary>Lose sequence: switched off with a full battery, so [F] surely works.</summary>
+        public void ResetForBlackout()
+        {
+            if (transition != null)
+            {
+                StopCoroutine(transition);
+                transition = null;
+            }
+            battery = 1f;
+            SetState(State.Off);
+            Apply(0f);
+        }
+
         private void Toggle()
         {
             if (Current == State.On)

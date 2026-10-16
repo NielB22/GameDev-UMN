@@ -1,3 +1,4 @@
+using System.Collections;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -42,6 +43,7 @@ namespace CyberWatch.Environment
         private float shown;
         private float nextDipAt;
         private float dipStart = -10f;
+        private bool dead; // lose sequence: screen is off for good
 
         private void Awake()
         {
@@ -55,14 +57,38 @@ namespace CyberWatch.Environment
             block = new MaterialPropertyBlock();
         }
 
+        /// <summary>Lose sequence: the screen sputters and goes black for good.</summary>
+        public IEnumerator DieOut()
+        {
+            if (dead)
+                yield break;
+            dead = true;
+            int flickers = Random.Range(3, 6);
+            for (int i = 0; i < flickers; i++)
+            {
+                SetLevel(i % 2 == 0 ? 0.25f : 0.8f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.15f));
+                SetLevel(0f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+            }
+            SetLevel(0f);
+        }
+
         private void Update()
         {
+            if (dead)
+                return;
             float target = threat != null ? Mathf.InverseLerp(unstableFrom, ThreatLevelSystem.Max, threat.Value) : 0f;
             shown = Mathf.MoveTowards(shown, target, Time.deltaTime * 0.3f); // slow, never a sudden change
 
             float level = (1f + (Mathf.PerlinNoise(Time.time * shimmerSpeed, 0.37f) - 0.5f) * 2f * shimmer)
                           * UnstableLevel();
+            SetLevel(level);
+        }
 
+        // 1 = normal brightness, 0 = screen and its light fully off.
+        private void SetLevel(float level)
+        {
             if (screen != null)
             {
                 screen.GetPropertyBlock(block);
@@ -71,7 +97,10 @@ namespace CyberWatch.Environment
             }
 
             if (screenLight != null)
+            {
                 screenLight.intensity = baseIntensity * level;
+                screenLight.enabled = level > 0.001f;
+            }
         }
 
         // 1 = steady. Slow dim/bright waves plus the odd eased dip, scaled by Threat.

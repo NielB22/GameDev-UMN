@@ -42,6 +42,7 @@ namespace CyberWatch.Environment
         private Material[] bulbOnMaterial;
         private float[] nextFlickerAt;
         private Coroutine[] routines;
+        private bool[] dead; // switched off for good (lose sequence)
 
         private void Awake()
         {
@@ -53,6 +54,7 @@ namespace CyberWatch.Environment
             bulbOnMaterial = new Material[count];
             nextFlickerAt = new float[count];
             routines = new Coroutine[count];
+            dead = new bool[count];
             for (int i = 0; i < count; i++)
             {
                 if (lights[i] != null) baseIntensity[i] = lights[i].intensity;
@@ -73,7 +75,7 @@ namespace CyberWatch.Environment
             for (int i = 0; i < baseIntensity.Length; i++)
             {
                 routines[i] = null;
-                Set(i, 1f);
+                if (!dead[i]) Set(i, 1f);
             }
         }
 
@@ -88,7 +90,7 @@ namespace CyberWatch.Environment
             float now = Time.time;
             for (int i = 0; i < nextFlickerAt.Length; i++)
             {
-                if (routines[i] != null || now < nextFlickerAt[i])
+                if (dead[i] || routines[i] != null || now < nextFlickerAt[i])
                     continue;
 
                 bool outage = stage >= ThreatStage.Critical && Random.value < criticalOutageChance;
@@ -126,6 +128,27 @@ namespace CyberWatch.Environment
             }
 
             routines[i] = null;
+        }
+
+        public int LampCount => lights != null ? lights.Length : 0;
+
+        /// <summary>Lose sequence: the lamp sputters a few times and goes out for good.</summary>
+        public IEnumerator DieOut(int i)
+        {
+            if (i < 0 || i >= LampCount || dead[i])
+                yield break;
+            dead[i] = true;
+            if (routines[i] != null) { StopCoroutine(routines[i]); routines[i] = null; }
+
+            int flickers = Random.Range(3, 6);
+            for (int f = 0; f < flickers; f++)
+            {
+                Set(i, f % 2 == 0 ? dipLevel : 0.7f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.16f));
+                Set(i, 0f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+            }
+            Set(i, 0f);
         }
 
         private Renderer Bulb(int i) => bulbs != null && i < bulbs.Length ? bulbs[i] : null;

@@ -48,6 +48,7 @@ namespace CyberWatch.Environment
         private bool deskOn = true;
         private Coroutine ceilingRoutine;
         private Coroutine deskRoutine;
+        private bool poweredOff; // lose sequence: lights stay off for good
         private float nextCeilingDip;
         private float nextDeskDip;
 
@@ -88,6 +89,7 @@ namespace CyberWatch.Environment
                 threat.StageChanged -= OnStageChanged;
 
             // Kembalikan ke kondisi normal supaya scene tidak tertinggal gelap.
+            if (poweredOff) return;
             SetCeiling(1f);
             SetDesk(1f);
         }
@@ -100,6 +102,8 @@ namespace CyberWatch.Environment
 
         private void ApplyStage(ThreatStage current, bool instant)
         {
+            if (poweredOff)
+                return;
             bool wantCeiling = current <= ThreatStage.Alert;  // Aman atau Waspada
             bool wantDesk = current <= ThreatStage.Danger;    // sampai Bahaya
 
@@ -122,17 +126,58 @@ namespace CyberWatch.Environment
         {
             float now = Time.time;
 
-            if (ceilingOn && stage == ThreatStage.Alert && ceilingRoutine == null && now >= nextCeilingDip)
+            if (!poweredOff && ceilingOn && stage == ThreatStage.Alert && ceilingRoutine == null && now >= nextCeilingDip)
             {
                 Restart(ref ceilingRoutine, Dip(true));
                 ScheduleCeilingDip();
             }
 
-            if (deskOn && stage == ThreatStage.Danger && deskRoutine == null && now >= nextDeskDip)
+            if (!poweredOff && deskOn && stage == ThreatStage.Danger && deskRoutine == null && now >= nextDeskDip)
             {
                 Restart(ref deskRoutine, Dip(false));
                 ScheduleDeskDip();
             }
+        }
+
+        /// <summary>True while the ceiling light is (meant to be) on.</summary>
+        public bool CeilingOn => ceilingOn;
+
+        /// <summary>True while the desk lamp is (meant to be) on.</summary>
+        public bool DeskOn => deskOn;
+
+        /// <summary>Lose sequence: the ceiling light sputters and dies for good (no-op if already dark).</summary>
+        public IEnumerator DieOutCeiling()
+        {
+            poweredOff = true;
+            bool wasOn = ceilingOn;
+            ceilingOn = false;
+            if (ceilingRoutine != null) { StopCoroutine(ceilingRoutine); ceilingRoutine = null; }
+            if (wasOn) yield return Sputter(true);
+            else SetCeiling(0f);
+        }
+
+        /// <summary>Lose sequence: the desk lamp sputters and dies for good (no-op if already dark).</summary>
+        public IEnumerator DieOutDesk()
+        {
+            poweredOff = true;
+            bool wasOn = deskOn;
+            deskOn = false;
+            if (deskRoutine != null) { StopCoroutine(deskRoutine); deskRoutine = null; }
+            if (wasOn) yield return Sputter(false);
+            else SetDesk(0f);
+        }
+
+        private IEnumerator Sputter(bool isCeiling)
+        {
+            int flickers = Random.Range(3, 6);
+            for (int i = 0; i < flickers; i++)
+            {
+                SetChannel(isCeiling, i % 2 == 0 ? dipLevel : 0.7f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.16f));
+                SetChannel(isCeiling, 0f);
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+            }
+            SetChannel(isCeiling, 0f);
         }
 
         private void ScheduleCeilingDip() =>

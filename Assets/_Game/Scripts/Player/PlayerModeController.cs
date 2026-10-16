@@ -81,7 +81,10 @@ namespace CyberWatch.Player
         public CameraView View { get; private set; }
 
         /// <summary>True when the player stands close enough to the desk to sit down.</summary>
-        public bool CanSit => Mode == PlayerMode.Walk && player != null && IsInDeskZone(player.transform.position);
+        public bool CanSit => !DeskLocked && Mode == PlayerMode.Walk && player != null && IsInDeskZone(player.transform.position);
+
+        /// <summary>Lose sequence: the player can no longer sit down at the desk.</summary>
+        public bool DeskLocked { get; set; }
 
         /// <summary>Raised after the mode changed.</summary>
         public event Action<PlayerMode> ModeChanged;

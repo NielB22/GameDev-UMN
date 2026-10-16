@@ -527,6 +527,7 @@ GameObject:
   - component: {fileID: 1300000008}
   - component: {fileID: 1300000009}
   - component: {fileID: 1300000010}
+  - component: {fileID: 1300000011}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1533,6 +1534,31 @@ MonoBehaviour:
   buildSeconds: 1.2
   releaseSeconds: 1.6
   fovNarrowing: 5
+--- !u!114 &1300000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe29d44daf44209bb380f80c48b28f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Session.LoseSequence
+  modes: {fileID: 1300000007}
+  flashlight: {fileID: 0}
+  silhouette: {fileID: 0}
+  officeLights: {fileID: 0}
+  streetLamps: {fileID: 0}
+  monitor: {fileID: 0}
+  startDelay: 1.2
+  betweenLights: 1
+  promptDelay: 2
+  flashlightPrompt: "[F]  NYALAKAN SENTER"
+  promptColor: {r: 1, g: 0.92, b: 0.76, a: 1}
+  promptSize: 40
+  endAfterFlashlight: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
