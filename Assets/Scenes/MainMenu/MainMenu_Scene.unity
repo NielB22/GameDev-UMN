@@ -429,9 +429,9 @@ MonoBehaviour:
   ceilingLightName: CeilingLight_Working
   ceilingPanelName: CeilingLight_Panel_Working
   panelOffMaterial: {fileID: 2100000, guid: f5fbe816904c4bf988a914d424d9412e, type: 2}
-  calmSeconds: {x: 2.5, y: 7}
+  calmSeconds: {x: 10, y: 20}
   flickersPerBurst: {x: 2, y: 7}
-  blackoutChance: 0.35
+  blackoutChance: 0.2
   blackoutSeconds: {x: 0.4, y: 1.6}
   dimLevel: 0.08
 --- !u!1001 &1900099001
@@ -582,7 +582,7 @@ MonoBehaviour:
   ceilingLight: {fileID: 0}
   ceilingLightName: CeilingLight_Working
   roomToneLevel: 0.5
-  buzzLevel: 0.6
+  buzzLevel: 0.109
   droneCalm: 0.12
   droneCritical: 0.75
   heartbeatLevel: 0.9

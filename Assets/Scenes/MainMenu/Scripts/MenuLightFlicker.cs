@@ -4,7 +4,8 @@ using UnityEngine;
 namespace CyberWatch.Menu
 {
     /// <summary>
-    /// Main-menu only: the office ceiling light flickers like a dying fluorescent tube
+    /// Main-menu only: the office ceiling light slowly breathes dim <-> bright (brighter than in
+    /// gameplay so the office reads better) and now and then flickers like a dying fluorescent tube
     /// (short bursts, sometimes going dark for a moment). The desk lamp stays on so the
     /// scene never goes fully black. Objects are found by name inside Office_Environment,
     /// so the shared prefab is not modified.
@@ -19,18 +20,29 @@ namespace CyberWatch.Menu
         [Tooltip("Panel material while the tube is off (M_CeilingLight_Off).")]
         [SerializeField] private Material panelOffMaterial;
 
+        [Header("Breathing (slow dim / bright)")]
+        [Tooltip("Brightness boost for the menu only, so the office reads a bit better (1 = as in gameplay).")]
+        [SerializeField, Min(0f)] private float menuBrightness = 2f;
+        [Tooltip("Lowest point of the slow dim/bright cycle (fraction of full).")]
+        [SerializeField, Range(0f, 1f)] private float breathMin = 0.45f;
+        [Tooltip("Highest point of the slow dim/bright cycle (fraction of full).")]
+        [SerializeField, Range(0f, 1f)] private float breathMax = 1f;
+        [Tooltip("Speed of the slow dim/bright waves.")]
+        [SerializeField, Min(0.01f)] private float breathSpeed = 0.35f;
+
         [Header("Timing")]
         [Tooltip("Seconds of calm between flicker bursts (random).")]
-        [SerializeField] private Vector2 calmSeconds = new Vector2(2.5f, 7f);
+        [SerializeField] private Vector2 calmSeconds = new Vector2(10f, 20f);
         [SerializeField] private Vector2Int flickersPerBurst = new Vector2Int(2, 7);
         [Tooltip("Chance that a burst ends with the light dark for a moment.")]
-        [SerializeField, Range(0f, 1f)] private float blackoutChance = 0.35f;
+        [SerializeField, Range(0f, 1f)] private float blackoutChance = 0.2f;
         [SerializeField] private Vector2 blackoutSeconds = new Vector2(0.4f, 1.6f);
         [Tooltip("Brightness while dimmed during a flicker (0 = off).")]
         [SerializeField, Range(0f, 1f)] private float dimLevel = 0.08f;
 
         private float baseIntensity;
         private Material panelOnMaterial;
+        private float flicker = 1f; // set by the flicker bursts, on top of the breathing
 
         private void Awake()
         {
@@ -56,7 +68,25 @@ namespace CyberWatch.Menu
             StartCoroutine(Loop());
         }
 
-        private void OnDisable() => Set(1f);
+        private void OnDisable()
+        {
+            Set(1f);
+            if (ceilingLight != null)
+            {
+                ceilingLight.intensity = baseIntensity;
+                ceilingLight.enabled = true;
+            }
+        }
+
+        // Slow, irregular dim <-> bright, with the flicker bursts on top.
+        private void Update()
+        {
+            float wave = Mathf.PerlinNoise(Time.unscaledTime * breathSpeed, 3.7f);
+            float breath = Mathf.Lerp(breathMin, breathMax, Mathf.SmoothStep(0f, 1f, wave));
+            float level = breath * flicker;
+            ceilingLight.intensity = baseIntensity * menuBrightness * level;
+            ceilingLight.enabled = level > 0.01f;
+        }
 
         private IEnumerator Loop()
         {
@@ -86,11 +116,7 @@ namespace CyberWatch.Menu
 
         private void Set(float multiplier)
         {
-            if (ceilingLight != null)
-            {
-                ceilingLight.intensity = baseIntensity * multiplier;
-                ceilingLight.enabled = multiplier > 0.01f;
-            }
+            flicker = multiplier;
             if (ceilingPanel != null && panelOffMaterial != null && panelOnMaterial != null)
                 ceilingPanel.sharedMaterial = multiplier > 0.5f ? panelOnMaterial : panelOffMaterial;
         }
