@@ -23,7 +23,7 @@ namespace CyberWatch.Audio
 
         [Header("Levels (0..1, on top of the Ambience volume)")]
         [SerializeField, Range(0f, 1f)] private float roomToneLevel = 0.5f;
-        [SerializeField, Range(0f, 1f)] private float buzzLevel = 0.6f;
+        [SerializeField, Range(0f, 1f)] private float buzzLevel = 0.109f;
         [SerializeField, Range(0f, 1f)] private float droneCalm = 0.12f;
         [SerializeField, Range(0f, 1f)] private float droneCritical = 0.75f;
         [SerializeField, Range(0f, 1f)] private float heartbeatLevel = 0.9f;

@@ -332,8 +332,8 @@ MonoBehaviour:
   ceilingPanel: {fileID: 1177394405}
   ceilingPanelOffMaterial: {fileID: 2100000, guid: f5fbe816904c4bf988a914d424d9412e, type: 2}
   deskLamp: {fileID: 845047255}
-  alertDipInterval: {x: 3, y: 8}
-  dangerDipInterval: {x: 5, y: 12}
+  alertDipInterval: {x: 9, y: 18}
+  dangerDipInterval: {x: 12, y: 24}
   dipLevel: 0.15
   lightOffGlitch: 0.7
 --- !u!4 &524574123
@@ -683,6 +683,7 @@ MonoBehaviour:
   tearChance: 0.06
   durationSeconds: {x: 0.12, y: 0.35}
   flickerRate: 30
+  soundLevel: 0.185
   riseWindowSeconds: 2.5
   onStageUp: 1
   stageUpStrength: 0.8
@@ -829,10 +830,11 @@ MonoBehaviour:
   ceilingLight: {fileID: 0}
   ceilingLightName: CeilingLight_Working
   roomToneLevel: 0.5
-  buzzLevel: 0.6
+  buzzLevel: 0.109
   droneCalm: 0.12
   droneCritical: 0.75
   heartbeatLevel: 0.9
+  droneWithoutThreat: 0
   heartbeatFastest: 1.25
   followSpeed: 0.15
 --- !u!114 &1300000014
@@ -850,6 +852,23 @@ MonoBehaviour:
   inbox: {fileID: 0}
   clickLevel: 0.8
   mailLevel: 0.9
+--- !u!114 &1300000015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a566e49f132a49c4a226548411c7aea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.FootstepAudio
+  player: {fileID: 0}
+  walkLevel: 1
+  runLevel: 0.65
+  fadeSeconds: 0.12
+  walkPitch: {x: 0.9, y: 1.05}
 --- !u!1001 &1400099001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1676,23 +1695,6 @@ MonoBehaviour:
   shakeMinDelta: 10
   shakeReversals: 6
   shakeWindowSeconds: 1.2
---- !u!114 &1300000015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a566e49f132a49c4a226548411c7aea8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.FootstepAudio
-  player: {fileID: 0}
-  walkLevel: 1
-  runLevel: 0.65
-  fadeSeconds: 0.12
-  walkPitch: {x: 0.9, y: 1.05}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

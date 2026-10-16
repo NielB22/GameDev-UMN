@@ -33,7 +33,7 @@ namespace CyberWatch.Effects
 
         [Header("Sound")]
         [Tooltip("Volume of the static sound (0..1). Kept low so it does not cover other sounds.")]
-        [SerializeField, Range(0f, 1f)] private float soundLevel = 0.4f;
+        [SerializeField, Range(0f, 1f)] private float soundLevel = 0.185f;
 
         [Header("Only when Threat rises")]
         [Tooltip("A flash is only shown within this many seconds after the Threat went UP " +

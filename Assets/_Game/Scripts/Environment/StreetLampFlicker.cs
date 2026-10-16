@@ -28,9 +28,9 @@ namespace CyberWatch.Environment
 
         [Header("Kedip")]
         [Tooltip("Jeda antar kedip per lampu saat Bahaya (detik, acak).")]
-        [SerializeField] private Vector2 dangerInterval = new Vector2(18f, 32f);
+        [SerializeField] private Vector2 dangerInterval = new Vector2(25f, 45f);
         [Tooltip("Jeda antar kedip per lampu saat Kritis (detik, acak).")]
-        [SerializeField] private Vector2 criticalInterval = new Vector2(9f, 18f);
+        [SerializeField] private Vector2 criticalInterval = new Vector2(14f, 26f);
         [Tooltip("Peluang kedip di Kritis berupa padam sebentar (bukan hanya redup).")]
         [SerializeField, Range(0f, 1f)] private float criticalOutageChance = 0.2f;
         [SerializeField] private Vector2 outageSeconds = new Vector2(0.4f, 1.2f);

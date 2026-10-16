@@ -2937,7 +2937,7 @@ MonoBehaviour:
   ceilingLight: {fileID: 0}
   ceilingLightName: CeilingLight_Working
   roomToneLevel: 0.5
-  buzzLevel: 0.6
+  buzzLevel: 0.109
   droneCalm: 0.12
   droneCritical: 0.75
   heartbeatLevel: 0.9

@@ -33,9 +33,9 @@ namespace CyberWatch.Environment
 
         [Header("Kedip")]
         [Tooltip("Jeda antar kedip ringan saat Waspada (lampu utama).")]
-        [SerializeField] private Vector2 alertDipInterval = new Vector2(3f, 8f);
+        [SerializeField] private Vector2 alertDipInterval = new Vector2(9f, 18f);
         [Tooltip("Jeda antar kedip ringan saat Bahaya (lampu meja).")]
-        [SerializeField] private Vector2 dangerDipInterval = new Vector2(5f, 12f);
+        [SerializeField] private Vector2 dangerDipInterval = new Vector2(12f, 24f);
         [Tooltip("Seberapa redup saat berkedip (0 = gelap total, 1 = tidak berubah).")]
         [SerializeField, Range(0f, 1f)] private float dipLevel = 0.15f;
         [Tooltip("Kekuatan statik layar saat lampu padam (0 = tanpa).")]
