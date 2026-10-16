@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_21_Drive_Daftar_Bonus
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Google Drive"
+  senderAddress: "drive-shares-noreply@google-docs-share.net"
+  subject: "Dokumen dibagikan: Daftar_Bonus_Karyawan.xlsx"
+  body: "Seseorang membagikan dokumen 'Daftar_Bonus_Karyawan.xlsx' dengan Anda. Masuk untuk melihat."
+  links:
+  - displayText: "https://drive.google.com/file/d/bonus"
+    actualUrl: "http://g00gle-drive-login.top/auth"
+  isScam: 1
+  indicators: 9
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Phishing: pengirim bukan dari google.com, judul dokumen dibuat memancing rasa penasaran, dan tautannya menuju g00gle-drive-login.top untuk mencuri akun."

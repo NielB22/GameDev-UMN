@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_35_Investasi_Kripto
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Crypto Profit Asia"
+  senderAddress: "invest@cryptoprofit-asia.biz"
+  subject: "Profit 30% per minggu DIJAMIN"
+  body: "Investasi kripto dengan profit pasti 30% per minggu! Promo hanya untuk 50 orang pertama. Gabung sekarang sebelum terlambat."
+  links:
+  - displayText: "Gabung sekarang"
+    actualUrl: "http://cryptoprofit-asia.biz/join?ref=8812"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 15
+  threatRecovery: 5
+  explanation: "Penipuan investasi: tidak ada investasi yang menjamin profit tetap setinggi itu. Ada desakan (50 orang pertama) dan tautan ke situs tidak resmi."

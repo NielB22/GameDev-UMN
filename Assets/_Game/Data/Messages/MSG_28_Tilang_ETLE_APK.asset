@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_28_Tilang_ETLE_APK
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 1
+  senderName: "Polri ETLE"
+  senderAddress: "+62 851-6620-3381"
+  subject: "Tilang elektronik"
+  body: "Kendaraan Anda terekam melanggar lalu lintas. Lihat bukti foto pelanggaran dan bayar denda sebelum STNK diblokir."
+  links:
+  - displayText: "Bukti Tilang (foto)"
+    actualUrl: "http://etle-polri-bukti.site/ETLE.apk"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 25
+  threatRecovery: 5
+  explanation: "Penipuan APK: surat tilang resmi dikirim lewat pos ke alamat kendaraan, bukan lewat nomor pribadi. 'Bukti foto' ini adalah file .apk berbahaya."

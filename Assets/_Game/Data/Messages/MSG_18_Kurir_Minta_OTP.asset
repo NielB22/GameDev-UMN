@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_18_Kurir_Minta_OTP
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 1
+  senderName: "Kurir J&T"
+  senderAddress: "+62 838-5521-9907"
+  subject: "Konfirmasi alamat paket"
+  body: "Halo kak, ini kurir. Paket atas nama kakak tertahan karena alamat kurang lengkap. Mohon kirimkan kode 6 digit yang baru masuk ke SMS kakak untuk konfirmasi."
+  links: []
+  isScam: 1
+  indicators: 5
+  threatPenalty: 25
+  threatRecovery: 5
+  explanation: "Penipuan: kurir tidak pernah membutuhkan kode OTP. Kode itu dipakai untuk mengambil alih akun (WhatsApp, e-wallet, atau bank) Anda."

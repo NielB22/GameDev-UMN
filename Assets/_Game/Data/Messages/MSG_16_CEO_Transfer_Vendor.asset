@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_16_CEO_Transfer_Vendor
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Bapak Direktur"
+  senderAddress: "ceo.cyberwatch@outlook.com"
+  subject: "URGENT: transfer ke vendor hari ini"
+  body: "Saya sedang rapat dan tidak bisa ditelepon. Tolong segera transfer Rp45.000.000 ke rekening vendor baru di bawah ini sebelum jam 12.\n\nRahasiakan dulu dari tim lain."
+  links: []
+  isScam: 1
+  indicators: 3
+  threatPenalty: 25
+  threatRecovery: 5
+  explanation: "Penipuan CEO: alamat email pribadi (outlook.com), bukan domain perusahaan; mendesak, minta transfer ke rekening baru, dan minta dirahasiakan. Selalu konfirmasi lewat jalur resmi."

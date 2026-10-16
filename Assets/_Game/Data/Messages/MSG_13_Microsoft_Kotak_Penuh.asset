@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_13_Microsoft_Kotak_Penuh
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Microsoft 365"
+  senderAddress: "no-reply@micros0ft-support.com"
+  subject: "Kotak surat Anda hampir penuh (98%)"
+  body: "Kotak surat Anda hampir penuh. Email baru akan DITOLAK dalam 24 jam.\n\nTingkatkan kapasitas gratis dengan masuk kembali ke akun Anda."
+  links:
+  - displayText: "https://outlook.office.com/storage"
+    actualUrl: "http://office365-quota-upgrade.xyz/login"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Phishing: domain pengirim memakai angka 0 ('micros0ft'), ada ancaman email ditolak, dan tautannya menuju office365-quota-upgrade.xyz untuk mencuri kata sandi."

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_14_APK_Undangan_Nikah
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 1
+  senderName: "Nomor tidak dikenal"
+  senderAddress: "+62 896-1173-0042"
+  subject: "Undangan pernikahan"
+  body: "Assalamualaikum, ini undangan pernikahan kami. Mohon dibuka ya, ada foto dan lokasinya.\n\nUndangan Digital."
+  links:
+  - displayText: "Undangan Digital (lihat foto)"
+    actualUrl: "http://undangan-digital.site/Undangan_Pernikahan.apk"
+  isScam: 1
+  indicators: 9
+  threatPenalty: 25
+  threatRecovery: 5
+  explanation: "Penipuan APK: 'undangan' ini sebenarnya file .apk yang bisa membaca SMS (termasuk kode OTP) dan menguras rekening. Undangan asli tidak berupa aplikasi."

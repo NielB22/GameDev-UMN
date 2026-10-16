@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_31_Mama_Nomor_Baru
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 1
+  senderName: "Nomor tidak dikenal"
+  senderAddress: "+62 877-3091-5528"
+  subject: "Nomor baru"
+  body: "Ma, ini nomor baru aku, HP lama rusak. Tolong transfer Rp2.000.000 dulu buat bayar kos, urgent banget, nanti aku ganti."
+  links: []
+  isScam: 1
+  indicators: 3
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Penipuan: modus 'nomor baru' meminta transfer mendesak. Selalu hubungi nomor lama atau telepon langsung untuk memastikan."

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_11_Bansos_Kemensos
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 1
+  senderName: "Info Bansos"
+  senderAddress: "+62 857-2210-4498"
+  subject: "Bantuan sosial Rp2.500.000"
+  body: "Selamat! Nomor Anda terpilih menerima bantuan sosial Rp2.500.000 dari Kemensos. Dana hangus jika tidak diklaim hari ini.\n\nKlaim di tautan berikut."
+  links:
+  - displayText: "kemensos.go.id/bansos"
+    actualUrl: "http://bansos-kemensos-cair.top/klaim"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Penipuan: bantuan resmi tidak dikirim lewat nomor pribadi, ada desakan \"hangus hari ini\", dan tautannya sebenarnya menuju bansos-kemensos-cair.top, bukan situs pemerintah (.go.id)."

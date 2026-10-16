@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_19_Pajak_Restitusi
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Direktorat Jenderal Pajak"
+  senderAddress: "info@djp-pajak-online.com"
+  subject: "Pengembalian pajak Rp3.450.000"
+  body: "Anda berhak menerima pengembalian kelebihan pajak sebesar Rp3.450.000. Lengkapi data rekening dan NIK Anda untuk pencairan."
+  links:
+  - displayText: "https://djponline.pajak.go.id/restitusi"
+    actualUrl: "http://djp-restitusi-cepat.xyz/form"
+  isScam: 1
+  indicators: 9
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Phishing: domain pengirim bukan pajak.go.id, dan tautan 'djponline.pajak.go.id' sebenarnya menuju djp-restitusi-cepat.xyz untuk mencuri data pribadi."

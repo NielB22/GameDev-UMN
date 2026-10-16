@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347e09bd51e8abb48ae69315123fa2ae, type: 3}
+  m_Name: MSG_26_Invoice_Vendor_Exe
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Messages.MessageData
+  channel: 0
+  senderName: "Billing Vendor"
+  senderAddress: "billing@cyberwatch-vendor.co"
+  subject: "Invoice #INV-2026-1043 jatuh tempo"
+  body: "Terlampir invoice #INV-2026-1043 yang jatuh tempo hari ini. Mohon segera diproses agar layanan tidak dihentikan."
+  links:
+  - displayText: "Invoice_1043.pdf"
+    actualUrl: "http://invoice-view.cloud/Invoice_1043.pdf.exe"
+  isScam: 1
+  indicators: 11
+  threatPenalty: 20
+  threatRecovery: 5
+  explanation: "Malware: 'Invoice_1043.pdf' sebenarnya file .pdf.exe (program). Domain pengirim mirip tapi bukan vendor resmi, dan ada ancaman layanan dihentikan."
