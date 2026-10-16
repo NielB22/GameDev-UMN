@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Audio;
 using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
@@ -108,6 +109,7 @@ namespace CyberWatch.Environment
         // Kedip cepat beberapa kali; kalau "outage", padam sebentar lalu menyala lagi.
         private IEnumerator Flicker(int i, bool outage)
         {
+            PlayLampSound(i, outage ? 0.8f : 0.5f);
             int flickers = Random.Range(2, 5);
             for (int f = 0; f < flickers; f++)
             {
@@ -138,6 +140,7 @@ namespace CyberWatch.Environment
             if (i < 0 || i >= LampCount || dead[i])
                 yield break;
             dead[i] = true;
+            PlayLampSound(i, 1f);
             if (routines[i] != null) { StopCoroutine(routines[i]); routines[i] = null; }
 
             int flickers = Random.Range(3, 6);
@@ -149,6 +152,13 @@ namespace CyberWatch.Environment
                 yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
             }
             Set(i, 0f);
+        }
+
+        private void PlayLampSound(int i, float volume)
+        {
+            AudioLibrary clips = GameAudio.Clips;
+            if (clips != null && lights[i] != null)
+                GameAudio.PlayOutside(clips.lightFlicker, lights[i].transform.position, AudioChannel.Sfx, volume, Random.Range(0.85f, 1.05f));
         }
 
         private Renderer Bulb(int i) => bulbs != null && i < bulbs.Length ? bulbs[i] : null;

@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Audio;
 using CyberWatch.Effects;
 using CyberWatch.Threat;
 using UnityEngine;
@@ -170,6 +171,7 @@ namespace CyberWatch.Environment
         private IEnumerator Sputter(bool isCeiling)
         {
             int flickers = Random.Range(3, 6);
+            PlayFlickerSound(isCeiling, 1f);
             for (int i = 0; i < flickers; i++)
             {
                 SetChannel(isCeiling, i % 2 == 0 ? dipLevel : 0.7f);
@@ -197,6 +199,7 @@ namespace CyberWatch.Environment
         private IEnumerator Transition(bool isCeiling, bool on)
         {
             int flickers = Random.Range(3, 6);
+            PlayFlickerSound(isCeiling, on ? 0.6f : 1f);
             for (int i = 0; i < flickers; i++)
             {
                 SetChannel(isCeiling, Random.value < 0.5f ? dipLevel : 1f);
@@ -208,9 +211,22 @@ namespace CyberWatch.Environment
             if (isCeiling) ceilingRoutine = null; else deskRoutine = null;
         }
 
+        // Sound of the light sputtering, coming from the lamp itself (3D).
+        private void PlayFlickerSound(bool isCeiling, float volume)
+        {
+            AudioLibrary clips = GameAudio.Clips;
+            Light source = isCeiling
+                ? (ceilingLights != null && ceilingLights.Length > 0 ? ceilingLights[0] : null)
+                : deskLamp;
+            if (clips == null || source == null)
+                return;
+            GameAudio.PlayAt(clips.lightFlicker, source.transform.position, AudioChannel.Sfx, volume, Random.Range(0.9f, 1.1f));
+        }
+
         // Kedip ringan: redup sebentar (kadang dua kali) lalu normal.
         private IEnumerator Dip(bool isCeiling)
         {
+            PlayFlickerSound(isCeiling, 0.45f);
             int count = Random.value < 0.35f ? 2 : 1;
             for (int i = 0; i < count; i++)
             {

@@ -15,7 +15,8 @@ namespace CyberWatch.Audio
     /// Central audio for a scene: one volume per channel (Ambience, SFX, Jumpscare, UI) plus master,
     /// and simple helpers other scripts use instead of managing AudioSources themselves:
     /// - Play2D: a one-shot "in the player's head" (stereo kept), e.g. UI, jumpscare layers;
-    /// - PlayAt: a one-shot coming from a point in the world (3D), e.g. a street lamp dying;
+    /// - PlayAt: a one-shot coming from a point in the world (3D), e.g. a desk lamp sputtering;
+    /// - PlayOutside: like PlayAt but muffled and quieter, for sounds outside the office;
     /// - CreateLoop: a looping source (2D or attached to an object in 3D) whose volume follows
     ///   its channel; change its level with SetLevel.
     /// Without a GameAudio in the scene every call simply does nothing.
@@ -31,15 +32,28 @@ namespace CyberWatch.Audio
         [SerializeField, Range(0f, 1f)] private float jumpscare = 1f;
         [SerializeField, Range(0f, 1f)] private float ui = 0.7f;
 
+        [Header("Responsiveness")]
+        [Tooltip("Samples quieter than this at the start of a short sound are skipped (no delay before the sound).")]
+        [SerializeField, Range(0.001f, 0.1f)] private float silenceThreshold = 0.01f;
+
         [Header("3D sounds")]
         [Tooltip("Full volume within this distance (meters).")]
         [SerializeField, Min(0.1f)] private float minDistance = 1.5f;
         [Tooltip("Inaudible beyond this distance (meters).")]
         [SerializeField, Min(1f)] private float maxDistance = 30f;
 
+        [Header("Sounds from outside (through glass and walls)")]
+        [Tooltip("Extra volume factor for outdoor sounds.")]
+        [SerializeField, Range(0f, 1f)] private float outdoorVolume = 0.35f;
+        [Tooltip("Low-pass cutoff (Hz): lower = more muffled.")]
+        [SerializeField, Range(200f, 5000f)] private float outdoorCutoff = 900f;
+        [Tooltip("Amount of open-air reverb (0 = none).")]
+        [SerializeField, Range(0f, 1f)] private float outdoorReverb = 0.35f;
+
         private static GameAudio instance;
         private readonly List<AudioSource> oneShots = new List<AudioSource>();
         private readonly List<Loop> loops = new List<Loop>();
+        private readonly Dictionary<AudioClip, int> startOffsets = new Dictionary<AudioClip, int>();
 
         private class Loop
         {
@@ -91,6 +105,7 @@ namespace CyberWatch.Audio
             AudioSource s = instance.FreeOneShot();
             s.transform.localPosition = Vector3.zero;
             s.spatialBlend = 0f;
+            instance.SetOutdoor(s, false);
             return instance.Fire(s, clip, channel, volume, pitch);
         }
 
@@ -101,7 +116,45 @@ namespace CyberWatch.Audio
             AudioSource s = instance.FreeOneShot();
             s.transform.position = position;
             s.spatialBlend = 1f;
+            instance.SetOutdoor(s, false);
             return instance.Fire(s, clip, channel, volume, pitch);
+        }
+
+        /// <summary>
+        /// One-shot from OUTSIDE the office (3D), heard through the glass and walls:
+        /// muffled (low-pass), quieter (Outdoor Volume) and with a little open-air reverb.
+        /// </summary>
+        public static AudioSource PlayOutside(AudioClip clip, Vector3 position, AudioChannel channel, float volume = 1f, float pitch = 1f)
+        {
+            if (instance == null || clip == null) return null;
+            AudioSource s = instance.FreeOneShot();
+            s.transform.position = position;
+            s.spatialBlend = 1f;
+            instance.SetOutdoor(s, true);
+            return instance.Fire(s, clip, channel, volume * instance.outdoorVolume, pitch);
+        }
+
+        private void SetOutdoor(AudioSource s, bool outdoor)
+        {
+            var lowPass = s.GetComponent<AudioLowPassFilter>();
+            var reverb = s.GetComponent<AudioReverbFilter>();
+            if (outdoor && lowPass == null)
+            {
+                lowPass = s.gameObject.AddComponent<AudioLowPassFilter>();
+                reverb = s.gameObject.AddComponent<AudioReverbFilter>();
+                reverb.reverbPreset = AudioReverbPreset.Plain;
+            }
+            if (lowPass != null)
+            {
+                lowPass.enabled = outdoor;
+                lowPass.cutoffFrequency = outdoorCutoff;
+            }
+            if (reverb != null)
+            {
+                reverb.enabled = outdoor;
+                reverb.dryLevel = 0f;
+                reverb.room = Mathf.Lerp(-10000f, 0f, outdoorReverb);
+            }
         }
 
         /// <summary>
@@ -146,8 +199,39 @@ namespace CyberWatch.Audio
             s.volume = Volume(channel) * volume;
             s.pitch = pitch;
             s.loop = false;
+            s.timeSamples = AudibleStart(clip); // skip the silent start (MP3 padding) -> instant
             s.Play();
             return s;
+        }
+
+        // First sample that is actually audible, measured once per clip. Only for clips that are
+        // decompressed on load (short SFX); streamed / compressed clips start at 0.
+        private int AudibleStart(AudioClip clip)
+        {
+            if (startOffsets.TryGetValue(clip, out int cached))
+                return cached;
+
+            int start = 0;
+            if (clip.loadType == AudioClipLoadType.DecompressOnLoad && clip.samples > 0)
+            {
+                int frames = Mathf.Min(clip.samples, clip.frequency / 2); // look at the first 0.5 s
+                var data = new float[frames * clip.channels];
+                if (clip.GetData(data, 0))
+                {
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        if (Mathf.Abs(data[i]) > silenceThreshold)
+                        {
+                            start = i / clip.channels;
+                            break;
+                        }
+                    }
+                }
+                // Keep a few ms before the first sound so the attack is not cut.
+                start = Mathf.Max(0, start - clip.frequency / 500);
+            }
+            startOffsets[clip] = start;
+            return start;
         }
 
         private AudioSource FreeOneShot()

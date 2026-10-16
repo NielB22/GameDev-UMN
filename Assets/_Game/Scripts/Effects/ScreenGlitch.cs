@@ -1,3 +1,4 @@
+using CyberWatch.Audio;
 using CyberWatch.Threat;
 using UnityEngine;
 using UnityEngine.UI;
@@ -130,6 +131,8 @@ namespace CyberWatch.Effects
             strength = s;
             duration = Mathf.Lerp(durationSeconds.x, durationSeconds.y, s);
             endTime = Time.time + duration;
+            if (GameAudio.Clips != null)
+                GameAudio.Play2D(GameAudio.Clips.staticShort, AudioChannel.Sfx, Mathf.Lerp(0.3f, 0.8f, s), Random.Range(0.9f, 1.1f));
         }
 
         private void BuildOverlay()

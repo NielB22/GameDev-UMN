@@ -1,4 +1,5 @@
 using System.Collections;
+using CyberWatch.Audio;
 using CyberWatch.Threat;
 using UnityEngine;
 
@@ -63,6 +64,8 @@ namespace CyberWatch.Environment
             if (dead)
                 yield break;
             dead = true;
+            if (GameAudio.Clips != null && screen != null)
+                GameAudio.PlayAt(GameAudio.Clips.crtOff, screen.transform.position, AudioChannel.Sfx);
             int flickers = Random.Range(3, 6);
             for (int i = 0; i < flickers; i++)
             {

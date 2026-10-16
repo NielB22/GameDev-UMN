@@ -305,6 +305,14 @@ MonoBehaviour:
   criticalSaturation: -25
   pulseAmount: 0.06
   pulseSpeed: 2.4
+  grainCritical: 0.75
+  chromaticCritical: 0.18
+  distortionCritical: -0.07
+  distortionBreath: 0.015
+  distortionBreathSpeed: 0.35
+  glitchChromatic: 0.8
+  glitchDistortion: 0.2
+  gazeVignette: 0.08
   followSpeed: 10
 --- !u!114 &524574122
 MonoBehaviour:
@@ -327,6 +335,7 @@ MonoBehaviour:
   alertDipInterval: {x: 3, y: 8}
   dangerDipInterval: {x: 5, y: 12}
   dipLevel: 0.15
+  lightOffGlitch: 0.7
 --- !u!4 &524574123
 Transform:
   m_ObjectHideFlags: 0
@@ -530,6 +539,7 @@ GameObject:
   - component: {fileID: 1300000011}
   - component: {fileID: 1300000012}
   - component: {fileID: 1300000013}
+  - component: {fileID: 1300000014}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -597,6 +607,7 @@ MonoBehaviour:
   threat: {fileID: 1300000003}
   inbox: {fileID: 1300000006}
   endDelaySeconds: 2
+  loseSequence: {fileID: 0}
 --- !u!114 &1300000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +664,174 @@ MonoBehaviour:
   startMode: 0
   hideWhenCameraCloserThan: 0.8
   interactAction: Player/Interact
+--- !u!114 &1300000008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec70d24a0bc41d581259a61d66e34dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.ScreenGlitch
+  threat: {fileID: 1300000003}
+  noiseSize: {x: 160, y: 90}
+  maxAlpha: 0.35
+  tearChance: 0.06
+  durationSeconds: {x: 0.12, y: 0.35}
+  flickerRate: 30
+  riseWindowSeconds: 2.5
+  onStageUp: 1
+  stageUpStrength: 0.8
+--- !u!114 &1300000009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856701f0abdd4aa7981c7cb6a648196e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Environment.UnseenChanges
+  threat: {fileID: 1300000003}
+  changes:
+  - objectName: Chair_A
+    fromStage: 2
+    worldEuler: {x: 0, y: 180, z: 0}
+    localEuler: {x: 0, y: 0, z: 0}
+    worldOffset: {x: 0, y: 0, z: 0.5}
+    restOnFloor: 0
+    colliderName: Col_Chair_A
+  - objectName: TrashBin_A
+    fromStage: 3
+    worldEuler: {x: 90, y: 30, z: 0}
+    localEuler: {x: 0, y: 0, z: 0}
+    worldOffset: {x: 0, y: 0, z: 0}
+    restOnFloor: 1
+    colliderName: Col_TrashBin_A
+  checkInterval: 0.25
+  minDistance: 1.2
+--- !u!114 &1300000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65aa0a2b3b3148d082ae96da83f6a7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.GazeReaction
+  threat: {fileID: 1300000003}
+  silhouette: {fileID: 0}
+  cameras: []
+  fromThreat: 80
+  lookAngle: 14
+  buildSeconds: 1.2
+  releaseSeconds: 1.6
+  fovNarrowing: 5
+  criticalNarrowing: 3
+--- !u!114 &1300000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe29d44daf44209bb380f80c48b28f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Session.LoseSequence
+  modes: {fileID: 1300000007}
+  flashlight: {fileID: 0}
+  silhouette: {fileID: 0}
+  officeLights: {fileID: 0}
+  streetLamps: {fileID: 0}
+  monitor: {fileID: 0}
+  startDelay: 1.2
+  betweenLights: 1
+  promptDelay: 2
+  flashlightPrompt: '[F]  NYALAKAN SENTER'
+  promptColor: {r: 1, g: 0.92, b: 0.76, a: 1}
+  promptSize: 40
+  figureSpot: {x: -3.2, y: 0, z: -2.4}
+  figureAppearDelay: 1
+  faceAngle: 8
+  triggerDistance: 1.6
+  faceBelowTop: 0.3
+  chargeSpeed: 14
+  chargeAnimatorSpeed: 3
+  faceStopDistance: 0.28
+  holdSeconds: 0.35
+  shakeDegrees: 1.5
+  blackSeconds: 1.5
+--- !u!114 &1300000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0c6c8ad6e245509869e8798780eb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.GameAudio
+  library: {fileID: 11400000, guid: 0fe4376899204c308a8d4b69c4858e28, type: 2}
+  master: 1
+  ambience: 0.8
+  sfx: 0.9
+  jumpscare: 1
+  ui: 0.7
+  silenceThreshold: 0.01
+  minDistance: 1.5
+  maxDistance: 30
+  outdoorVolume: 0.35
+  outdoorCutoff: 900
+  outdoorReverb: 0.35
+--- !u!114 &1300000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075a20240ae74d109a0a046662a5fac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.AmbienceAudio
+  threat: {fileID: 1300000003}
+  ceilingLight: {fileID: 0}
+  ceilingLightName: CeilingLight_Working
+  roomToneLevel: 0.5
+  buzzLevel: 0.6
+  droneCalm: 0.12
+  droneCritical: 0.75
+  heartbeatLevel: 0.9
+  heartbeatFastest: 1.25
+  followSpeed: 0.15
+--- !u!114 &1300000014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1b9ed63021411ea9ec843c2731c0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.UiSounds
+  inbox: {fileID: 0}
+  clickLevel: 0.8
+  mailLevel: 0.9
 --- !u!1001 &1400099001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -768,6 +947,8 @@ MonoBehaviour:
   passHalfLength: 9
   passSpeed: 1.3
   passAnimatorSpeed: 1
+  blinkGlitch: 0.6
+  arriveGlitch: 0.45
   animatorSpeed: 0.4
   leanDegrees: 6
   twitchDegrees: 10
@@ -1188,6 +1369,17 @@ MonoBehaviour:
   mouseSensitivity: 0.12
   stickSensitivity: 160
   lookAction: Player/Look
+  bobVertical: 0.03
+  bobLateral: 0.018
+  bobRoll: 0.6
+  stepLength: 0.7
+  runMultiplier: 1.6
+  bobBlend: 6
+  breathAmount: 0.006
+  breathRate: 0.22
+  breathRateCritical: 0.5
+  breathAmountCritical: 1.8
+  gazeBreathBoost: 0.4
 --- !u!1001 &1987660001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1456,7 +1648,7 @@ MonoBehaviour:
   firstPersonOffset: {x: 0.18, y: -0.2, z: 0.15}
   thirdPersonOffset: {x: 0.15, y: 1.15, z: 0.3}
   followSharpness: 14
-  batterySeconds: 90
+  batterySeconds: 45
   lowBattery: 0.2
   lowBatteryIntensity: 0.55
   lowFlickerInterval: {x: 1.5, y: 4}
@@ -1466,153 +1658,6 @@ MonoBehaviour:
   shakeMinDelta: 10
   shakeReversals: 6
   shakeWindowSeconds: 1.2
---- !u!114 &1300000008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ec70d24a0bc41d581259a61d66e34dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.ScreenGlitch
-  threat: {fileID: 1300000003}
-  noiseSize: {x: 160, y: 90}
-  maxAlpha: 0.35
-  tearChance: 0.06
-  durationSeconds: {x: 0.12, y: 0.35}
-  flickerRate: 30
-  onStageUp: 1
-  stageUpStrength: 0.8
---- !u!114 &1300000009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 856701f0abdd4aa7981c7cb6a648196e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Environment.UnseenChanges
-  threat: {fileID: 1300000003}
-  changes:
-  - objectName: Chair_A
-    fromStage: 2
-    worldEuler: {x: 0, y: 180, z: 0}
-    localEuler: {x: 0, y: 0, z: 0}
-    worldOffset: {x: 0, y: 0, z: 0.5}
-    restOnFloor: 0
-    colliderName: Col_Chair_A
-  - objectName: TrashBin_A
-    fromStage: 3
-    worldEuler: {x: 90, y: 30, z: 0}
-    localEuler: {x: 0, y: 0, z: 0}
-    worldOffset: {x: 0, y: 0, z: 0}
-    restOnFloor: 1
-    colliderName: Col_TrashBin_A
-  checkInterval: 0.25
-  minDistance: 1.2
---- !u!114 &1300000010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65aa0a2b3b3148d082ae96da83f6a7f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Effects.GazeReaction
-  threat: {fileID: 1300000003}
-  silhouette: {fileID: 0}
-  cameras: []
-  fromThreat: 80
-  lookAngle: 14
-  buildSeconds: 1.2
-  releaseSeconds: 1.6
-  fovNarrowing: 5
---- !u!114 &1300000011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe29d44daf44209bb380f80c48b28f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Session.LoseSequence
-  modes: {fileID: 1300000007}
-  flashlight: {fileID: 0}
-  silhouette: {fileID: 0}
-  officeLights: {fileID: 0}
-  streetLamps: {fileID: 0}
-  monitor: {fileID: 0}
-  startDelay: 1.2
-  betweenLights: 1
-  promptDelay: 2
-  flashlightPrompt: "[F]  NYALAKAN SENTER"
-  promptColor: {r: 1, g: 0.92, b: 0.76, a: 1}
-  promptSize: 40
-  figureSpot: {x: -3.2, y: 0, z: -2.4}
-  figureAppearDelay: 1
-  faceAngle: 8
-  triggerDistance: 1.6
-  faceBelowTop: 0.3
-  chargeSpeed: 14
-  chargeAnimatorSpeed: 3
-  faceStopDistance: 0.28
-  holdSeconds: 0.35
-  shakeDegrees: 1.5
-  blackSeconds: 1.5
---- !u!114 &1300000012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc0c6c8ad6e245509869e8798780eb6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.GameAudio
-  library: {fileID: 11400000, guid: 0fe4376899204c308a8d4b69c4858e28, type: 2}
-  master: 1
-  ambience: 0.8
-  sfx: 0.9
-  jumpscare: 1
-  ui: 0.7
-  minDistance: 1.5
-  maxDistance: 30
---- !u!114 &1300000013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075a20240ae74d109a0a046662a5fac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.AmbienceAudio
-  threat: {fileID: 1300000003}
-  ceilingLight: {fileID: 0}
-  ceilingLightName: CeilingLight_Working
-  roomToneLevel: 0.5
-  buzzLevel: 0.6
-  droneCalm: 0.12
-  droneCritical: 0.75
-  heartbeatLevel: 0.9
-  heartbeatFastest: 1.25
-  followSpeed: 0.15
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

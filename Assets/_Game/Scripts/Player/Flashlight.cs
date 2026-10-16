@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CyberWatch.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -68,6 +69,7 @@ namespace CyberWatch.Player
         private int reversalCount;
         private int lastSignX;
         private int lastSignY;
+        private float nextShakeSoundAt;
 
         public State Current { get; private set; } = State.Off;
 
@@ -181,6 +183,8 @@ namespace CyberWatch.Player
 
         private void Toggle()
         {
+            if (Current == State.On || (Current == State.Off && battery > 0f))
+                PlayClip(GameAudio.Clips != null ? GameAudio.Clips.flashlightClick : null, 0.9f);
             if (Current == State.On)
             {
                 SetState(State.Off);
@@ -268,6 +272,11 @@ namespace CyberWatch.Player
             {
                 reversalTimes[reversalCount % reversalTimes.Length] = Time.time;
                 reversalCount++;
+                if (Time.time >= nextShakeSoundAt)
+                {
+                    nextShakeSoundAt = Time.time + 0.18f;
+                    PlayClip(GameAudio.Clips != null ? GameAudio.Clips.flashlightShake : null, 0.7f);
+                }
             }
             last = sign;
         }
@@ -288,6 +297,9 @@ namespace CyberWatch.Player
             lastSignX = 0;
             lastSignY = 0;
         }
+
+        private static void PlayClip(AudioClip clip, float volume) =>
+            GameAudio.Play2D(clip, AudioChannel.Sfx, volume, UnityEngine.Random.Range(0.95f, 1.05f));
 
         private void SetState(State next)
         {
