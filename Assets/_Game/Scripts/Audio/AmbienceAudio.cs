@@ -10,7 +10,8 @@ namespace CyberWatch.Audio
     ///   it dips when the light flickers and goes silent when it dies (Danger stage);
     /// - a horror drone that slowly grows with the Threat;
     /// - a heartbeat from the Critical stage, louder and a bit faster toward 100%.
-    /// Works without a ThreatLevelSystem too (e.g. main menu): then only room tone and buzz.
+    /// Works without a ThreatLevelSystem too (e.g. main menu): room tone, buzz and an optional
+    /// steady drone (Drone Without Threat).
     /// </summary>
     public class AmbienceAudio : MonoBehaviour
     {
@@ -26,6 +27,8 @@ namespace CyberWatch.Audio
         [SerializeField, Range(0f, 1f)] private float droneCalm = 0.12f;
         [SerializeField, Range(0f, 1f)] private float droneCritical = 0.75f;
         [SerializeField, Range(0f, 1f)] private float heartbeatLevel = 0.9f;
+        [Tooltip("Steady drone level in scenes without a Threat (menu, intro). 0 = no drone there.")]
+        [SerializeField, Range(0f, 1f)] private float droneWithoutThreat = 0f;
         [Tooltip("Heartbeat playback speed at 100% Threat (1 = recorded tempo).")]
         [SerializeField, Range(1f, 2f)] private float heartbeatFastest = 1.25f;
         [Tooltip("How fast drone and heartbeat follow the Threat (level per second).")]
@@ -53,6 +56,9 @@ namespace CyberWatch.Audio
                 buzz = GameAudio.CreateLoop(clips.fluorescentBuzz, AudioChannel.Ambience, ceilingLight.transform, buzzLevel);
                 if (buzz != null) buzz.Play();
             }
+
+            if (threat == null && droneWithoutThreat > 0f)
+                drone = Start2D(clips.horrorDrone, droneWithoutThreat);
 
             if (threat != null)
             {

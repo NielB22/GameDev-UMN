@@ -508,6 +508,102 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 281d7314ed794244b936819b5076fa09, type: 3}
+--- !u!1 &2040000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040000002}
+  - component: {fileID: 2040000003}
+  - component: {fileID: 2040000004}
+  - component: {fileID: 2040000005}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2040000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2040000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0c6c8ad6e245509869e8798780eb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.GameAudio
+  library: {fileID: 11400000, guid: 0fe4376899204c308a8d4b69c4858e28, type: 2}
+  master: 1
+  ambience: 0.8
+  sfx: 0.9
+  jumpscare: 1
+  ui: 0.7
+  silenceThreshold: 0.01
+  minDistance: 1.5
+  maxDistance: 30
+  outdoorVolume: 0.07
+  outdoorCutoff: 450
+  outdoorReverb: 0.55
+--- !u!114 &2040000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075a20240ae74d109a0a046662a5fac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.AmbienceAudio
+  threat: {fileID: 0}
+  ceilingLight: {fileID: 0}
+  ceilingLightName: CeilingLight_Working
+  roomToneLevel: 0.5
+  buzzLevel: 0.6
+  droneCalm: 0.12
+  droneCritical: 0.75
+  heartbeatLevel: 0.9
+  droneWithoutThreat: 0.15
+  heartbeatFastest: 1.25
+  followSpeed: 0.15
+--- !u!114 &2040000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1b9ed63021411ea9ec843c2731c0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.UiSounds
+  inbox: {fileID: 0}
+  clickLevel: 0.8
+  mailLevel: 0.9
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -518,3 +614,4 @@ SceneRoots:
   - {fileID: 1800099001}
   - {fileID: 1900099001}
   - {fileID: 1900088012}
+  - {fileID: 2040000002}
