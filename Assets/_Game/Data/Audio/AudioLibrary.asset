@@ -16,7 +16,7 @@ MonoBehaviour:
   fluorescentBuzz: {fileID: 8300000, guid: 7459374f1ada3ee449941093a6181424, type: 3}
   horrorDrone: {fileID: 8300000, guid: 1305ed1faf1dbc54f80fafa4d8225a5a, type: 3}
   heartbeatLoop: {fileID: 8300000, guid: cae8607d63e9e2848badb0b26e7f4611, type: 3}
-  lightFlicker: {fileID: 8300000, guid: 6430a1dfa55c1e845a72e855b16b5144, type: 3}
+  lightFlicker: {fileID: 8300000, guid: 7bdf394b83bdae14faf88159afcd3228, type: 3}
   staticShort: {fileID: 8300000, guid: 0de98770101955148821a849e7117ac8, type: 3}
   crtOff: {fileID: 8300000, guid: 0e0250e04d06acb489995e7c2f7bf0d7, type: 3}
   powerDown: {fileID: 8300000, guid: c5e00014ec6650240b22a112d1633a52, type: 3}
