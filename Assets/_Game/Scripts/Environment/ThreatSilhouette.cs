@@ -115,6 +115,9 @@ namespace CyberWatch.Environment
         /// <summary>True while the figure is shown in the world.</summary>
         public bool FigureVisible => figure != null && figure.gameObject.activeInHierarchy;
 
+        /// <summary>Extra yaw so the model faces where it should (see Yaw Offset).</summary>
+        public float YawOffset => yawOffset;
+
         private Animator animator;
         private bool hasWalkingParam;
         private bool isWalking;

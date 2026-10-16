@@ -15,7 +15,8 @@ namespace CyberWatch.Session
     /// 2. when the monitor dies the HUD disappears, the player is forced up (cannot sit again) and
     ///    can already use the flashlight;
     /// 3. 2 s later a hint asks to switch on the flashlight [F] (only if it is still off);
-    /// 4. (next steps) the figure waits inside the office -> jumpscare -> report.
+    /// 4. once the light is on, the figure waits in the back-left corner of the office (placed while
+    ///    off screen); aiming at its face (or walking up to it) starts the jumpscare -> report.
     /// ShiftController calls Play(); onFinished leads to the report.
     /// </summary>
     public class LoseSequence : MonoBehaviour
@@ -41,9 +42,21 @@ namespace CyberWatch.Session
         [SerializeField] private Color promptColor = new Color(1f, 0.92f, 0.76f, 1f);
         [SerializeField, Min(10f)] private float promptSize = 40f;
 
+        [Header("Figure inside the office")]
+        [Tooltip("Where the figure waits (world position, feet). Back-left corner seen from the IT desk.")]
+        [SerializeField] private Vector3 figureSpot = new Vector3(-3.2f, 0f, -2.4f);
+        [Tooltip("The figure only appears there while that spot is out of the player's view.")]
+        [SerializeField, Min(0f)] private float figureAppearDelay = 1f;
+        [Tooltip("Jumpscare when the view center is within this angle of the face (degrees).")]
+        [SerializeField, Range(1f, 30f)] private float faceAngle = 8f;
+        [Tooltip("Also triggers if the player walks this close, even without looking at the face.")]
+        [SerializeField, Min(0.3f)] private float triggerDistance = 1.6f;
+        [Tooltip("Face height below the top of the model (meters).")]
+        [SerializeField, Min(0f)] private float faceBelowTop = 0.3f;
+
         [Header("Temporary end (until the jumpscare step exists)")]
-        [Tooltip("Seconds after the flashlight is on before the report is shown.")]
-        [SerializeField, Min(0f)] private float endAfterFlashlight = 4f;
+        [Tooltip("Seconds after the face trigger before the report is shown.")]
+        [SerializeField, Min(0f)] private float endAfterTrigger = 1f;
 
         private TMP_FontAsset font;
         private GameObject promptCanvas;
@@ -108,9 +121,87 @@ namespace CyberWatch.Session
                 HidePrompt();
             }
 
-            // TODO step 2-3: figure inside the office + jumpscare.
-            yield return new WaitForSeconds(endAfterFlashlight);
+            // Nothing in front... the figure is now waiting in the back-left corner.
+            yield return new WaitForSeconds(figureAppearDelay);
+            yield return PlaceFigureUnseen();
+            yield return WaitForFaceContact();
+
+            // TODO step 3: jumpscare.
+            yield return new WaitForSeconds(endAfterTrigger);
             onFinished?.Invoke();
+        }
+
+        private Transform Figure => silhouette != null ? silhouette.Figure : null;
+
+        // Put the figure in its corner only while that corner is off screen, so it never pops in.
+        private IEnumerator PlaceFigureUnseen()
+        {
+            Transform fig = Figure;
+            if (fig == null)
+                yield break;
+            fig.gameObject.SetActive(false);
+            fig.position = figureSpot;
+
+            var planes = new Plane[6];
+            var area = new Bounds(figureSpot + Vector3.up * 1.2f, new Vector3(1f, 2.4f, 1f));
+            while (true)
+            {
+                Camera cam = Camera.main;
+                if (cam == null) break;
+                GeometryUtility.CalculateFrustumPlanes(cam, planes);
+                if (!GeometryUtility.TestPlanesAABB(planes, area)) break;
+                yield return null;
+            }
+
+            FaceCamera(fig);
+            fig.gameObject.SetActive(true);
+        }
+
+        // Stands still, always turned toward the player, until the player aims at its face
+        // (or walks right up to it).
+        private IEnumerator WaitForFaceContact()
+        {
+            Transform fig = Figure;
+            if (fig == null)
+                yield break;
+
+            while (true)
+            {
+                Camera cam = Camera.main;
+                if (cam != null)
+                {
+                    FaceCamera(fig);
+                    Vector3 face = FacePoint(fig);
+                    Vector3 toFace = face - cam.transform.position;
+                    bool aimed = Vector3.Angle(cam.transform.forward, toFace) <= faceAngle;
+                    Vector3 flat = fig.position - cam.transform.position;
+                    flat.y = 0f;
+                    if (aimed || flat.magnitude <= triggerDistance)
+                        yield break;
+                }
+                yield return null;
+            }
+        }
+
+        private void FaceCamera(Transform fig)
+        {
+            Camera cam = Camera.main;
+            if (cam == null) return;
+            Vector3 dir = cam.transform.position - fig.position;
+            dir.y = 0f;
+            if (dir.sqrMagnitude > 0.001f)
+                fig.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(0f, silhouette.YawOffset, 0f);
+        }
+
+        // Upper part of the model, from its renderers' bounds.
+        private Vector3 FacePoint(Transform fig)
+        {
+            var renderers = fig.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0)
+                return fig.position + Vector3.up * 2f;
+            Bounds b = renderers[0].bounds;
+            for (int i = 1; i < renderers.Length; i++) b.Encapsulate(renderers[i].bounds);
+            return new Vector3(b.center.x, b.max.y - faceBelowTop, b.center.z);
         }
 
         // Lights die one at a time: far street lamps first, the monitor last.

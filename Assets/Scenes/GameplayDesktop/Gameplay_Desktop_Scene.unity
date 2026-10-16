@@ -1558,7 +1558,12 @@ MonoBehaviour:
   flashlightPrompt: "[F]  NYALAKAN SENTER"
   promptColor: {r: 1, g: 0.92, b: 0.76, a: 1}
   promptSize: 40
-  endAfterFlashlight: 4
+  figureSpot: {x: -3.2, y: 0, z: -2.4}
+  figureAppearDelay: 1
+  faceAngle: 8
+  triggerDistance: 1.6
+  faceBelowTop: 0.3
+  endAfterTrigger: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
