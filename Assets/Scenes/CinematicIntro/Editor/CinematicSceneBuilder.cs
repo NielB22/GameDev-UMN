@@ -268,25 +268,30 @@ namespace CyberWatch.Cinematic.EditorTools
 
             // subtitle (di dalam bar bawah)
             RectTransform captionRt = NewRect("CaptionText", canvasTf);
-            captionRt.anchorMin = captionRt.anchorMax = new Vector2(0.5f, 0f);
+            captionRt.anchorMin = new Vector2(0.08f, 0f);
+            captionRt.anchorMax = new Vector2(0.92f, 0f);
             captionRt.anchoredPosition = new Vector2(0f, 65f);
-            captionRt.sizeDelta = new Vector2(1500f, 110f);
+            captionRt.sizeDelta = new Vector2(0f, 110f);
             TextMeshProUGUI caption = AddText(captionRt, "", fontBody, 38f, new Color(0.92f, 0.94f, 0.96f), TextAlignmentOptions.Center);
+            AutoSize(caption, 22f);
             caption.alpha = 0f;
 
             // panel cara bermain
             RectTransform panel = NewRect("TutorialPanel", canvasTf);
-            panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0.5f);
+            panel.anchorMin = new Vector2(0.1f, 0.06f);
+            panel.anchorMax = new Vector2(0.9f, 0.94f);
             panel.anchoredPosition = Vector2.zero;
-            panel.sizeDelta = new Vector2(1300f, 840f);
+            panel.sizeDelta = Vector2.zero;
             AddImage(panel, new Color(0.03f, 0.04f, 0.06f, 0.93f), true);
 
             RectTransform tTitleRt = NewRect("TutorialTitle", panel);
-            tTitleRt.anchorMin = tTitleRt.anchorMax = new Vector2(0.5f, 1f);
+            tTitleRt.anchorMin = new Vector2(0.05f, 1f);
+            tTitleRt.anchorMax = new Vector2(0.95f, 1f);
             tTitleRt.pivot = new Vector2(0.5f, 1f);
             tTitleRt.anchoredPosition = new Vector2(0f, -40f);
-            tTitleRt.sizeDelta = new Vector2(1100f, 110f);
+            tTitleRt.sizeDelta = new Vector2(0f, 110f);
             TextMeshProUGUI tTitle = AddText(tTitleRt, "MISI MALAM INI", fontTitle, 90f, new Color(0.93f, 0.95f, 0.97f), TextAlignmentOptions.Center);
+            AutoSize(tTitle, 44f);
 
             RectTransform tBodyRt = NewRect("TutorialBody", panel);
             tBodyRt.anchorMin = Vector2.zero;
@@ -294,6 +299,7 @@ namespace CyberWatch.Cinematic.EditorTools
             tBodyRt.offsetMin = new Vector2(90f, 170f);
             tBodyRt.offsetMax = new Vector2(-90f, -170f);
             TextMeshProUGUI tBody = AddText(tBodyRt, "", fontBody, 30f, new Color(0.85f, 0.88f, 0.92f), TextAlignmentOptions.TopLeft);
+            AutoSize(tBody, 16f);
 
             RectTransform buttonRt = NewRect("NextButton", panel);
             buttonRt.anchorMin = buttonRt.anchorMax = new Vector2(0.5f, 0f);
@@ -339,16 +345,19 @@ namespace CyberWatch.Cinematic.EditorTools
             titleGroup.interactable = false;
 
             RectTransform titleRt = NewRect("TitleLabel", titleGroupRt);
-            titleRt.anchorMin = titleRt.anchorMax = new Vector2(0.5f, 0.5f);
+            titleRt.anchorMin = new Vector2(0.04f, 0.5f);
+            titleRt.anchorMax = new Vector2(0.96f, 0.5f);
             titleRt.anchoredPosition = new Vector2(0f, 50f);
-            titleRt.sizeDelta = new Vector2(1600f, 220f);
-            AddText(titleRt, "CYBER WATCH", fontTitle, 190f, new Color(0.93f, 0.95f, 0.97f), TextAlignmentOptions.Center);
+            titleRt.sizeDelta = new Vector2(0f, 220f);
+            AutoSize(AddText(titleRt, "CYBER WATCH", fontTitle, 190f, new Color(0.93f, 0.95f, 0.97f), TextAlignmentOptions.Center), 70f);
 
             RectTransform subtitleRt = NewRect("SubtitleLabel", titleGroupRt);
-            subtitleRt.anchorMin = subtitleRt.anchorMax = new Vector2(0.5f, 0.5f);
+            subtitleRt.anchorMin = new Vector2(0.1f, 0.5f);
+            subtitleRt.anchorMax = new Vector2(0.9f, 0.5f);
             subtitleRt.anchoredPosition = new Vector2(0f, -90f);
-            subtitleRt.sizeDelta = new Vector2(1200f, 80f);
+            subtitleRt.sizeDelta = new Vector2(0f, 80f);
             TextMeshProUGUI subtitle = AddText(subtitleRt, "NIGHT SHIFT", fontBold, 52f, new Color(0.88f, 0.18f, 0.18f), TextAlignmentOptions.Center);
+            AutoSize(subtitle, 24f);
             subtitle.characterSpacing = 24f;
 
             // ----- direktur sinematik -----
@@ -473,6 +482,15 @@ namespace CyberWatch.Cinematic.EditorTools
             var go = new GameObject(name, typeof(RectTransform));
             go.transform.SetParent(parent, false);
             return go.GetComponent<RectTransform>();
+        }
+
+        // Shrinks the text (down to min) when the screen is narrower than 16:9, never grows it.
+        private static TextMeshProUGUI AutoSize(TextMeshProUGUI text, float min)
+        {
+            text.enableAutoSizing = true;
+            text.fontSizeMax = text.fontSize;
+            text.fontSizeMin = min;
+            return text;
         }
 
         private static void Stretch(RectTransform rt)
