@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CyberWatch.Effects;
 using CyberWatch.Environment;
 using CyberWatch.Player;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CyberWatch.Session
 {
@@ -54,9 +56,19 @@ namespace CyberWatch.Session
         [Tooltip("Face height below the top of the model (meters).")]
         [SerializeField, Min(0f)] private float faceBelowTop = 0.3f;
 
-        [Header("Temporary end (until the jumpscare step exists)")]
-        [Tooltip("Seconds after the face trigger before the report is shown.")]
-        [SerializeField, Min(0f)] private float endAfterTrigger = 1f;
+        [Header("Jumpscare")]
+        [Tooltip("How fast the figure rushes at the camera (m/s).")]
+        [SerializeField, Min(1f)] private float chargeSpeed = 14f;
+        [Tooltip("Walk animation speed while rushing (fast, unnatural).")]
+        [SerializeField, Min(0.1f)] private float chargeAnimatorSpeed = 3f;
+        [Tooltip("The face stops this far in front of the camera (meters): small = face fills the screen.")]
+        [SerializeField, Min(0.05f)] private float faceStopDistance = 0.28f;
+        [Tooltip("Seconds the face stays filling the screen before the cut to black.")]
+        [SerializeField, Min(0f)] private float holdSeconds = 0.35f;
+        [Tooltip("Camera shake while it rushes in (degrees).")]
+        [SerializeField, Range(0f, 5f)] private float shakeDegrees = 1.5f;
+        [Tooltip("Seconds of black before the report.")]
+        [SerializeField, Min(0f)] private float blackSeconds = 1.5f;
 
         private TMP_FontAsset font;
         private GameObject promptCanvas;
@@ -126,9 +138,96 @@ namespace CyberWatch.Session
             yield return PlaceFigureUnseen();
             yield return WaitForFaceContact();
 
-            // TODO step 3: jumpscare.
-            yield return new WaitForSeconds(endAfterTrigger);
+            yield return Jumpscare();
             onFinished?.Invoke();
+        }
+
+        // The figure rushes at the camera until its face fills the screen, then black.
+        private IEnumerator Jumpscare()
+        {
+            Transform fig = Figure;
+            Camera cam = Camera.main;
+            if (fig == null || cam == null)
+                yield break;
+
+            // Freeze the player: no walking, no looking away.
+            var movement = FindAnyObjectByType<PlayerMovement>();
+            if (movement != null) movement.SetControlEnabled(false);
+            var fpp = FindAnyObjectByType<FirstPersonCameraRig>();
+            var tpp = FindAnyObjectByType<ThirdPersonCameraRig>();
+            if (fpp != null) fpp.InputEnabled = false;
+            if (tpp != null) tpp.InputEnabled = false;
+
+            // Lock the view onto the face.
+            Vector3 faceOffset = FacePoint(fig) - fig.position;
+            Vector3 lookDir = (FacePoint(fig) - cam.transform.position).normalized;
+            float yaw = Mathf.Atan2(lookDir.x, lookDir.z) * Mathf.Rad2Deg;
+            float pitch = -Mathf.Asin(Mathf.Clamp(lookDir.y, -1f, 1f)) * Mathf.Rad2Deg;
+            if (fpp != null) fpp.SetOrientation(yaw, pitch);
+            if (tpp != null) tpp.SetOrientation(yaw, pitch);
+
+            var animator = fig.GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                animator.speed = chargeAnimatorSpeed;
+                animator.SetBool("Walking", true);
+            }
+            ScreenGlitch.TriggerAlways(0.6f);
+
+            // Rush: the face heads for a point just in front of the lens.
+            while (true)
+            {
+                Vector3 camPos = cam.transform.position;
+                Vector3 target = camPos + cam.transform.forward * faceStopDistance - faceOffset;
+                target.y = Mathf.Min(target.y, fig.position.y); // stay on the floor while running
+                if (Vector3.Distance(fig.position + faceOffset, camPos + cam.transform.forward * faceStopDistance) < 0.6f)
+                    target = camPos + cam.transform.forward * faceStopDistance - faceOffset; // last lunge to the lens
+                fig.position = Vector3.MoveTowards(fig.position, target, chargeSpeed * Time.deltaTime);
+                FaceCamera(fig);
+                Shake(fpp, tpp, yaw, pitch);
+                if ((fig.position - target).sqrMagnitude < 0.0004f)
+                    break;
+                yield return null;
+            }
+
+            // Face fills the screen.
+            ScreenGlitch.TriggerAlways(1f);
+            for (float t = 0f; t < holdSeconds; t += Time.deltaTime)
+            {
+                Shake(fpp, tpp, yaw, pitch);
+                yield return null;
+            }
+
+            ShowBlack();
+            if (animator != null) animator.speed = 0f;
+            yield return new WaitForSeconds(blackSeconds);
+        }
+
+        private void Shake(FirstPersonCameraRig fpp, ThirdPersonCameraRig tpp, float yaw, float pitch)
+        {
+            float y = yaw + Random.Range(-1f, 1f) * shakeDegrees;
+            float p = pitch + Random.Range(-1f, 1f) * shakeDegrees;
+            if (fpp != null) fpp.SetOrientation(y, p);
+            if (tpp != null) tpp.SetOrientation(y, p);
+        }
+
+        private void ShowBlack()
+        {
+            var go = new GameObject("LoseSequenceBlack", typeof(Canvas));
+            go.transform.SetParent(transform, false);
+            var canvas = go.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 1000; // above everything, glitch included
+            var img = new GameObject("Black", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            img.transform.SetParent(go.transform, false);
+            var rt = (RectTransform)img.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+            var image = img.GetComponent<UnityEngine.UI.Image>();
+            image.color = Color.black;
+            image.raycastTarget = false;
         }
 
         private Transform Figure => silhouette != null ? silhouette.Figure : null;

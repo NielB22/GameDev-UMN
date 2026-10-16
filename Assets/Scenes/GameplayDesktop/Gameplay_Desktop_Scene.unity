@@ -1563,7 +1563,12 @@ MonoBehaviour:
   faceAngle: 8
   triggerDistance: 1.6
   faceBelowTop: 0.3
-  endAfterTrigger: 1
+  chargeSpeed: 14
+  chargeAnimatorSpeed: 3
+  faceStopDistance: 0.28
+  holdSeconds: 0.35
+  shakeDegrees: 1.5
+  blackSeconds: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -58,6 +58,13 @@ namespace CyberWatch.Effects
         private float CurrentStrength =>
             Time.time < endTime && duration > 0f ? strength * Mathf.Clamp01((endTime - Time.time) / duration) : 0f;
 
+        /// <summary>Flash even when the Threat did not just rise (scripted moments, e.g. the jumpscare).</summary>
+        public static void TriggerAlways(float strength = 1f)
+        {
+            if (instance != null)
+                instance.Flash(strength, force: true);
+        }
+
         /// <summary>Flash the screen. Strength 0..1; a stronger flash also lasts longer.</summary>
         public static void Trigger(float strength = 1f)
         {
@@ -112,10 +119,10 @@ namespace CyberWatch.Effects
                 Flash(stageUpStrength);
         }
 
-        private void Flash(float s)
+        private void Flash(float s, bool force = false)
         {
             s = Mathf.Clamp01(s);
-            if (s <= 0f || !RecentlyRose)
+            if (s <= 0f || (!force && !RecentlyRose))
                 return;
             // A new flash never cuts a stronger one short.
             if (CurrentStrength > s)
