@@ -540,6 +540,7 @@ GameObject:
   - component: {fileID: 1300000012}
   - component: {fileID: 1300000013}
   - component: {fileID: 1300000014}
+  - component: {fileID: 1300000015}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1658,6 +1659,23 @@ MonoBehaviour:
   shakeMinDelta: 10
   shakeReversals: 6
   shakeWindowSeconds: 1.2
+--- !u!114 &1300000015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a566e49f132a49c4a226548411c7aea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CyberWatch.Runtime::CyberWatch.Audio.FootstepAudio
+  player: {fileID: 0}
+  walkLevel: 1
+  runLevel: 0.65
+  fadeSeconds: 0.12
+  walkPitch: {x: 0.9, y: 1.05}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
