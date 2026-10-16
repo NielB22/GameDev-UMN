@@ -1,0 +1,64 @@
+==============================================================
+ CYBER WATCH - BRIEF PERUBAHAN #2 (sejak commit 5c832a7, 15-17 Okt)
+==============================================================
+
+1. BUILD LEBIH RINGAN
+   - Tekstur Retro Office dan Slender dikecilkan (Max Size 256-1024).
+   - Nama game: "Cyber Watch Night Shift" (company DaNaBaRe).
+   - Build final: folder 128 MB, zip sekitar 51 MB (awalnya 312 MB).
+
+2. KONTROL BARU
+   V             ganti kamera FPP <-> TPP (game mulai di FPP)
+   F             senter (selalu mati setiap duduk/berdiri)
+   Main Menu     MULAI SHIFT -> pilih NORMAL atau LEMBUR TERAKHIR
+
+3. TINGKAT KESULITAN DAN PESAN
+   - Inbox sekarang 36 pesan (sekitar 1 pesan per 10 detik):
+     21 penipuan, 15 pesan asli, masing-masing dengan penjelasan
+     di Rapor.
+   - NORMAL: pesan dari mudah -> sedang -> sulit.
+   - LEMBUR TERAKHIR: pesan acak, datang lebih cepat, salah lebih
+     fatal. Tingkat kesulitan pesan tidak pernah ditampilkan.
+
+4. EFEK VISUAL DAN KAMERA
+   - Look malam: bloom, film grain, VHS ringan (pecah warna).
+   - Efek naik halus per Threat: grain, chromatic, distorsi tipis,
+     tunnel vision di Kritis. Tidak ada warna merah.
+   - Glitch statik hanya saat Threat naik. Layar inbox bergaya CRT.
+   - Monitor berdenyut redup-terang, kerucut cahaya di lampu jalan.
+   - Head bob dan napas di FPP. Pandangan menyempit halus saat
+     menatap hantu (mulai Threat 80%).
+   - Benda berubah saat tidak dilihat: kursi berbalik (Bahaya),
+     tempat sampah jatuh (Kritis).
+
+5. HANTU DAN ENDING KALAH (Threat 100%)
+   - Waspada: hantu lewat di bawah lampu jalan. Bahaya: datang dan
+     diam di bawah lampu menatap pemain. Kritis: ke lampu parkir
+     lalu mendekati kaca.
+   - Kalah: lampu mati satu per satu (mengikuti riser) -> HUD hilang,
+     pemain berdiri -> nyalakan senter -> hantu sudah di kiri
+     belakang kantor -> tatap wajahnya -> JUMPSCARE -> Rapor.
+
+6. AUDIO (sebelumnya game sunyi total)
+   - Suasana: dengung ruangan, buzz neon (hilang saat lampu mati),
+     drone dan detak jantung naik per Threat.
+   - Efek: kedip lampu (lampu luar teredam), statik, CRT, senter,
+     langkah kaki, klik UI, email masuk, kursi, tempat sampah.
+   - Ending: riser blackout -> hening total -> lapisan jumpscare.
+   - Volume diatur di komponen Game Audio (per kategori) dan di
+     tiap komponen suara. File audio di _Game/Audio/
+     {Ambience, SFX, UI, Jumpscare}.
+
+7. PERBAIKAN LAIN
+   - UI Cinematic dan panel Cara Bermain responsif di semua rasio.
+   - Lampu plafon Main Menu redup-terang pelan, kantor lebih terlihat.
+   - Kedipan lampu di semua tahap lebih jarang.
+
+8. YANG PERLU DIINGAT TIM
+   - Ganti file audio -> import setting ter-reset; minta disesuaikan
+     lagi (mono 3D / preload) supaya tidak delay.
+   - Atur volume / efek di luar Play Mode lalu Save.
+   - Untuk dikumpulkan: zip isi folder Build/ TANPA folder
+     *_BackUpThisFolder_ButDontShipItWithYourGame.
+   - Detail: docs/07-mode-jalan-meja.md, docs/04-lighting.md.
+==============================================================
