@@ -772,6 +772,13 @@ MonoBehaviour:
   holdSeconds: 0.35
   shakeDegrees: 1.5
   blackSeconds: 1.5
+  blackoutRiserLevel: 0.8
+  powerDownLevel: 0.9
+  riserLayerLevel: 0.8
+  slenderLevel: 0.9
+  screamLevel: 1
+  staticLevel: 0.75
+  impactLevel: 1
 --- !u!114 &1300000012
 MonoBehaviour:
   m_ObjectHideFlags: 0

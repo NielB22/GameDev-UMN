@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CyberWatch.Audio;
 using CyberWatch.Effects;
 using CyberWatch.Environment;
 using CyberWatch.Player;
@@ -70,6 +71,18 @@ namespace CyberWatch.Session
         [Tooltip("Seconds of black before the report.")]
         [SerializeField, Min(0f)] private float blackSeconds = 1.5f;
 
+        [Header("Audio levels (0..1, on top of the Jumpscare/SFX volume)")]
+        [Tooltip("Riser while the lights die (cut when the monitor dies).")]
+        [SerializeField, Range(0f, 1f)] private float blackoutRiserLevel = 0.8f;
+        [SerializeField, Range(0f, 1f)] private float powerDownLevel = 0.9f;
+        [Tooltip("When the figure starts rushing in.")]
+        [SerializeField, Range(0f, 1f)] private float riserLayerLevel = 0.8f;
+        [SerializeField, Range(0f, 1f)] private float slenderLevel = 0.9f;
+        [Tooltip("When the face fills the screen.")]
+        [SerializeField, Range(0f, 1f)] private float screamLevel = 1f;
+        [SerializeField, Range(0f, 1f)] private float staticLevel = 0.75f;
+        [SerializeField, Range(0f, 1f)] private float impactLevel = 1f;
+
         private TMP_FontAsset font;
         private GameObject promptCanvas;
         private TMP_Text promptText;
@@ -106,7 +119,9 @@ namespace CyberWatch.Session
             }
 
             yield return new WaitForSeconds(startDelay);
+            StartBlackoutRiser();
             yield return LightsOut();
+            EndBlackoutAudio(); // riser cut, power-down, then silence
 
             // The moment the monitor dies: HUD gone, player up, flashlight usable right away.
             HideHud();
@@ -173,6 +188,8 @@ namespace CyberWatch.Session
                 animator.SetBool("Walking", true);
             }
             ScreenGlitch.TriggerAlways(0.6f);
+            PlayLayer(GameAudio.Clips?.jumpscareRiser, riserLayerLevel);
+            PlayLayer(GameAudio.Clips?.slenderVoice, slenderLevel);
 
             // Rush: the face heads for a point just in front of the lens.
             while (true)
@@ -192,16 +209,55 @@ namespace CyberWatch.Session
 
             // Face fills the screen.
             ScreenGlitch.TriggerAlways(1f);
+            PlayLayer(GameAudio.Clips?.jumpscareScream, screamLevel);
+            PlayLayer(GameAudio.Clips?.jumpscareStatic, staticLevel);
+            PlayLayer(GameAudio.Clips?.jumpscareImpact, impactLevel);
             for (float t = 0f; t < holdSeconds; t += Time.deltaTime)
             {
                 Shake(fpp, tpp, yaw, pitch);
                 yield return null;
             }
 
+            GameAudio.StopAll(); // hard cut to silence with the black
             ShowBlack();
             if (animator != null) animator.speed = 0f;
             yield return new WaitForSeconds(blackSeconds);
         }
+
+        // Rising tension while the lights die; its speed is fitted so it peaks when the monitor dies.
+        private void StartBlackoutRiser()
+        {
+            AudioClip clip = GameAudio.Clips?.blackoutRiser;
+            if (clip == null)
+                return;
+            float pitch = Mathf.Clamp(clip.length / Mathf.Max(0.5f, EstimateLightsOutSeconds()), 0.7f, 1.3f);
+            GameAudio.Play2D(clip, AudioChannel.Jumpscare, blackoutRiserLevel, pitch);
+        }
+
+        // Rough length of LightsOut(): each dying light sputters ~0.75 s, then the pause.
+        private float EstimateLightsOutSeconds()
+        {
+            const float sputter = 0.75f;
+            float t = 0f;
+            if (streetLamps != null) t += streetLamps.LampCount * (sputter + betweenLights);
+            if (officeLights != null)
+            {
+                if (officeLights.CeilingOn) t += sputter + betweenLights;
+                if (officeLights.DeskOn) t += sputter + betweenLights;
+            }
+            if (monitor != null) t += sputter;
+            return t;
+        }
+
+        private void EndBlackoutAudio()
+        {
+            GameAudio.StopAll();
+            if (GameAudio.Clips != null)
+                GameAudio.Play2D(GameAudio.Clips.powerDown, AudioChannel.Sfx, powerDownLevel);
+        }
+
+        private static void PlayLayer(AudioClip clip, float level) =>
+            GameAudio.Play2D(clip, AudioChannel.Jumpscare, level);
 
         private void Shake(FirstPersonCameraRig fpp, ThirdPersonCameraRig tpp, float yaw, float pitch)
         {
