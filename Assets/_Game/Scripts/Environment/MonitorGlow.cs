@@ -101,6 +101,7 @@ namespace CyberWatch.Environment
         {
             if (screen != null)
             {
+                if (block == null) block = new MaterialPropertyBlock(); // survives a script reload in Play Mode
                 screen.GetPropertyBlock(block);
                 block.SetColor(EmissionColorId, normalEmission * level);
                 screen.SetPropertyBlock(block);

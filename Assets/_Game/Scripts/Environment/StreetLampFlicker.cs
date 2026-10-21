@@ -73,6 +73,8 @@ namespace CyberWatch.Environment
         private void OnDisable()
         {
             // Kembalikan semua lampu menyala supaya scene tidak tertinggal gelap.
+            if (baseIntensity == null || routines == null || dead == null)
+                return; // script reloaded during Play Mode: nothing to restore
             for (int i = 0; i < baseIntensity.Length; i++)
             {
                 routines[i] = null;
