@@ -2854,6 +2854,8 @@ MonoBehaviour:
 
       <b>Kalah</b>: Threat mencapai 100% (System Compromised).
 
+      <b>Target</b>: jawab minimal <b>{TARGET} pesan setiap jam</b>. Setiap pesan yang tertinggal saat jam berganti menambah <b>{PENALTI} Threat</b>. Pantau panel TARGET di bawah jam.
+
 
       <b>KONTROL</b>
 

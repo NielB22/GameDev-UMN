@@ -502,10 +502,17 @@ namespace CyberWatch.Cinematic
             pageIndex = Mathf.Clamp(index, 0, pages.Length - 1);
             if (tutorialPanel != null) tutorialPanel.SetActive(true);
             if (tutorialTitle != null) tutorialTitle.text = pages[pageIndex].title;
-            if (tutorialBody != null) tutorialBody.text = pages[pageIndex].body;
+            if (tutorialBody != null) tutorialBody.text = FillRules(pages[pageIndex].body);
             if (nextButtonLabel != null)
                 nextButtonLabel.text = pageIndex < pages.Length - 1 ? "LANJUT" : "MULAI SHIFT";
         }
+
+        // Rules text placeholders, filled from the same numbers the game uses (and the chosen mode):
+        // {TARGET} = messages per hour, {PENALTI} = Threat per missing message.
+        private static string FillRules(string text) =>
+            string.IsNullOrEmpty(text) ? text : text
+                .Replace("{TARGET}", MessageQuotaRules.PerHour().ToString())
+                .Replace("{PENALTI}", MessageQuotaRules.PenaltyPerMissing().ToString());
 
         private void OnNext()
         {
