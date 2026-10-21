@@ -271,7 +271,7 @@ namespace CyberWatch.Cinematic.EditorTools
 
             Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-            CinematicIntro director = Object.FindFirstObjectByType<CinematicIntro>();
+            CinematicIntro director = Object.FindAnyObjectByType<CinematicIntro>();
             if (director == null)
             {
                 EditorUtility.DisplayDialog("Cinematic v2", "CinematicIntro tidak ditemukan di scene.", "OK");
