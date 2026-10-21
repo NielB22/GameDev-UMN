@@ -30,7 +30,7 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
 |---|---|---|---|
 | **`Lighting_Night`** | `_Game/Prefabs/Environment/` | ✅ Scene 3D | Mengatur bulan, fog, ambient, warna langit. **Hapus "Directional Light" bawaan scene.** Scene yang hanya UI (mis. Report) tidak perlu. |
 | **Main Camera** | (bawaan scene) | ✅ Selalu | Tag harus `MainCamera`. Warna latar diatur otomatis oleh `Lighting_Night`. |
-| **Global Volume** | Salin dari `Gameplay_Desktop_Scene` | Disarankan | Post-processing yang sama dengan scene lain. |
+| **Global Volume** | Profile `_Game/Settings/PP_Night` | Disarankan | Post-processing yang sama dengan scene lain (bloom, grain, warna malam). VHS otomatis aktif lewat `Lighting_Night`. |
 | **`Office_Environment`** | `_Game/Prefabs/Environment/` | Jika scene di dalam kantor | Sudah termasuk dunia luar & CCTV. Jangan diedit di scene — edit prefab-nya. |
 
 - [ ] Hierarchy rapi: objek yang sejenis dikelompokkan (mis. `GameSystems`, `UI_...`).
@@ -59,7 +59,8 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
   using CyberWatch.Core;
 
   GameManager.Instance.GoToMainMenu();      // ke menu
-  GameManager.Instance.StartNewShift();     // mulai shift baru (ke Gameplay_Desktop_Scene, mode Jalan)
+  GameManager.Instance.StartIntro();        // shift baru: sinematik pembuka, lalu Gameplay
+  GameManager.Instance.StartNewShift();     // langsung ke Gameplay_Desktop_Scene (dipakai Retry)
   ```
 
   Data shift (keputusan, akurasi, menang/kalah) ada di `GameManager.Instance.CurrentShift`.
@@ -71,7 +72,7 @@ Pasang dari jendela **Project** (drag ke Hierarchy):
 
 - [ ] Scene **baru** harus didaftarkan: *File → Build Profiles → Scene List → Add Open Scenes*,
       lalu tambahkan namanya ke `_Game/Scripts/Core/SceneNames.cs`.
-- [ ] Urutan scene game: `MainMenu` → `Gameplay_Desktop` → `GameOver_Report`.
+- [ ] Urutan scene game: `MainMenu` → `Cinematic_Intro` → `Gameplay_Desktop` → `GameOver_Report`.
       `DemoScene` dibiarkan **tidak dicentang**.
 
 ## 6. Cek sebelum commit

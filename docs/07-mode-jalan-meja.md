@@ -106,6 +106,8 @@ Mainkan dari **MainMenu_Scene** (bukan langsung Gameplay) dan centang:
 - [ ] Set 80/95: lampu meja mati, sosok pindah ke lampu parkir lalu mendekati kaca, lampu jalan lebih sering berkedip & kadang padam sebentar, cahaya monitor berdenyut redup-terang, grain/chromatic/distorsi halus naik, vignette berdenyut.
 
 **Akhir shift**
+- [ ] **Target per jam**: panel TARGET di bawah jam; mendiamkan pesan → banner oranye + Threat naik di setiap pergantian jam (01:00–05:00), sampai kalah.
+- [ ] **Mode**: NORMAL (pesan mudah → sulit) dan LEMBUR TERAKHIR (acak, lebih cepat, penalti lebih besar); angka di Cara Bermain sesuai mode.
 - [ ] Kalah (Threat 100%) **saat mode Jalan** → Rapor tampil, kursor terlihat & bisa klik.
 - [ ] Menang (Real Duration Seconds = 20 untuk tes) → Rapor "SHIFT SELESAI".
 - [ ] Retry → Gameplay baru di mode Jalan, skor & Threat ter-reset.
