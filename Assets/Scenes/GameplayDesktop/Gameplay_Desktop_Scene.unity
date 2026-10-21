@@ -662,6 +662,9 @@ MonoBehaviour:
   threat: {fileID: 1300000003}
   firstMessageDelay: 3
   nextMessageDelay: {x: 4, y: 8}
+  hardNextMessageDelay: {x: 2, y: 4}
+  hardPenaltyMultiplier: 1.5
+  hardRecoveryMultiplier: 0.5
 --- !u!114 &1300000007
 MonoBehaviour:
   m_ObjectHideFlags: 0

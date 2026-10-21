@@ -40,6 +40,15 @@ namespace CyberWatch.Session
 
         private int ShiftLengthMinutes => (endHour - startHour + 24) % 24 * 60;
 
+        /// <summary>Whole in-game hours passed since the shift started (0 at 00:00, 1 at 01:00, ...).</summary>
+        public int HoursElapsed => Mathf.FloorToInt(Progress * ShiftLengthMinutes) / 60;
+
+        /// <summary>Length of the shift in in-game hours (6 for 00:00 - 06:00).</summary>
+        public int ShiftHours => ShiftLengthMinutes / 60;
+
+        /// <summary>In-game hour of day for a number of hours into the shift (e.g. 2 -> 2 for a 00:00 start).</summary>
+        public int HourOfDay(int hoursIntoShift) => (startHour + hoursIntoShift) % 24;
+
         /// <summary>Raised whenever the in-game minute changes (for clock UI).</summary>
         public event Action<string> TimeChanged;
 

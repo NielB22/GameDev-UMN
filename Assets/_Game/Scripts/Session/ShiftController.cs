@@ -28,6 +28,10 @@ namespace CyberWatch.Session
         private void Awake()
         {
             if (loseSequence == null) loseSequence = FindAnyObjectByType<LoseSequence>();
+            // Hourly message target (+ its HUD warning and objective panel): added here so no scene setup is needed.
+            if (FindAnyObjectByType<MessageQuota>() == null) gameObject.AddComponent<MessageQuota>();
+            if (FindAnyObjectByType<UI.QuotaWarningView>() == null) gameObject.AddComponent<UI.QuotaWarningView>();
+            if (FindAnyObjectByType<UI.ObjectiveView>() == null) gameObject.AddComponent<UI.ObjectiveView>();
             // Playing this scene directly (or after a previous shift) still gets a fresh session.
             if (GameManager.Instance.CurrentShift.Outcome != ShiftOutcome.InProgress)
                 GameManager.Instance.ResetShift();
