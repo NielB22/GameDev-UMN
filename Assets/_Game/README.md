@@ -1,6 +1,6 @@
 # _Game — konten bersama
 
-Folder ini berisi semua yang **dipakai lebih dari satu scene**: script, prefab, material, data.
+Folder ini berisi semua yang **dipakai lebih dari satu scene**: script, prefab, material, audio, data.
 Isi khusus satu scene ada di `Assets/Scenes/<Scene>/`.
 
 Dokumentasi lengkap ada di folder `docs/` (root repo, di luar `Assets`):
@@ -11,10 +11,13 @@ Ringkas:
 
 ```
 _Game/
-├── Data/Messages/        MessageData (pesan email/SMS)
-├── Data/Lighting/        LightingProfile_Night — pengaturan lighting global (bulan, ambient, fog, langit)
-├── Materials/            Environment/, Props/
+├── Audio/                Ambience/, SFX/, UI/, Jumpscare/ (didaftarkan di Data/Audio/AudioLibrary)
+├── Data/                 Audio/AudioLibrary, Lighting/LightingProfile_Night, Messages/ (36 pesan)
+├── Materials/            Effects/, Environment/, Props/
 ├── Prefabs/Environment/  Office_Environment (+ Office_Exterior, CCTV), Lighting_Night
 ├── Prefabs/Props/        CCTV_Camera
-└── Scripts/              CyberWatch.Runtime: Core, Environment, Messages, Player, Session, Threat, UI
+├── Settings/             PP_Night (post-process)
+├── Shaders/              VHS
+└── Scripts/              CyberWatch.Runtime: Audio, Core, Effects, Environment, Messages,
+                          Player, Session, Threat, UI
 ```
